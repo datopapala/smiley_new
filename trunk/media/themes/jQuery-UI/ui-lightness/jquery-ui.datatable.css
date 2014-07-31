@@ -1,0 +1,48 @@
+tr.odd
+{
+    border: 1px solid #cccccc;
+    background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+}
+
+.ex_highlight_row .display tr.odd:hover
+{
+    background: #fdf5ce url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+}
+
+tr.odd td.sorting_1
+{
+    background-color: #CBE1FC;
+    background: #fdf5ce url(images/ui-bg_glass_100_fdf5ce_1x400.png) 50% 50% repeat-x;
+}
+
+.search_header
+{
+	background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+	color: #333333;
+}
+
+.search_header th
+{
+    border: 1px solid #dddddd;
+}
+
+tr.even td.sorting_1 {
+	background-color: #fdf5ce;
+}
+
+.ex_highlight_row .display tr.even:hover td.sorting_1
+{
+    background-color: #f6f6f6;
+}
+
+tr.even
+{
+    background-color: white;
+    border-left: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+}
+
+.ex_highlight_row .display tr.even:hover
+{
+    background-color: #f6f6f6;
+}
