@@ -1041,23 +1041,13 @@ function GetPage($res='', $number)
 			    	<table class="dialog-form-table">
 						<tr>
 							<td style="width: 180px;"><label for="d_number">დავალების ტიპი</label></td>
-							<td style="width: 180px;"><label for="d_number">განყოფილება</label></td>
-							<td style="width: 180px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
+							<td style="width: 180px;"><label for="d_number">სცენარი</label></td>
+							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
 							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
 							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
-						</tr>
-						<tr>
-							<td style="width: 180px;"><label for="d_number">პრიორიტეტები</label></td>
-							<td style="width: 180px;"></td>
-							<td style="width: 180px;"></td>
-						</tr>
-						<tr>
-							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
-							<td style="width: 180px;"></td>
-							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -1066,7 +1056,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 641px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
@@ -1078,17 +1068,7 @@ function GetPage($res='', $number)
 			<div style="float: right;  width: 355px;">
 				 <fieldset>
 					<legend>მომართვის ავტორი</legend>
-					<table style="height: 243px;">
-						<tr>
-							<td style="width: 180px;">PIN კოდი</td>
-							<td style="width: 180px;" class="hidden friend">მეგობრის PIN კოდი</td>
-						</tr>
-						<tr>
-							<td style="width: 180px;"><input type="text" id="personal_pin" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_pin']  . '" /></td>
-							<td style="width: 180px;" class="hidden friend">
-								<input type="text" id="friend_pin" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['friend_pin'] . '" />
-							</td>
-						</tr>
+					<table style="height: 243px;">						
 						<tr>
 							<td style="width: 180px;">პირადი ნომერი</td>
 							<td style="width: 180px;"></td>
@@ -1100,7 +1080,7 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
-							<td style="width: 180px;">სახელი და გვარი</td>
+							<td style="width: 180px;">კონტრაგენტი</td>
 							</td>
 						</tr>
 						<tr >
@@ -1123,10 +1103,16 @@ function GetPage($res='', $number)
 							<td style="width: 180px;">' . $res['mail'] . '</td>
 							<td ></td>
 						</tr>
-					
-						
 						<tr>
-							<td td style="width: 180px;">user-ი</td>
+							<td td style="width: 180px;">მისამართი</td>
+							<td td style="width: 180px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">' . $res['user'] . '</td>
+							<td td style="width: 180px;"></td>
+						</tr>
+						<tr>
+							<td td style="width: 180px;">სტატუსი</td>
 							<td td style="width: 180px;"></td>
 						</tr>
 						<tr>
@@ -1141,49 +1127,25 @@ function GetPage($res='', $number)
 						}
 	  $data .= '</div>
 				<fieldset>
-					<legend>დამატებითი ინფორმაცია</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 158px; text-align: center;">
+					<legend>შენაძენი</legend> 
+					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
-							<td colspan="2">საუბრის ჩანაწერი</td>
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">ფილიალი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">თარიღი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">პროდუქტი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">თანხა</td>
 						</tr>
 						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td>დრო</td>
-							<td style="border-left:1px solid #85b1de; width: 50px;">ჩანაწერი</td>
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">gelaaaaaaaaaaaaaaaa</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">2014-07-01</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">fssdgsd</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">145$</td>
+							
 						</tr>
-						<tr >
-							<td></td>
-							<td><input type="button" value="მოსმენა"/></td>
-						</tr>
+						
 					<table/>
-					<table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
-					<tr>
-						<td>
-							<div class="file-uploader">
-								<input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
-								<button id="choose_button" class="center">აირჩიეთ ფაილი</button>
-								<input id="hidden_inc" type="text" value="'. increment('incomming_call') .'" style="display: none;">
-							</div>
-						</td>
-					</tr>
-				</table>
-			     <table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
-			          <tr style="border-bottom: 1px solid #85b1de;">
-			           <td colspan="3">მიმაგრებული ფაილი</td>
-			          </tr>
-				</table>
-				<table id="file_div" style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">';
-					
-					while($increm_row = mysql_fetch_assoc($increm))	{	
-						$data .=' 
-								        <tr style="border-bottom: 1px solid #85b1de;">
-								          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>													 
-								          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-								          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-								        </tr>';
-					}
-			         
-	 $data .= '
-	 		</table>
 				</fieldset>
 			</div>
     </div>';
