@@ -70,7 +70,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		function LoadDialog(){
 
 			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 1060, "auto", "");
+			GetDialog(fName, 1200, "auto", "");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 
@@ -447,7 +447,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<table style="width: 1250px; margin: 0 auto; padding-top:25px; display: block;">
+<table style="width: 1100px; margin: 0 0 0 100px; padding-top:25px; display: block;">
 		<tr style="width: 800px">
 			<td>
             	<h2 align="center">შემომავალი ზარები</h2>
@@ -461,10 +461,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                             <th style="width: 35px;" >№</th>
                             <th style="width: 145px;">თარიღი</th>
                             <th style="width: 130px;">კატეგორია</th>
-                            <th style="width: 100px;">PIN კოდი</th>
                             <th style="width: 100px;">ტელეფონი</th>
-                            <th style="width: 100px;">სახელი, გვარი</th>
-                            <th style="width: 100px;">საუბრ. დრო</th>
                             <th style="width: 100px;">შინაარსი</th>
                         </tr>
                     </thead>
@@ -477,10 +474,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                             	<input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style=""></th>
                             <th>
                                 <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
-                            </th>
-                            <th>
-                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 100px;"/>
-                            </th>
+                            </th>                            
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>
@@ -488,12 +482,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                                 <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
                             </th>
                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
-                            </th>
-                             <th>
-                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
-                            </th>
-                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
                             </th>
                             
