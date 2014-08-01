@@ -1027,7 +1027,7 @@ function GetPage($res='', $number)
 			    	<legend>რეაგირება</legend>
 					<table id="additional" class="dialog-form-table" width="150px">	
 						<tr>
-							<td><textarea  style="width: 550px; resize: none; height:80px;" id="comment" class="idle" name="content" cols="300" >' . $res['comment'] . '</textarea></td>
+							<td><textarea  style="width: 550px; resize: none;" id="comment" class="idle" name="content" cols="300" >' . $res['comment'] . '</textarea></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -1070,54 +1070,30 @@ function GetPage($res='', $number)
 					<legend>მომართვის ავტორი</legend>
 					<table style="height: 243px;">						
 						<tr>
-							<td style="width: 180px;">პირადი ნომერი</td>
-							<td style="width: 180px;"></td>
+							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
 						</tr>
 						<tr>
+							<td>568919432</td>
 							<td style="width: 180px;">
 								<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
-							</td>
-							<td style="width: 180px;"></td>
+							</td>					
 						</tr>
 						<tr>
-							<td style="width: 180px;">კონტრაგენტი</td>
-							</td>
+							<td style="width: 180px; color: #3C7FB1;">კონტრაგენტი</td>
+							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
 						</tr>
 						<tr >
-							<td style="width: 180px;">' . $res['name1'] . '</td>	
-							</td>	
-						</tr>
-						<tr >
-							<td style="width: 180px;">ტელეფონი</td>
-							</td>
+							<td style="width: 180px;">ზაზა მესხი</td>
+							<td style="width: 180px;">z.mesxi@yahoo.com</td>			
 						</tr>
 						<tr>
-							<td style="width: 180px;">' . $res['personal_phone'] . '</td>
-							</td>
+							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
 						</tr>
 						<tr>
-							<td style="width: 180px;">ელ-ფოსტა</td>
-							</td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">' . $res['mail'] . '</td>
-							<td ></td>
-						</tr>
-						<tr>
-							<td td style="width: 180px;">მისამართი</td>
-							<td td style="width: 180px;"></td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">' . $res['user'] . '</td>
-							<td td style="width: 180px;"></td>
-						</tr>
-						<tr>
-							<td td style="width: 180px;">სტატუსი</td>
-							<td td style="width: 180px;"></td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">' . $res['user'] . '</td>
-							<td td style="width: 180px;"></td>
+							<td style="width: 180px;">ყვარლის 149</td>
+							<td td style="width: 180px;">VIP კლიენტი</td>
 						</tr>
 					</table>
 				</fieldset>
@@ -1131,10 +1107,10 @@ function GetPage($res='', $number)
 					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">თანხა</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
 						</tr>
 						<tr style="border-bottom: 1px solid #85b1de; ">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
@@ -1145,6 +1121,19 @@ function GetPage($res='', $number)
 							
 						</tr>
 						
+					<table/>
+				</fieldset>
+	  			<fieldset>
+					<legend>საუბრის ჩანაწერი</legend> 
+	  				<table style="float: left; border: 1px solid #85b1de; width: 250px; text-align: center; margin-left:40px;">
+						<tr style="border-bottom: 1px solid #85b1de;">
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">დრო</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">ჩანაწერი</td>
+						</tr>
+						<tr style="border-bottom: 1px solid #85b1de; ">
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">10:05:12 AM</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">მოსმენა</td>
+	  					</tr>
 					<table/>
 				</fieldset>
 			</div>
