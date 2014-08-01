@@ -3,9 +3,11 @@ require_once('../../includes/classes/core.php');
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
-$object_id 		= $_REQUEST['id'];
-$object_name    = $_REQUEST['name'];
-$object_phone    = $_REQUEST['phone'];
+
+$status_id 		= $_REQUEST['id'];
+$status_name  	= $_REQUEST['name'];
+$call_status  	= $_REQUEST['call_status'];
+
 
 switch ($action) {
 	case 'get_add_page':
@@ -14,8 +16,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$object_id		= $_REQUEST['id'];
-		$page		= GetPage(Getobject($object_id));
+		$template_id		= $_REQUEST['id'];
+		$page		= GetPage(Getstatus($status_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -23,11 +25,11 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	object.id,
-										object.`name`,
-										object.`phone`
-							    FROM 	object
-								Where 	actived=1");
+		$rResult = mysql_query("SELECT 	status.id,
+										status.`name`,
+										status.`call_status`
+							    FROM 	status
+							    WHERE 	status.actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -48,26 +50,29 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_object':
-	
-		if($object_id != ''){
-			Saveobject($object_id, $object_name, $object_phone);
-		}else{
-			if(!CheckobjectExist($object_name, $object_id)){
-				if ($object_id == '') {
-					Addobject( $object_name, $object_phone);
-				}
+	case 'save_template':
+		
 
-			} else {
-				$error = '"' . $object_name . '" უკვე არის სიაში!';
+
+		if($status_id != ''){
+			Savestatus($status_id, $status_name, $call_status);
+			}
+			else{
+			if(!CheckstatusExist($status_name, $status_id)){
+				if ($status_id == '') {
+					Addstatus($status_name, $call_status);
+				}else {
+					
+				$error = '"' . $status_name . '" უკვე არის სიაში!';
 
 			}
 		}
+	}
 
 		break;
 	case 'disable':
-		$object_id	= $_REQUEST['id'];
-		Disableobject($object_id);
+		$status_id	= $_REQUEST['id'];
+		Disablestatus($status_id);
 
 		break;
 	default:
@@ -84,37 +89,37 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addobject( $object_name, $object_phone)
+function Addstatus($status_name, $call_status)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`object`
-									(`user_id`,`name`, `phone`, `actived`)
-					VALUES 		('$user_id','$object_name', '$object_phone', 1)");
+	mysql_query("INSERT INTO 	 	`status`
+									(`user_id`,`name`, `call_status`, `actived`)
+								VALUES 	
+									('$user_id','$status_name', '$call_status', 1)");
 }
 
-function Saveobject($object_id, $object_name, $object_phone)
+function Savestatus($status_id, $status_name, $call_status)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE `object`
-					SET    `user_id`='$user_id',
-							 `name` = '$object_name',
-							 `phone`= '$object_phone',
-							 `actived` = 1
-					WHERE	`id` = $object_id");
+	mysql_query("	UPDATE `status`
+					SET     `user_id`		='$user_id',
+							`name` 			= '$status_name',
+							`call_status`	= '$call_status'
+					WHERE	`id` 			= $status_id");
 }
 
-function Disableobject($object_id)
+function Disablestatus($status_id)
 {
-	mysql_query("	UPDATE `object`
+	mysql_query("	UPDATE `status`
 					SET    `actived` = 0
-					WHERE  `id` = $object_id");
+					WHERE  `id` = $template_id");
 }
 
-function CheckobjectExist($object_name)
+function CheckstatusExist($status_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `object`
-											WHERE  `name` = '$object_name' && `actived` = 1"));
+											FROM   `status`
+											WHERE  `name` = '$status_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -122,13 +127,13 @@ function CheckobjectExist($object_name)
 }
 
 
-function Getobject($object_id)
+function Getstatus($status_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`,
-													`phone`
-											FROM    `object`
-											WHERE   `id` = $object_id" ));
+													`call_status`
+											FROM    `status`
+											WHERE   `id` = $status_id" ));
 
 	return $res;
 }
@@ -148,15 +153,15 @@ function GetPage($res = '')
 					</td>
 				</tr>
 				<tr>
-					<td style="width: 170px;"><label for="CallType">ტელეფონი</label></td>
+					<td style="width: 170px;"><label for="CallType">საუბრის შინაარსი</label></td>
 					<td>
-						<input type="text" id="phone" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['phone'] . '" />
+						<input type="text" id="call_status" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['call_status'] . '" />
 					</td>
 				</tr>
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="object_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="status_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';
@@ -164,3 +169,4 @@ function GetPage($res = '')
 }
 
 ?>
+
