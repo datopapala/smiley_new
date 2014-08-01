@@ -1,7 +1,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/view/object.action.php";		//server side folder url
+		var aJaxURL	= "server-side/view/status.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
 		    	
@@ -9,8 +9,7 @@
 			LoadTable();	
 						
 			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "delete_button");			
-			SetEvents("add_button", "delete_button", "check-all", tName, fName, aJaxURL);
+			SetEvents("", "", "", tName, fName, aJaxURL);
 		});
         
 		function LoadTable(){
@@ -21,7 +20,7 @@
 		}
 		
 		function LoadDialog(){
-			var id		= $("#object_id").val();
+			var id		= $("#status_id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
@@ -31,10 +30,10 @@
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act		="save_object";
-	    	param.id		= $("#object_id").val();
-	    	param.name		= $("#name").val();
-	    	param.phone		= $("#phone").val();
+		    param.act			="save_status";
+	    	param.id			= $("#status_id").val();
+	    	param.name			= $("#name").val();
+	    	param.call_status	= $("#call_status").val();
 	    	
 			if(param.name == ""){
 				alert("შეავსეთ ველი!");
@@ -64,18 +63,13 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">ობიექტები</h2>
-            	<div id="button_area">
-        			<button id="add_button">დამატება</button>
-        			<button id="delete_button">წაშლა</button>
-        		</div>
-                <table class="display" id="example">
+            	<h2 align="center">სტატუსები</h2>
+            	<table class="display" id="example">
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 70%;">სახელი</th>
-                            <th style="width: 30%;">ტელეფონი</th>
-                        	<th class="check">#</th>
+                            <th style="width: 50%;">სახელი</th>
+                             <th style="width: 50%;">ზარის სტატუსი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -84,11 +78,8 @@
                             <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
-                              <th>
+                            <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
-                            </th>
-                          <th>
-                            	<input type="checkbox" name="check-all" id="check-all">
                             </th>
                         </tr>
                     </thead>
@@ -96,11 +87,6 @@
             </div>
         </div>
     </div>
-    
-    <!-- jQuery Dialog -->
-    <div id="add-edit-form" class="form-dialog" title="ობიექტი">
-    	<!-- aJax -->
-	</div>
 </body>
 </html>
 

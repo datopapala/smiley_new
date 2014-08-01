@@ -4,6 +4,11 @@ $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
 
+$template_id 	= $_REQUEST['id'];
+$template_name  = $_REQUEST['name'];
+$content    	= $_REQUEST['content'];
+
+
 switch ($action) {
 	case 'get_add_page':
 		$page		= GetPage();
@@ -21,7 +26,8 @@ switch ($action) {
 		$hidden	= $_REQUEST['hidden'];
 			
 		$rResult = mysql_query("SELECT 	template.id,
-										template.`name`
+										template.`name`,
+										template.`content`
 							    FROM 	template
 							    WHERE 	template.actived=1");
 
@@ -45,24 +51,23 @@ switch ($action) {
 
 		break;
 	case 'save_template':
-		$template_id 		= $_REQUEST['id'];
-		$template_name    = $_REQUEST['name'];
+		
 
 
-
-		if($template_name != ''){
+		if($template_id != ''){
+			Savetemplate($template_id, $template_name, $content);
+			}
+			else{
 			if(!ChecktemplateExist($template_name, $template_id)){
 				if ($template_id == '') {
-					Addtemplate( $template_id, $template_name);
+					Addtemplate($template_name, $content);
 				}else {
-					Savetemplate($template_id, $template_name);
-				}
-
-			} else {
+					
 				$error = '"' . $template_name . '" უკვე არის სიაში!';
 
 			}
 		}
+	}
 
 		break;
 	case 'disable':
@@ -84,21 +89,23 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addtemplate($template_id, $template_name)
+function Addtemplate($template_name, $content)
 {
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("INSERT INTO 	 	`template`
-									(`user_id`,`name`)
-					VALUES 		('$user_id','$template_name')");
+									(`user_id`,`name`, `content`, `actived`)
+								VALUES 	
+									('$user_id','$template_name', '$content', 1)");
 }
 
-function Savetemplate($template_id, $template_name)
+function Savetemplate($template_id, $template_name, $content)
 {
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `template`
-					SET     `user_id`='$user_id',
-							`name` = '$template_name'
-					WHERE	`id` = $template_id");
+					SET     `user_id`	='$user_id',
+							`name` 		= '$template_name',
+							`content`	= '$content'
+					WHERE	`id` 		= $template_id");
 }
 
 function Disabletemplate($template_id)
@@ -123,7 +130,8 @@ function ChecktemplateExist($template_name)
 function Gettemplate($template_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
-													`name`
+													`name`,
+													`content`
 											FROM    `template`
 											WHERE   `id` = $template_id" ));
 
@@ -142,6 +150,12 @@ function GetPage($res = '')
 					<td style="width: 170px;"><label for="CallType">სახელი</label></td>
 					<td>
 						<input type="text" id="name" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['name'] . '" />
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 170px;"><label for="CallType">საუბრის შინაარსი</label></td>
+					<td>
+						<input type="text" id="content" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['content'] . '" />
 					</td>
 				</tr>
 
