@@ -154,8 +154,8 @@ function GetPage($res = '')
 				</tr>
 				<tr>
 					<td style="width: 170px;"><label for="CallType">საუბრის შინაარსი</label></td>
-					<td>
-						<input type="text" id="content" class="idle address" onblur="this.className=\'idle address\'" onfocus="this.className=\'activeField address\'" value="' . $res['content'] . '" />
+					<td colspan="6">	
+						<textarea  style="width: 350px; resize: none;" id="content" class="idle" name="call_content" cols="300" rows="2">' . $res['content'] . '</textarea>
 					</td>
 				</tr>
 
