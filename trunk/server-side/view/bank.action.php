@@ -151,7 +151,7 @@ function GetPage($res = ''){
 	$data = '
 	<div id="dialog-form">
 	    <fieldset>
-	    	<legend>ბანკის დასახელება</legend>
+	    	<legend>ბანკების დასახელება</legend>
 
 	    	<table class="dialog-form-table">
 				<tr>
@@ -171,20 +171,20 @@ function GetPage($res = ''){
 
         </fieldset>
 		<fieldset id="fiel_bank">
-	    	<legend>პერსონალი</legend>
+	    	<legend>ფილიალები</legend>
 		    <div class="inner-table">
 			    <div id="dt_example" class="ex_highlight_row">
 			        <div id="container" class="overhead_container">
 			        	<div id="button_area">
-			        		<button id="add_button_c_person">დამატება</button><button id="delete_c_person">წაშლა</button>
+			        		<button id="add_button_bank">დამატება</button><button id="delete_button_prod">წაშლა</button>
 			        	</div>
 			            <div id="dynamic">
-			                <table class="display" id="c_perso_list">
+			                <table class="display" id="obj_list">
 			                    <thead>
 			                        <tr id="datatable_header">
 			                            <th>ID</th>
 			                            <th style="width : 100%">სახელი</th>
-			                            <th class="min">ტელეფონი</th>
+			                            <th class="min">მისამართი</th>
 			                            <th class="check">#</th>
 			                        </tr>
 			                    </thead>
