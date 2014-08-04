@@ -92,7 +92,7 @@
 				case "c_perso_list":
 
 					var  local_id = $("#bank_object_id").val();
-					//alert(local_id); return 0;
+
 					$("#bank_person_id").val(local_id);
 					GetDataTable("c_perso_list", c_person_aJaxURL, "get_list", 4, "local_id=" + local_id, 0, "", 1, "desc");
 
