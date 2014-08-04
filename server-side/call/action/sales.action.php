@@ -675,198 +675,7 @@ function getCalls(){
 
 }
 
-function get_addition_all_info($pin)
-{
-	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-	
-	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a1`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-	
-	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a2`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-	
-	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a3`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-	
-	$sum_incomming	 	= $res1['a'] + $res2['a1'] + $res3['a2'] + $res4['a3'];
-	$sum_end	 		= $res1['a'] + $res2['a1'];
-	$sum_actived		= $res3['a2'] + $res4['a3'];
-	
-	$data .= '<fieldset>
-					<legend>მომართვების ისტორია</legend>
-					<table>
-						<tr>
-							<td>სულ</td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_incomming.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>მოგვარებულები</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-						    <td>'.$sum_end.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res1['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res2['a1'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_actived.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res3['a2'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res4['a3'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-				    		<td style="width: 300px;">
-							<input type="button" value="ვრცლად"/>
-		      				</td>
-						</tr>
-					</table>
-				</fieldset>';
 
-	return $data;
-}
-function get_addition_all_info1($personal_id)
-{
-	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-
-	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-
-	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-
-	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-
-	$sum_incomming	 	= $res1['a'] + $res2['a'] + $res3['a'] + $res4['a'];
-	$sum_end	 		= $res1['a'] + $res2['a'];
-	$sum_actived		= $res3['a'] + $res4['a'];
-
-	$data .= '<fieldset>
-					<legend>მომართვების ისტორია</legend>
-					<table>
-						<tr>
-							<td>სულ</td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_incomming.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>მოგვარებულები</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-						    <td>'.$sum_end.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res1['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res2['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_actived.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res3['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res4['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-				    		<td style="width: 300px;">
-							<input type="button" value="ვრცლად"/>
-		      				</td>
-						</tr>
-					</table>
-				</fieldset>';
-
-	return $data;
-}
 function Getincomming($incom_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
@@ -926,74 +735,48 @@ function GetPage($res='', $number)
 	
 	$data  .= '
 	<!-- jQuery Dialog -->
-    <div id="add-edit-goods-form" title="საქონელი">
+    <div id="add-edit-goods-form" title="აქცია">
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
 			<div style="float: left; width: 400px;">	
 				<fieldset >
-			    	<legend>ძირითადი ინფორმაცია</legend>
-					<fieldset style="width:300px; float:left;">
+			    	<legend>ინფო</legend>
+					<fieldset float:left;">
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
-								<td>ზედნადების #</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								<td>დასახელება</td>
+								<td style="width:20px;></td>
+								<td colspan "5">
+									<input  type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
-								<td>ქვე-განყოფილება</td>
+								<td style="width: 150px;"><label for="d_number">დავალების ტიპი</label></td>
 								<td>
 									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
 								</td>
+								<td style="width: 100px;"><label for="d_number">-დან</label></td>
+								<td>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								</td>
+								<td style="width: 100px;"><label for="d_number">-მდე</label></td>
 							</tr>
-							<tr>
-								<td>საწყობი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>	
-							<tr>
-								<td>სხვა</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>					
 						</table>
+									
 					</fieldset>
-					<fieldset style="width:300px; float:left; margin-left: 10px;">
-				    	<table width="100%" class="dialog-form-table">
+					<fieldset style="float: left; width: 400px;">
+						<legend>აღწერა</legend>
+				    		<table width="100%" class="dialog-form-table">
 							<tr>
-								<td>შეძენის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								<td colspan="5">
+									<textarea  style="width: 530px; height: 100px; resize: none;" id="comment" class="idle" name="content" cols="100" rows="2">' . $res['comment'] . '</textarea>
 								</td>
-							</tr>
-							<tr>
-								<td>მიტანის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>მონტაჟის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>სტატუსი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>						
-						</table>
-					</fieldset>						
-											';
-												
-		$data  .= '
-		   
-				<fieldset style="margin-top: 5px;">
+							</tr>		
+							</table>
+					</fieldset>	
+								
+					<fieldset>
 			    	<legend>დავალების ფორმირება</legend>
 		
 			    	<table class="dialog-form-table">
@@ -1005,7 +788,7 @@ function GetPage($res='', $number)
 			    		<tr>
 							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -1014,88 +797,102 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 80px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
+								<textarea  style="width: 530px; height: 80px; resize: none;" id="comment" class="idle" name="content" cols="100" rows="2">' . $res['comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
 		        </fieldset>
 			</div>
-			<div>
-				  </fieldset>
-			</div>
-			<div style="float: right;  width: 355px;">
-				 <fieldset>
-					<legend>კონტრაგენტი</legend>
-					<table style="height: 243px;">						
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
-							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
-						</tr>
-						<tr>
-							<td>568919432</td>
-							<td style="width: 180px;">
-								<input type="text" id="personal_id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_id'] . '" />
-							</td>					
-						</tr>
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">სახელი და გვარი</td>
-							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
-						</tr>
-						<tr >
-							<td style="width: 180px;">ზაზა მესხი</td>
-							<td style="width: 180px;">z.mesxi@yahoo.com</td>			
-						</tr>
-						<tr>
-							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
-							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">ყვარლის 149</td>
-							<td td style="width: 180px;">VIP კლიენტი</td>
-						</tr>
-					</table>
+			<div style="float: right;  width: 360px;">
+				 <fieldset style="float: right;  width: 440px;">
+					<legend>ქვე-განყოფილება</legend>
+										
+			<div id="dt_example" class="inner-table">
+		        <div id="container" style="width:440px;">        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            		<button id="add_button">დამატება</button>
+	        			</div>
+		                <table class="" id="example2" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:10px;">#</th>
+									<th style="width:30px; word-break:break-all;">ფილიალი</th>
+									<th style="width:30px; word-break:break-all;">თარიღი</th>
+									
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:150px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+
 				</fieldset>
-				<div id="additional_info">';
-					if (!empty($res['personal_pin'])){
-							$data .= get_addition_all_info($res['personal_pin']);
-						}
-	  $data .= '</div>
-				<fieldset>
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ნომენკლატურა</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფასი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">სხვა</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>							
-						</tr>
-	  					<tr>
-	  						<td></td>
-	  						<td style="text-align: right;">ჯამი</td>
-	  						<td></td>
-	  						<td></td>
-	  					</tr>						
-					<table/>
+				<fieldset style="float: right;  width: 440px;">
+					<legend>აქციის პროდუქტები</legend>
+										
+			<div id="dt_example" class="inner-table">
+		        <div style="width:440px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            		<button id="add_button">დამატება</button>
+	        			</div>
+		                <table class="" id="example3" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:7%;">#</th>
+									<th style="width:25%; word-break:break-all;">ფილიალი</th>
+									<th style="width:20%; word-break:break-all;">თარიღი</th>
+									<th style="width:35%; word-break:break-all;">პროდუქტი</th>
+									<th style="width:13%; word-break:break-all;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:70px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:65px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:30px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+
 				</fieldset>
-	  			<fieldset>
-					<legend>საუბრის ჩანაწერი</legend> 
-	  				<table style="float: left; border: 1px solid #85b1de; width: 250px; text-align: center; margin-left:40px;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">დრო</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">ჩანაწერი</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">10:05:12 AM</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">მოსმენა</td>
-	  					</tr>
-					<table/>
-				</fieldset>
+	  			
 			</div>
     </div>';
 

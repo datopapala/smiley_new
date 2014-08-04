@@ -44,9 +44,16 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example1", aJaxURL1, "get_list", 6, "", 0, "", 1, "asc", "");
 		}
+		function LoadTable2(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example2", aJaxURL1, "get_list", 4, "", 0, "", 1, "asc", "");
+		}
+		function LoadTable3(){			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example3", aJaxURL1, "get_list", 6, "", 0, "", 1, "asc", "");
+		}
 
-
-		//SeoYyy
+	//SeoYyy
 		$(document.body).click(function (e) {
         	$("#send_to").autocomplete("close");
         });
@@ -69,6 +76,10 @@
 				        } 
 				    };
 					GetDialog("add-edit-form", 1080, "auto", buttons);
+					 LoadTable2();
+					 LoadTable3();
+					 SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
+						GetButtons("add_button","add_responsible_person");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -87,6 +98,7 @@
 				            	$(this).dialog("close");
 				            }
 				        }
+				       
 				    };
 					GetDialog("add-edit-form1", 1060, "auto", buttons);
 				break;	
@@ -601,9 +613,10 @@
 		        </div>
 		    </div>
 		 </div>
+		 
 </div>
 <!-- jQuery Dialog -->
-<div id="add-edit-form" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form" class="form-dialog" title="აქცია">
 <!-- aJax -->
 </div>
 
