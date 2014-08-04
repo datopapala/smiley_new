@@ -2,7 +2,7 @@
 <head>
 	<script type="text/javascript">
 		var aJaxURL				= "server-side/view/bank.action.php";
-		//var c_person_aJaxURL		= "server-side/view/bank/bank.action.php";
+		var bank_aJaxURL		= "server-side/view/bank/bank.action.php";
 		var c_person_aJaxURL	= "server-side/view/bank/c_person.action.php";	//server side folder url
 		var tName				= "example";									//table name
 		var fName				= "add-edit-form";								//form name
@@ -18,13 +18,16 @@
 		function LoadDialog(form){
 			switch(form){
 				case fName :
+
 					var id = $("#bank_id").val();
 					if(id == ''){
+					//	$("#local_bank_id").val(GetLocalID());
 						$("#fiel_bank").css("display", "none")
 					}
-					LoadTable("c_perso_list");
-					GetButtons("add_button_c_person", "delete_c_person");
-					SetEvents("add_button_c_person", "delete_c_person", "check-all-prod", "c_perso_list", "add-edit-contact-form", c_person_aJaxURL);
+
+					LoadTable("obj_list");
+					GetButtons("add_button_bank", "delete_button_prod");
+					SetEvents("add_button_bank", "delete_button_prod", "check-all-prod", "obj_list", "add-edit-prod-form", bank_aJaxURL);
 					GetDialog(fName, 600, "auto");
 
 				break;
@@ -36,7 +39,7 @@
 			            					id: "contact-form",
 			            					click: function () {}
 			       				  }		    }
-					SetEvents("add_button_c_person", "delete_button_c_person", "", 'c_perso_list', "add-edit-contact-form", c_person_aJaxURL, 'local_id='+$("#c_person").val());
+					SetEvents("add_button_c_person", "delete_button_c_person", "", 'c_perso_list', "add-edit-contact-form", c_person_aJaxURL, 'local_id='+$("#bank_object_id").val());
 
 					GetDialog(form, 600, "auto", buttons);
 
@@ -44,17 +47,17 @@
 
 				default:
 
-					var id = $("#c_person").val();
+					var id = $("#bank_object_id").val();
 
 					if(id == ''){
-					//	$("#local_c_person").val(GetLocalID1());
+					//	$("#local_bank_object_id").val(GetLocalID1());
 						$("#bank_object_field").css("display", "none");
 
 					}
 
 					var buttons = {
 				        "save": {
-				            text: "დამატება",
+				            text: "შენახვა",
 				            id: "add-object",
 				            click: function () {}
 				        },
@@ -68,7 +71,7 @@
 
 					LoadTable("c_perso_list");
 					GetButtons("add_button_c_person", "delete_button_c_person");
-					SetEvents("add_button_c_person", "delete_button_c_person", "", 'c_perso_list', "add-edit-contact-form", c_person_aJaxURL, 'local_id='+$("#c_person").val());
+					SetEvents("add_button_c_person", "delete_button_c_person", "", 'c_perso_list', "add-edit-contact-form", c_person_aJaxURL, 'local_id='+$("#bank_object_id").val());
 					GetDialog("add-edit-prod-form", 500, "auto",buttons);
 
 				break;
@@ -78,22 +81,22 @@
 		function LoadTable(table){
 
 			switch (table){
-				case "c_perso_list":
+				case "obj_list":
 
 					GetDialog(fName, 600, "auto", "");
 					var local_id	= $("#bank_id").val();
-					GetDataTable('c_perso_list', c_person_aJaxURL, "get_list", 3, "local_id=" +local_id, 0, "", 1, "asc");
+					GetDataTable(table, bank_aJaxURL, "get_list", 3, "local_id=" +local_id, 0, "", 1, "asc");
 
 				break;
 
-/* 				case "c_perso_list":
+				case "c_perso_list":
 
-					var  local_id = $("#c_person").val();
+					var  local_id = $("#bank_object_id").val();
 					//alert(local_id); return 0;
 					$("#bank_person_id").val(local_id);
 					GetDataTable("c_perso_list", c_person_aJaxURL, "get_list", 4, "local_id=" + local_id, 0, "", 1, "desc");
 
-				break; */
+				break;
 
 				default :
 					GetDataTable(tName, aJaxURL, "get_list",3, "", 0, "", 1, "desc");
@@ -122,7 +125,7 @@
 		function GetLocalID1(){
 			var local_id;
 			$.ajax({
-		        url: c_person_aJaxURL,
+		        url: bank_aJaxURL,
         		async: false,
 			    data: "act=get_local_id",
 		        success: function(data) {
@@ -159,13 +162,13 @@
 		    param 			        = new Object();
 		    param.act		        ="save_object_id";
 	    	param.id		        = $("#bank_id").val();
-	    	param.c_person    = $("#c_person").val();
+	    	param.bank_object_id    = $("#bank_object_id").val();
 	    	param.bank_local_id     = $("#bank_local_id").val();
 	    	param.trans_obj		    = $("#trans_obj").val();
 	    	param.trans_address		= $("#trans_address").val();
 		{
 			    $.ajax({
-			        url: c_person_aJaxURL,
+			        url: bank_aJaxURL,
 				    data: param,
 			        success: function(data) {
 						if(typeof(data.error) != 'undefined'){
@@ -173,8 +176,8 @@
 								alert(data.error);
 							}else{
 
-								if(param.c_person=='') {
-									$("#c_person").val(data.myid)
+								if(param.bank_object_id=='') {
+									$("#bank_object_id").val(data.myid)
 									$("#bank_object_field").css("display", "");
 									$("#add-object").css("display", "none");
 
@@ -193,7 +196,7 @@
 		    param 			        = new Object();
 		    param.act		        ="save_c_person";
 	    	param.person_id	        = $("#bank_person_id").val();
-	    	param.object_id	        = $("#bank_id").val();
+	    	param.object_id	        = $("#bank_object_id").val();
 	    	param.c_person	        = $("#c_person").val();
 	    	param.phone		        = $("#phone").val();
 	    	param.mail       		 = $("#mail").val();
@@ -295,17 +298,14 @@
     <div id="add-edit-form" class="form-dialog" title="მომსახურე ბანკები">
     	<!-- aJax -->
 	</div>
-
+	<div id="add-edit-prod-form" class="form-dialog" title="ფილიალი">
+    	<!-- aJax -->
+	</div>
 	<div id="add-edit-contact-form" class="form-dialog" title="საკონტაქტო ინფორმაცია">
     	<!-- aJax -->
 	</div>
 </body>
 </html>
-
-
-
-
-
 
 
 
