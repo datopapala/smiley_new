@@ -17,9 +17,9 @@ switch ($action) {
 
 		break;
 	case 'save_object_id':
-		$c_person			 = $_REQUEST['c_person'];
+		//$c_person			 = $_REQUEST['c_person'];
 		$comp_id				 = $_REQUEST['id'];
-		$c_person				 = $_REQUEST['c_person'];
+		$c_person				 = $_REQUEST['bank_object_id'];
 		$phone					 = $_REQUEST['phone'];
 		$user_id				 = $_SESSION['USERID'];
 		if($comp_id=='') $comp_id=$_REQUEST['bank_local_id'];
@@ -27,11 +27,11 @@ switch ($action) {
 		$trans_address 		= $_REQUEST['trans_address'];
 		if($c_person!='')
 		{	mysql_query("	UPDATE		`bank_object`
-							SET			`user_id`		=  `$user_id`,
+							SET			`user_id`		=  '$user_id',
 										`name`			= '$trans_obj',
 										`address`		= '$trans_address'
 							WHERE
-										`id` 			= $c_person");
+										`id` 			= '$c_person'");
 		}
 		else{
 			mysql_query("	INSERT INTO bank_object
