@@ -932,10 +932,18 @@ function GetPage($res='', $number)
 	<div id="dialog-form">
 			<div style="float: left; width: 400px;">	
 				<fieldset >
-			    	<legend>ძირითადი ინფორმაცია</legend>
-					<fieldset style="width:300px; float:left;">
+			    	<legend>საკონტაკტო ინფო</legend>
+					<fieldset style="width:635px; float:left;">
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
+								<td>ზედნადების #</td>
+								<td>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								</td>
+								<td>ზედნადების #</td>
+								<td>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+								</td>
 								<td>ზედნადების #</td>
 								<td>
 									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
@@ -960,36 +968,7 @@ function GetPage($res='', $number)
 								</td>
 							</tr>					
 						</table>
-					</fieldset>
-					<fieldset style="width:300px; float:left; margin-left: 10px;">
-				    	<table width="100%" class="dialog-form-table">
-							<tr>
-								<td>შეძენის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>მიტანის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>მონტაჟის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>სტატუსი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>						
-						</table>
-					</fieldset>						
-											';
+					</fieldset>';
 												
 		$data  .= '
 		   

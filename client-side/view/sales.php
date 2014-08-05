@@ -650,7 +650,7 @@
 		 </div>
 </div>
 <!-- jQuery Dialog -->
-<div id="add-edit-form" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form" class="form-dialog" title="გაყიდვები">
 <!-- aJax -->
 </div>
 
