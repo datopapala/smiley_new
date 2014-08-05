@@ -811,7 +811,7 @@ function GetPage($res='', $number)
 		        <div id="container" style="width:440px;">        	
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
+		            		<button id="add_button_f">დამატება</button>
 	        			</div>
 		                <table class="" id="example2" style="width: 100%;">
 		                    <thead>
@@ -851,7 +851,7 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >        	
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
+		            		<button id="add_button_p">დამატება</button>
 	        			</div>
 		                <table class="" id="example3" style="width: 100%;">
 		                    <thead>

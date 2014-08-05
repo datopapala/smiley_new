@@ -12,7 +12,7 @@
 			GetTabs(tbName);   	
 			GetTable0();
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
-			GetButtons("add_button","add_responsible_person");
+			GetButtons("add_button","add_responsible_person");			
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -76,10 +76,12 @@
 				        } 
 				    };
 					GetDialog("add-edit-form", 1080, "auto", buttons);
-					 LoadTable2();
-					 LoadTable3();
-					 SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
-						GetButtons("add_button","add_responsible_person");
+					
+						LoadTable2();
+						LoadTable3();
+						SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");						
+						GetButtons("add_button_f","");
+						GetButtons("add_button_p","");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
