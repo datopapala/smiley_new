@@ -930,66 +930,108 @@ function GetPage($res='', $number)
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 400px;">	
+			<div style="float: left; width: 800px;">	
 				<fieldset >
 			    	<legend>ძირითადი ინფორმაცია</legend>
-					<fieldset style="width:300px; float:left;">
-				    	<table width="100%" class="dialog-form-table">
-							<tr>
-								<td>ზედნადების #</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>ქვე-განყოფილება</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>საწყობი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>	
-							<tr>
-								<td>სხვა</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>					
-						</table>
-					</fieldset>
-					<fieldset style="width:300px; float:left; margin-left: 10px;">
-				    	<table width="100%" class="dialog-form-table">
-							<tr>
-								<td>შეძენის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>მიტანის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>მონტაჟის თარიღი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>
-							<tr>
-								<td>სტატუსი</td>
-								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-							</tr>						
-						</table>
-					</fieldset>						
-											';
+		
+			    	<table width="100%" class="dialog-form-table">
+						<tr>
+							<td style="width: 180px;"><label for="">მომართვა №</label></td>
+							<td style="width: 180px;"><label for="">თარიღი</label></td>
+							<td style="width: 180px;"><label for="phone">ტელეფონი</label></td>
+							<td></td>
+							<td><label for="person_name">აბონენტის სახელი</label></td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">
+								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' .  $res['call_date']. '" disabled="disabled" />
+							</td>
+							<td style="width: 180px;">
+								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
+							</td>
+							<td style="width: 69px;">
+								<button class="calls">ნომრები</button>
+							</td>
+							<td style="width: 69px;">
+								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
+							</td>
+						</tr>						
+					</table>';
+										
+		$data  .= '
+				
+				<fieldset style="width:318px; float:left;">
+			    	<legend>მომართვის ავტორი</legend>
+					<table id="additional" class="dialog-form-table" width="300px">						
+						<tr>
+							<td style="width: 250px;"><input style="float:left;" type="radio" value="1"><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
+							<td style="width: 250px;"><input style="float:left;" type="radio" value="2"><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:400px; float:left; margin-left: 15px;">
+			    	<legend>ინფორმაციის კატეგორია</legend>
+					<table id="additional" class="dialog-form-table" width="230px">						
+						<tr>
+							<td style="width: 300px;"><select style="margin-left: 25px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:755px; float:left;">
+			    	<legend>ინფორმაციის კატეგორია</legend>
+					<table id="additional" class="dialog-form-table" width="230px">		
+						<tr>
+							<td style="width: 250px;"><input style="float:left;" type="radio" value="1"><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
+							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" value="2"><span style="margin-top:5px; display:block;"">იურიდიული</span></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
+						</tr>
+						<tr>
+							<td style="width: 300px;"><label for="d_number">პროდუქტი</label></td>
+							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
+							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="problem_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[problem_date] . '" /></td>
+							<td style="width: 250px;"><select style="margin-left: 25px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+						</tr>				
+						<tr>
+							<td style="width: 300px;"><select id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:755px; float:left;">
+			    	<legend>გადამისამართება</legend>
+					<table id="additional" class="dialog-form-table" width="230px">		
+						<tr>
+							<td style="width: 300px;"><label for="d_number">ქვე-განყოფილება</label></td>
+							<td style="width: 300px;"><label style="margin-left: 35px;" for="d_number">კავშირი</label></td>
+						</tr>
+						<tr>
+							<td style="width: 250px;"><select style=" width: 450px;" id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+							<td style="width: 250px;"><input style="margin-left: 35px;" type="radio" value="1"></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:160px; float:left;">
+			    	<legend>რეაგირება</legend>
+					<table id="additional" class="dialog-form-table" width="150px">	
+						<tr>
+							<td style="width: 150px;"><select id="object_id" class="idls object">'. Getobject($res['object_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:557px; float:left; margin-left: 10px;">
+			    	<legend>რეაგირება</legend>
+					<table id="additional" class="dialog-form-table" width="150px">	
+						<tr>
+							<td><textarea  style="width: 550px; resize: none;" id="comment" class="idle" name="content" cols="300" >' . $res['comment'] . '</textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				';
 												
 		$data  .= '
 		   
@@ -1014,7 +1056,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 80px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
@@ -1025,7 +1067,7 @@ function GetPage($res='', $number)
 			</div>
 			<div style="float: right;  width: 355px;">
 				 <fieldset>
-					<legend>კონტრაგენტი</legend>
+					<legend>მომართვის ავტორი</legend>
 					<table style="height: 243px;">						
 						<tr>
 							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
@@ -1038,7 +1080,7 @@ function GetPage($res='', $number)
 							</td>					
 						</tr>
 						<tr>
-							<td style="width: 180px; color: #3C7FB1;">სახელი და გვარი</td>
+							<td style="width: 180px; color: #3C7FB1;">კონტრაგენტი</td>
 							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
 						</tr>
 						<tr >
@@ -1062,28 +1104,24 @@ function GetPage($res='', $number)
 	  $data .= '</div>
 				<fieldset>
 					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
+					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ნომენკლატურა</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფასი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">სხვა</td>
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
 						</tr>
 						<tr style="border-bottom: 1px solid #85b1de; ">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>							
-						</tr>						
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">gelaaaaaaaaaaaaaaaa</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">2014-07-01</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">fssdgsd</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">145$</td>
+							
+						</tr>
+						
 					<table/>
-	  				<table style="float: left; width: 100%; text-align: center;">
-	  					<tr>
-	  						<td style="width: 10%;"></td>
-	  						<td style="text-align: right; width: 49%;">ჯამი</td>
-	  						<td style="width: 20%;"></td>
-	  						<td style="width: 20%;"></td>
-	  					</tr>
-	  				<table/>
 				</fieldset>
 	  			<fieldset>
 					<legend>საუბრის ჩანაწერი</legend> 
