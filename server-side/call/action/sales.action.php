@@ -52,6 +52,7 @@ switch ($action) {
 		$hidden = 		$_REQUEST['hidden'];
 	  	$rResult = mysql_query("	SELECT 			action.id,
 													action.id,
+	  												action.`name`,
 													action.start_date,
 													action.end_date,
 													action.content,

@@ -52,6 +52,7 @@ switch ($action) {
 		$hidden = 		$_REQUEST['hidden'];
 	  	$rResult = mysql_query("	SELECT 			action.id,
 													action.id,
+	  												action.`name`,
 													action.start_date,
 													action.end_date,
 													action.content,
@@ -242,6 +243,7 @@ function Gettask_type($task_type_id)
 function Getaction($action_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
+												action.`name` AS action_name,
 												action.`name` AS action_name,
 												action.start_date AS start_date,
 												action.end_date AS end_date,
