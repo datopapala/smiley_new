@@ -77,7 +77,7 @@ switch ($action) {
 									FROM 			action
 									
 									JOIN users ON action.user_id=users.id
-									WHERE 			action.actived=1");
+									WHERE 			action.actived=1 AND action.end_date >= NOW()");
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -96,9 +96,9 @@ switch ($action) {
 
 		break;
 	case 'save_action':
-		$incom_id = $_REQUEST['id'];
-		$task_type_id = $_REQUEST['task_type_id'];
-		if($incom_id == ''){
+		
+	
+		if($action_id == ''){
 			
 			Addaction(  $action_name,  $start_date, $end_date, $action_content);
 			
@@ -109,6 +109,7 @@ switch ($action) {
 			
 		}
 		break;
+		
 		
 	case 'get_calls':
 	
@@ -448,6 +449,10 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 	return $res;
 }
 
+function GetLocalID(){
+	GLOBAL $db;
+	return $db->increment('action');
+}
 
 function GetPage($res='', $number)
 {
@@ -585,6 +590,7 @@ function GetPage($res='', $number)
 		        </div>
 
 				</fieldset>
+						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
 	  			
 			</div>
     </div>';
@@ -593,15 +599,5 @@ function GetPage($res='', $number)
 }
 
 
-function increment($table){
-
-	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
-	$row   			= mysql_fetch_array($result);
-	$increment   	= $row['Auto_increment'];
-	$next_increment = $increment+1;
-	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
-
-	return $increment;
-}
 
 ?>

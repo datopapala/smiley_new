@@ -7,8 +7,7 @@
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
 		var file_name = '';
-		var rand_file = '';
-		
+		var rand_file = '';		
 		$(document).ready(function () {     
 			GetTabs(tbName);   	
 			GetTable0();
@@ -59,8 +58,7 @@
         	$("#send_to").autocomplete("close");
         });
 
-        function LoadDialog(fName){
-            //alert(form);
+        function LoadDialog(fName){ 
 			switch(fName){
 				case "add-edit-form":
 					var buttons = {
@@ -77,22 +75,19 @@
 				        } 
 				    };
 					
-					GetDialog("add-edit-form", 1080, "auto", buttons);
+						GetDialog("add-edit-form", 1080, "auto", buttons);
 						GetDate("start_date");
 						GetDate("end_date");
 						LoadTable2();
-						LoadTable3();
+
 						SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");//----------------------------------
 						GetButtons("add_button_p","");
-						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2);
+						SetEvents("add_button_p", "", "", "example3", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());						
+						
 						
 				break;	
 				case "add-edit-form1":
 					var buttons = {
-						"done": {
-				            text: "დასრულება",
-				            id: "done-dialog1"
-				        }, 
 						"save": {
 				            text: "შენახვა",
 				            id: "save-dialog1"
@@ -107,6 +102,10 @@
 				       
 				    };
 					GetDialog("add-edit-form1", 1060, "auto", buttons);
+					GetButtons("add_button_p1","");
+					GetDataTable("example4", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
+					SetEvents("add_button_p1", "", "", "example4", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());
+				
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -122,19 +121,14 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1060, "auto", buttons);
+					GetDialog("add-edit-form2", 400, "auto", buttons);
+					LoadTable3();
 					GetDate("date");
+					
 			    break;
 			}
 			
-			var id = $("#incomming_id").val();
-			var cat_id = $("#category_parent_id").val();
-	
-			if(id != '' && cat_id == 407){
-				$("#additional").removeClass('hidden');
-			}
-	
-			GetDateTimes("planned_end_date");
+		GetDateTimes("planned_end_date");
 			
 			$( ".calls" ).button({
 			      icons: {
@@ -146,35 +140,14 @@
 		    });
 		}
 
-		function LoadDialog1(){
-			var buttons = {
-			        "save": {
-			            text: "შენახვა",
-			            id: "save-printer",
-			            click: function () {
-			            	Change_person();			            
-			            }
-			        },
-					"cancel": {
-			            text: "დახურვა",
-			            id: "cancel-dialog",
-			            click: function () {
-			                $(this).dialog("close");
-			            }
-			        }
-			};
-			GetDialog("add-responsible-person", 280, "auto", buttons);
-		}
 		
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 
 			param 			= new Object();
-			param.act			= "save_action";
-			
-			param.id					= $("#id").val();
-			
-			param.id				= $("#id").val();
+			param.act			= "save_action";			
+			param.id					= $("#id").val();			
+			param.id				= $("#action_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
 			param.end_date			= $("#end_date").val();
@@ -198,54 +171,19 @@
 		    });
 		});
 
-		
-	    $(document).on("click", "#save-dialog1", function () {
-		   
-			param 				= new Object();
- 			param.act			= "save_outgoing";
+		$(document).on("click", "#save-dialog2", function () {
+	    	
+			param 					= new Object();
+			param.local_id			= $("#action_id").val();
+ 			param.act				= "save_action_1";
 		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-	   
-	    $(document).on("click", "#save-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "save_action_1";
-		    	
- 			param.id			= $("#id").val();
-			param.production_id	= $("#production_id").val();
-	    	param.object_id		=$("#object_id").val();
-	    	param.price			= $("#price").val();
-			param.date			= $("#date").val();
+ 			param.id				= $("#id").val();
+			param.production_id		= $("#production_id").val();
+	    	param.object_id			= $("#object_id").val();
+	    	param.action_id			= $("#action_id").val();
+	    	param.price				= $("#price").val();
+			param.date				= $("#date").val();
+			
 			
 	 
  	    	$.ajax({
@@ -263,56 +201,6 @@
  				    }
  			});
  		});
-	    $(document).on("keydown", "#personal_pin", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 			= new Object();
-    		 	param.act		= "get_add_info";
-    		 	param.pin		= $("#personal_pin").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-//
-	    $(document).on("keydown", "#personal_id", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 					= new Object();
-    		 	param.act				= "get_add_info1";
-    		 	param.personal_id		= $("#personal_id").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info1);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-	   
 	 function SetPrivateEvents(add,check,formName){
 		$(document).on("click", "#" + add, function () {    
 	        $.ajax({
@@ -341,71 +229,8 @@
 	    });	
 	}
 
-	function Change_person(formName){
-	    var data = $(".check:checked").map(function () {
-	        return this.value;
-	    }).get();
-	    
-	    var letters = [];
-	    
-	    for (var i = 0; i < data.length; i++) {
-	    	letters.push(data[i]);        
-	    }
-    	param = new Object();
-    	param.act	= "change_responsible_person";
-    	param.lt	= letters;
-	    param.rp	= $("#responsible_person").val();
-
-	    var link	=  GetAjaxData(param);
-	    
-	    if(param.rp == "0"){
-		    alert("აირჩიეთ პასუხისმგებელი პირი!");
-		}else if(param.ci == "0"){
-		    alert("აირჩიეთ ავტომობილი");		
-		}else{	    
-	        $.ajax({
-	            url: aJaxURL,
-	            type: "POST",
-	            data: link,
-	            dataType: "json", 
-	            success: function (data) {
-	                if (typeof (data.error) != "undefined") {
-	                    if (data.error != "") {
-	                        alert(data.error);
-	                    }else{
-	                        $("#add-responsible-person").dialog("close");
-	                        LoadTable0();
-	                    }
-	                }
-	            }
-	        });
-		}	    		
-	}
-	$(document).on("change", "#category_parent_id",function(){
- 	 	param 			= new Object();
-		 	param.act		= "sub_category";
-		 	param.cat_id   	= this.value;
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#category_id").html(data.cat);
-						}
-					}
-			    }
-		    });
-	    	
-
-		if(this.value == 407){
-			$("#additional").removeClass('hidden');
-		}else{
-			$("#additional").addClass('hidden');
-		}
-    });
+	
+	
     
 	
 	    $(document).on("keyup", "#req_time1, #req_time2", function() {
