@@ -21,23 +21,6 @@ $action_id    		= $_REQUEST['action_id'];
 
 
 
-
-
-$pay_type_id			= $_REQUEST['pay_type_id'];
-$bank_id				= $_REQUEST['bank_id'];
-$card_type_id			= $_REQUEST['card_type_id'];
-$pay_aparat_id			= $_REQUEST['pay_aparat_id'];
-
-
-
-// site_user
-$personal_pin			= $_REQUEST['personal_pin'];
-$personal_id			= $_REQUEST['personal_id'];
-$personal_phone			= $_REQUEST['personal_phone'];
-$mail				    = $_REQUEST['mail'];
-$name				    = $_REQUEST['name'];
-$friend_pin				= $_REQUEST['friend_pin'];
-
 //task
 $persons_id			    = $_REQUEST['persons_id'];
 $task_type_id			= $_REQUEST['task_type_id'];
@@ -47,11 +30,6 @@ $task_department_id 	= $_REQUEST['task_department_id'];
 $hidden_inc				= $_REQUEST['hidden_inc'];
 $edit_id				= $_REQUEST['edit_id'];
 $delete_id				= $_REQUEST['delete_id'];
-
-// file
-$rand_file				= $_REQUEST['rand_file'];
-$file					= $_REQUEST['file_name'];
-
 
 switch ($action) {
 	case 'get_add_page':
@@ -72,8 +50,9 @@ switch ($action) {
 
 		break;
 	case 'get_list' :
-		$count = 		$_REQUEST['count'];
-		$hidden = 		$_REQUEST['hidden'];
+		$count 			= $_REQUEST['count'];
+		$hidden		 	= $_REQUEST['hidden'];
+		$action_idd   	= $_REQUEST['action_idd'];
 	  	$rResult = mysql_query("	SELECT  
 											action_detail.id,
 											object.`name`,
@@ -83,7 +62,7 @@ switch ($action) {
 									FROM 	action_detail
 									JOIN 	object ON action_detail.object_id=object.id
 									JOIN    production ON action_detail.production_id= production.id
-									WHERE   action_detail.actived =1  ");
+									WHERE   action_detail.actived =1 AND action_detail.action_id=$action_idd");
 												  
 		$data = array(
 				"aaData"	=> array()
@@ -115,105 +94,6 @@ switch ($action) {
 			
 		}
 		break;
-		
-	case 'get_calls':
-	
-		$data		= array('calls' => getCalls());
-	
-		break;
-		
-		case 'delete_file':
-		
-			mysql_query("DELETE FROM file WHERE id = $delete_id");
-		
-			$increm = mysql_query("	SELECT  `name`,
-					`rand_name`,
-					`id`
-					FROM 	`file`
-					WHERE   `incomming_call_id` = $edit_id
-					");
-		
-			$data1 = '';
-		
-			while($increm_row = mysql_fetch_assoc($increm))	{
-			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-				break;
-		
-				case 'up_now':
-				$user		= $_SESSION['USERID'];
-				if($rand_file != ''){
-				mysql_query("INSERT INTO 	`file`
-				( 	`user_id`,
-				`incomming_call_id`,
-				`name`,
-				`rand_name`
-				)
-				VALUES
-				(	'$user',
-				'$edit_id',
-				'$file',
-				'$rand_file'
-				);");
-				}
-		
-				$increm = mysql_query("	SELECT  `name`,
-				`rand_name`,
-				`id`
-				FROM 	`file`
-				WHERE   `incomming_call_id` = $edit_id
-				");
-		
-				$data1 = '';
-		
-				while($increm_row = mysql_fetch_assoc($increm))	{
-				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-						          </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-		break;
-		
-	case 'sub_category':
-		
-		$cat_id	=	$_REQUEST['cat_id'];
-		$data 	= 	array('cat'=>Getcategory1($cat_id));
-		
-		break;	
-	case 'set_task_type':
-	
-		$cat_id	=	$_REQUEST['cat_id'];
-		$data 	= 	array('cat'=>Getbank_object($cat_id));
-	
-		break;
-	
-	case 'get_add_info':
-	
-		$pin	=	$_REQUEST['pin'];
-		$data 	= 	array('info' => get_addition_all_info($pin));
-	
-		break;
-		case 'get_add_info1':
-		
-		$personal_id	=	$_REQUEST['personal_id'];
-		$data 	= 	array('info1' => get_addition_all_info1($personal_id));
-	
-		break;
-		case 'get_local_id':
-		
-			$increment_id	= GetLocalID();
-			$data			= array('increment'	=> $increment_id);
 		
 			break;
 	default:
@@ -344,44 +224,6 @@ function Getobject($object_id)
 	return $data;
 }
 
-function getCalls(){
-	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
-
-	$req = mysql_query("
-
-						SELECT  	DISTINCT
-									IF(SUBSTR(cdr.src, 1, 3) = 995, SUBSTR(cdr.src, 4, 9), cdr.src) AS `src`
-						FROM    	cdr
-						GROUP BY 	cdr.src
-						ORDER BY 	cdr.calldate DESC
-						LIMIT 		12
-
-
-						");
-
-	$data = '<tr class="trClass">
-					<th class="thClass">#</th>
-					<th class="thClass">ნომერი</th>
-					<th class="thClass">ქმედება</th>
-				</tr>
-			';
-	$i	= 1;
-	while( $res3 = mysql_fetch_assoc($req)){
-
-		$data .= '
-	    		<tr class="trClass">
-					<td class="tdClass">' . $i . '</td>
-					<td class="tdClass" style="width: 30px !important;">' . $res3['src'] . '</td>
-					<td class="tdClass" style="font-size: 13px !important;"><button class="insert" number="' . $res3['src'] . '">დამატება</button></td>
-				</tr>';
-		$i++;
-	}
-
-	return $data;
-
-
-}
-
 
 function Getaction_1($action_detail_id)
 {
@@ -408,12 +250,6 @@ function GetPage($res='', $number)
 	}else{ 
 		$num=$res[phone]; 
 	}
-
-	$increm = mysql_query("	SELECT  `name`,
-									`rand_name`
-							FROM 	`file`
-							WHERE   `incomming_call_id` = $res[id]
-			");
 	
 	$data  .= '
 	<div id="dialog-form">

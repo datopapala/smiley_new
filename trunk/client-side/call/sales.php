@@ -40,13 +40,14 @@
 			GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "asc", "");
 		}
 			
-		function LoadTable1(){			
+		function LoadTable1(){	
+			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example1", aJaxURL1, "get_list", 6, "", 0, "", 1, "asc", "");
 		}
-		function LoadTable2(){			
+		function LoadTable2(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL2, "get_list", 6,"action_idd="+$("#action_id").val(), 0, "", 1, "asc", "");
 		}
 		
 
@@ -149,8 +150,6 @@
 			param.start_date		= $("#start_date").val();
 			param.end_date			= $("#end_date").val();
 			param.action_content	= $("#action_content").val();
-	    	
-	    	param.hidden_inc			= $("#hidden_inc").val();
 	 
 		    $.ajax({
 		        url: aJaxURL,
