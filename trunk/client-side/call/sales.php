@@ -37,13 +37,13 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){	
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 6, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 7, "", 0, "", 1, "asc", "");
 		}
 		function LoadTable2(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -273,10 +273,12 @@
 								<tr id="datatable_header">
 		                           <th>ID</th>
 									<th style="width:6%;">#</th>
+									<th style="width:15%; word-break:break-all;">დასახელება</th>
 									<th style="width:13%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:20%; word-break:break-all;">დასასრული</th>
+									<th style="width:13%; word-break:break-all;">დასასრული</th>
 									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:21%; word-break:break-all;">ავტორი</th>
+									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									
 								</tr>
 							</thead>
 							<thead>
@@ -299,7 +301,9 @@
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
-									
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
 								</tr>
 							</thead>
 		                </table>
@@ -319,10 +323,12 @@
 								<tr id="datatable_header">
 		                           <th>ID</th>
 									<th style="width:6%;">#</th>
+									<th style="width:15%; word-break:break-all;">დასახელება</th>
 									<th style="width:13%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:20%; word-break:break-all;">დასასრული</th>
+									<th style="width:13%; word-break:break-all;">დასასრული</th>
 									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:21%; word-break:break-all;">ავტორი</th>
+									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									
 								</tr>
 							</thead>
 							<thead>
@@ -341,6 +347,9 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
