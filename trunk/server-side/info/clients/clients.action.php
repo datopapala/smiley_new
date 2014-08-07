@@ -1140,14 +1140,6 @@ function GetPage($res='', $number)
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>		
 						</tr>						
 					<table/>
-	  				<table style="float: left; width: 100%; text-align: center;">
-	  					<tr>
-	  						<td style="width: 10%;"></td>
-	  						<td style="text-align: right; width: 49%;">ჯამი</td>
-	  						<td style="width: 20%;"></td>
-	  						<td style="width: 20%;"></td>
-	  					</tr>
-	  				<table/>
 				</fieldset>
 	  			<fieldset style="width: 440px;">
 					<legend>საუბრის ჩანაწერი</legend> 

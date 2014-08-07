@@ -58,6 +58,12 @@
 		function LoadTable2(){			
 			var total=[1];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example2", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+		}
+
+		function LoadTable3(){			
+			var total=[1];
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("examplee", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 
@@ -85,7 +91,7 @@
 				        } 
 				    };
 					GetDialog("add-edit-form", 1195, "auto", buttons);
-					LoadTable2();
+					LoadTable3();
 					GetButtons("add_button_p","");
 					SetEvents("add_button_p", "", "", "example2", "add-edit-form1", aJaxURL);
 				break;	
