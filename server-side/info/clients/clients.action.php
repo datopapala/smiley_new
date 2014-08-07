@@ -916,12 +916,6 @@ function GetPage($res='', $number)
 	}else{ 
 		$num=$res[phone]; 
 	}
-
-	$increm = mysql_query("	SELECT  `name`,
-									`rand_name`
-							FROM 	`file`
-							WHERE   `incomming_call_id` = $res[id]
-			");
 	
 	$data  .= '
 	<!-- jQuery Dialog -->
@@ -936,56 +930,50 @@ function GetPage($res='', $number)
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 								<td>სტატუსი</td>
-								<td>ვიპ კლიენტი</td>
+								<td>VIP კლიენტი</td>
 								<td></td>
-								<td></td>
-								<td>არ დარეკო</td>
-								<td>SMS</td>
+								<td></td>								
 							</tr>
 							<tr>
 								<td>კონტრაგენტი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['name']. '"  />
 								</td>
 								<td>მობილური 1</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['mobile1']. '"  />
 								</td>
-								<td><input type="checkbox" value=""></td>
-								<td><input type="checkbox" value=""></td>			
+											
 							</tr>
 							<tr>
 								<td>იურ. სტატუსი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="legal_status" class="idle" onblur="this.className=\'idle\'"  value="' . $res['legal_status_id']. '" />
 								</td>
 								<td>მობილური 2</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['mobile2']. '"  />
 								</td>
-								<td><input type="checkbox" value=""></td>
-								<td><input type="checkbox" value=""></td>			
+										
 							</tr>	
 							<tr>
 								<td>პირადი ნომერი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 								<td>ტელეფონი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
-								</td>
-								<td><input type="checkbox" value=""></td>
-								<td><input type="checkbox" value=""></td>			
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
+								</td>		
 							</tr>
 							<tr>
 								<td>დაბ. თარიღი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 								<td>ელ-ფოსტა</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 							</tr>					
 						</table>
@@ -1002,31 +990,31 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>			
 							</tr>
 							<tr>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>			
 							</tr>	
 							<tr>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"  />
 								</td>			
 							</tr>
 							<tr>
