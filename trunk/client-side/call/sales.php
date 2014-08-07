@@ -48,10 +48,7 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example3", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
 		}
-		function LoadTable3(){			
-			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 6, "", 0, "", 1, "asc", "");
-		}
+		
 
 	//SeoYyy
 		$(document.body).click(function (e) {
