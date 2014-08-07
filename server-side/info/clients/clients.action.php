@@ -74,19 +74,18 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("select  		incomming_call.id,           
-												incomming_call.id,
-											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
-												category.`name`,
-												site_user.`pin`,
-												incomming_call.phone,				
-												site_user.`name`,
-	  											'' AS `time`,
-	  											incomming_call.call_content
-								FROM 			incomming_call
-								LEFT JOIN		site_user ON incomming_call.id=site_user.incomming_call_id
-								LEFT JOIN 		category  ON incomming_call.call_category_id=category.id
-	  							WHERE incomming_call.actived = 1");
+	  	$rResult = mysql_query("SELECT 	`client`.`id`,
+										`client`.`id`,
+										`client`.`code`,
+										`legal_status`.`name`,
+										`client`.`name`,
+										`client`.`phone`,
+										`client`.`mail`,
+										`client`.`name`,
+										`client`.`name`,
+	  									`client`.`name`
+								FROM 	`client`
+								JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`");
 	  
 		$data = array(
 				"aaData"	=> array()
