@@ -1119,6 +1119,8 @@ function GetButtons(add, dis, exp, cancel, clear) {
 function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
     if (empty(c_data))
         c_data = "";
+        $("#"+tname+" tbody").off("dblclick");
+        $("#" + add).off("click");
 
     // Add Event
     $("#" + add).on("click", function () {
