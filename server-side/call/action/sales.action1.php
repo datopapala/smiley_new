@@ -943,6 +943,7 @@ function GetPage($res='', $number)
 							<td><label for="person_name">აბონენტის სახელი</label></td>
 						</tr>
 						<tr>
+							
 							<td style="width: 180px;">
 								<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
 							</td>

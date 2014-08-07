@@ -1122,7 +1122,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
 
     // Add Event
     $("#" + add).on("click", function () {
-        $.ajax({
+    	 $.ajax({
             url: aJaxURL,
             type: "POST",
             data: "act=get_add_page&" + c_data,
