@@ -1,8 +1,8 @@
 <head>
 	<script type="text/javascript">
-		var aJaxURL		= "server-side/call/action/sales.action.php";		//server side folder url
-		var aJaxURL1	= "server-side/call/action/sales.action1.php";
-		var aJaxURL2	= "server-side/call/action/sales.action2.php";		//server side folder url
+		var aJaxURL		= "server-side/call/action/action.action.php";		//server side folder url
+		var aJaxURL1	= "server-side/call/action/action.action1.php";
+		var aJaxURL2	= "server-side/call/action/action.action2.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name

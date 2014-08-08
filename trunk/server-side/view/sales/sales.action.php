@@ -675,198 +675,6 @@ function getCalls(){
 
 }
 
-function get_addition_all_info($pin)
-{
-	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-	
-	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a1`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-	
-	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a2`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-	
-	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a3`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-	
-	$sum_incomming	 	= $res1['a'] + $res2['a1'] + $res3['a2'] + $res4['a3'];
-	$sum_end	 		= $res1['a'] + $res2['a1'];
-	$sum_actived		= $res3['a2'] + $res4['a3'];
-	
-	$data .= '<fieldset>
-					<legend>მომართვების ისტორია</legend>
-					<table>
-						<tr>
-							<td>სულ</td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_incomming.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>მოგვარებულები</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-						    <td>'.$sum_end.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res1['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res2['a1'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_actived.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res3['a2'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res4['a3'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-				    		<td style="width: 300px;">
-							<input type="button" value="ვრცლად"/>
-		      				</td>
-						</tr>
-					</table>
-				</fieldset>';
-
-	return $data;
-}
-function get_addition_all_info1($personal_id)
-{
-	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-
-	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
-
-	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-
-	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
-											FROM 			`site_user`
-											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
-											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
-											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
-
-	$sum_incomming	 	= $res1['a'] + $res2['a'] + $res3['a'] + $res4['a'];
-	$sum_end	 		= $res1['a'] + $res2['a'];
-	$sum_actived		= $res3['a'] + $res4['a'];
-
-	$data .= '<fieldset>
-					<legend>მომართვების ისტორია</legend>
-					<table>
-						<tr>
-							<td>სულ</td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_incomming.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>მოგვარებულები</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-						    <td>'.$sum_end.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res1['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res2['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td></td>
-							<td style="width: 150px;"></td>
-							<td>'.$sum_actived.'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>პრეტენზია</td>
-							<td style="width: 150px;"></td>
-							<td>'.$res3['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>ინფორმაცია</td>
-							<td style="width: 150px;"></td>
-							<td>'. $res4['a'].'</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="width: 150px;"></td>
-				    		<td style="width: 300px;">
-							<input type="button" value="ვრცლად"/>
-		      				</td>
-						</tr>
-					</table>
-				</fieldset>';
-
-	return $data;
-}
 function Getincomming($incom_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
@@ -938,25 +746,25 @@ function GetPage($res='', $number)
 							<tr>
 								<td>ზედნადების #</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>ქვე-განყოფილება</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>საწყობი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>	
 							<tr>
 								<td>სხვა</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>					
 						</table>
@@ -966,25 +774,25 @@ function GetPage($res='', $number)
 							<tr>
 								<td>შეძენის თარიღი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>სტატუსი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField user_id\'" value="' . $res['id']. '" disabled="disabled" />
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>						
 						</table>
@@ -1102,18 +910,6 @@ function GetPage($res='', $number)
     </div>';
 
 	return $data;
-}
-
-
-function increment($table){
-
-	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
-	$row   			= mysql_fetch_array($result);
-	$increment   	= $row['Auto_increment'];
-	$next_increment = $increment+1;
-	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
-
-	return $increment;
 }
 
 ?>
