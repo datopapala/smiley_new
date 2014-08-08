@@ -74,8 +74,8 @@
 				    };
 					
 						GetDialog("add-edit-form", 1080, "auto", buttons);
-						GetDate("start_date");
-						GetDate("end_date");
+						GetDateTimes("start_date");
+						GetDateTimes("end_date");
 						LoadTable2();
 
 						SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");//----------------------------------
