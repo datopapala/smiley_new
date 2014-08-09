@@ -164,6 +164,7 @@ table.display thead th div.DataTables_sort_wrapper span {
 table.display th input[type="text"] {
 	margin: 9px 0 9px 2px;
 	width: 140px;
+	border: 1px solid #EEEEEE;
 }
 
 .search_header input {
