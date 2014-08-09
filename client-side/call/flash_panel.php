@@ -44,39 +44,15 @@ require_once("AsteriskManager/config.php");
 </head>
 
 <style type='text/css'>
-	#hor-zebra
-	{
-		font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-		font-size: 12px;
-		text-align: center;
-		border-collapse: collapse;
-	}
-	#hor-zebra th
-	{
-		font-size: 14px;
-		font-weight: normal;
-		padding: 10px 8px;
-		color: #039;
-	}
-	#hor-zebra td
-	{
-		padding: 8px;
-		color: #669;
-	}
-	#hor-zebra .odd
-	{
-		background: #e8edff; 
-	}
-	
-	
+
 #box-table-b
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	text-align: center;
 	border-collapse: collapse;
-	border-top: 7px solid #9baff1;
-	border-bottom: 7px solid #9baff1;
+	border-top: 7px solid #F8B64A;
+	border-bottom: 7px solid #F8B64A;
 }
 #box-table-b th
 {
@@ -84,16 +60,16 @@ require_once("AsteriskManager/config.php");
 	font-weight: normal;
 	padding: 8px;
 	background: #e8edff;
-	border-right: 1px solid #9baff1;
-	border-left: 1px solid #9baff1;
+	border-right: 1px solid #CC840E;
+	border-left: 1px solid #CC840E;
 	color: #039;
 }
 #box-table-b td
 {
 	padding: 8px;
 	background: #e8edff; 
-	border-right: 1px solid #aabcfe;
-	border-left: 1px solid #aabcfe;
+	border-right: 1px solid #CC840E;
+	border-left: 1px solid #CC840E;
 	color: #669;
 }
 </style>

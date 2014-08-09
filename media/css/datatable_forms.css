@@ -11,9 +11,9 @@
 #dialog-form fieldset
 {
     padding: 13px 10px 10px 10px;
-    border: solid 1px #A6C9E2;
-    background-color: #F1F7FD;
-    background-image: url( '../images/forms/bg.png' );
+    border: solid 1px #85B1DE;
+    background-color:   #FFE29A  /* #F0F0BA*/;
+   background-image: url( '../images/forms/bg.png' );
 }
 
 #dialog-form legend
@@ -30,6 +30,7 @@
 	height: 24px;
 	padding: 0;
 	padding-left: 4px;
+	border: 1px solid #EEEEEE;
 }
 
 #dialog-form fieldset select
