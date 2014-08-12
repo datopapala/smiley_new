@@ -118,8 +118,8 @@ switch ($action) {
 		break;
 		case 'get_add_info1':
 		
-			$personal_id	=	$_REQUEST['pin'];
-			$data 	= 	array('info1' => GetPage(get_addition_all_info1($personal_id)));
+			$pin_n	=	$_REQUEST['pin_n'];
+			$data 	= 	array('info1' => GetPage(get_addition_all_info1($pin_n)));
 		
 			break;
 		
@@ -492,17 +492,49 @@ function getCalls(){
 
 
 }
-function get_addition_all_info1($pin)
+function get_addition_all_info1($pin_n)
 {
+	
 	$res = mysql_fetch_assoc(mysql_query("		SELECT 	client.phone  AS client_phone,
 														client.mail AS mail,
 														client.Juristic_address AS adress
 												FROM 	client
-												WHERE 	client.`code`=$pin"));
+												WHERE 	client.`code`='$pin_n'"));
 													
-
+	$data .= '<fieldset >
+	<legend>ძირითადი ინფორმაცია</legend>
+		<table style="height: 243px;">
+			
+			<tr>
+				<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+				<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+			</tr>
+			<tr>
+				<td>'.$res['client_phone'].'</td>
+				<td style="width: 180px;">
+				<input type="text" id="personal_pin" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_pin'] . '" />
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 180px; color: #3C7FB1;">კონტრაგენტი</td>
+				<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
+			</tr>
+			<tr >
+				<td style="width: 180px;">ზაზა მესხი</td>
+				<td style="width: 180px;">'.$res['mail'].'</td>
+			</tr>
+			<tr>
+				<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+				<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
+			</tr>
+			<tr>
+				<td style="width: 180px;">'.$res['adress'].'</td>
+				<td td style="width: 180px;">VIP კლიენტი</td>
+			</tr>
+		</fieldset >
+	</table>';
 	
-	return $res;
+	return $data;
 }
 
 function Getincomming($incom_id)
@@ -537,7 +569,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	incomming_call.id,
 }
 
 
-function GetPage($res='', $number)
+function GetPage($res='', $number, $pin)
 {
 	$num = 0;
 	if($res[phone]==""){
@@ -693,37 +725,9 @@ function GetPage($res='', $number)
 			<div>
 				  </fieldset>
 			</div>
-			<div style="float: right;  width: 355px;">
-				 <fieldset>
-					<legend>მომართვის ავტორი</legend>
-					<table style="height: 243px;">						
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
-							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
-						</tr>
-						<tr>
-							<td>'.$res[client_phone].'</td>
-							<td style="width: 180px;">
-								<input type="text" id="personal_pin" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['personal_pin'] . '" />
-							</td>					
-						</tr>
-						<tr>
-							<td style="width: 180px; color: #3C7FB1;">კონტრაგენტი</td>
-							<td style="width: 180px; color: #3C7FB1;">'.$res[mail].'</td>
-						</tr>
-						<tr >
-							<td style="width: 180px;">ზაზა მესხი</td>
-							<td style="width: 180px;">z.mesxi@yahoo.com</td>			
-						</tr>
-						<tr>
-							<td td style="width: 180px; color: #3C7FB1;">'.$res[adress].'</td>
-							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
-						</tr>
-						<tr>
-							<td style="width: 180px;">ყვარლის 149</td>
-							<td td style="width: 180px;">VIP კლიენტი</td>
-						</tr>
-					</table>
+			<div style="float: right;  width: 355px;">';
+				$data .= get_addition_all_info1();
+			$data .= '
 				</fieldset>
 				<div id="additional_info">
 	  		</div>
