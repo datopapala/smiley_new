@@ -44,10 +44,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 }
 </style>
 <script type="text/javascript">
-		var aJaxURL	= "server-side/call/incomming.action.php";		//server side folder url
-		var upJaxURL		= "server-side/upload/file.action.php";	
-		var tName	= "example";										//table name
-		var fName	= "add-edit-form";									//form name
+		var aJaxURL	  = "server-side/call/incomming.action.php";		//server side folder url
+		var upJaxURL  = "server-side/upload/file.action.php";	
+		var tName	  = "example";										//table name
+		var fName	  = "add-edit-form";									//form name
 		var file_name = '';
 		var rand_file = '';
 
@@ -83,7 +83,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				$("#additional").removeClass('hidden');
 			}
 
-			GetDateTimes("problem_date");
+			GetDateTimes("sale_date");
 
 			$( ".calls" ).button({
 			      icons: {
@@ -100,42 +100,27 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act						= "save_incomming";
+		    param.act							= "save_incomming";
 
-	    	param.id						= $("#id").val();
-	    	param.phone						= $("#phone").val();
-	    	param.call_date					= $("#call_date").val();
-	    	param.pin						= $("#site_user_pin").val();
-
-	    	param.call_type_id				= $("#call_type_id").val();
-	    	param.category_id				= $("#category_id").val();
-	    	param.category_parent_id		= $("#category_parent_id").val();
-	    	param.problem_date				= $("#problem_date").val();
-	    	param.call_status_id			= $("#call_status_id").val();
-	    	param.call_content				= $("#call_content").val();
-	    	param.persons_id				= $("#persons_id").val();
-	    	param.comment					= $("#comment").val();
-	    	param.task_department_id		= $("#task_department_id").val();
-	    	param.task_type_id				= $("#task_type_id").val();
-	    	param.priority_id				= $("#priority_id").val();
-	    	param.problem_id				= $("#problem_id").val();
-	    	param.pay_type_id				= $("#pay_type_id").val();
-	    	param.bank_id					= $("#bank_id").val();
-	    	param.bank_object_id			= $("#bank_object_id").val();
-	    	param.card_type_id				= $("#card_type_id").val();
-	    	param.card_type1_id				= $("#card_type1_id").val();
-	    	param.pay_aparat_id				= $("#pay_aparat_id").val();
-	    	param.object_id					= $("#object_id").val();
-	    	param.personal_pin				= $("#personal_pin").val();
-	    	param.personal_id				= $("#personal_id").val();
-	    	param.personal_phone			= $("#personal_phone").val();
-	    	param.mail						= $("#mail").val();
-	    	param.name						= $("#name").val();
-	    	param.user						= $("#user").val();
-	    	param.friend_pin				= $("#friend_pin").val();
-	    	param.rand_file					= rand_file;
-	    	param.file_name					= file_name;
-	    	param.hidden_inc				= $("#hidden_inc").val();
+	    	param.id							= $("#id").val();
+	    	param.incom_date					= $("#incom_date").val();
+	    	param.incom_phone					= $("#incom_phone").val();
+	    	param.first_name					= $("#first_name").val();
+			param.category_id					= $("#category_id").val();
+	    	param.category_parent_id			= $("#category_parent_id").val();
+	    	param.sale_date						= $("#sale_date").val();
+	    	param.production_category_id		= $("#production_category_id").val();
+	    	param.production_id					= $("#production_id").val();
+	    	param.redirect						= $("#redirect").val();
+	    	param.reaction_id					= $("#reaction_id").val();
+	    	param.content						= $("#content").val();
+	    	param.task_type_id					= $("#task_type_id").val();
+	    	param.template_id					= $("#template_id").val();
+	    	param.priority_id					= $("#priority_id").val();
+	    	param.problem_comment				= $("#problem_comment").val();
+	    	
+	    	param.file_name						= file_name;
+	    	param.hidden_inc					= $("#hidden_inc").val();
 	    	
 			if(param.req_phone == ""){
 				alert("შეავსეთ ტელეფონის ნომერი!");
@@ -337,12 +322,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  					}
  			    }
  		    });
-
-			if(this.value == 407){
-				$("#additional").removeClass('hidden');
-			}else{
-				$("#additional").addClass('hidden');
-			}
         });
 
     	$(document).on("change", "#category_id",function(){
@@ -382,7 +361,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
 
             	param 			= new Object();
-    		 	param.act		= "get_add_info";
+    		 	param.act		= "get_add_info1";
     		 	param.pin		= $("#personal_pin").val();
 
     	    	$.ajax({
@@ -393,32 +372,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     						if(data.error != ''){
     							alert(data.error);
     						}else{
-    							$("#additional_info").html(data.info);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-//
-	    $(document).on("keydown", "#personal_id", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 					= new Object();
-    		 	param.act				= "get_add_info1";
-    		 	param.personal_id		= $("#personal_id").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info1);
+    							$("#additional_info1").html(data.info);
     						}
     					}
     			    }
