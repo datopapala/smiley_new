@@ -362,7 +362,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
             	param 			= new Object();
     		 	param.act		= "get_add_info1";
-    		 	param.pin		= $("#personal_pin").val();
+    		 	param.pin_n		= $("#personal_pin").val();
 
     	    	$.ajax({
     		        url: aJaxURL,
@@ -372,7 +372,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     						if(data.error != ''){
     							alert(data.error);
     						}else{
-    							$("#additional_info1").html(data.info);
+    							$("#test").html(data);
     						}
     					}
     			    }
