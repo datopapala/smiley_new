@@ -69,21 +69,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 		function LoadDialog(){
 
-			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 1200, "auto", "");
-			var id = $("#incomming_id").val();
-			var cat_id = $("#category_parent_id").val();
-
-			$("#choose_button").button({
-	            
-	        });
 			
-
-			if(id != '' && cat_id == 407){
-				$("#additional").removeClass('hidden');
-			}
-
-			GetDateTimes("sale_date");
 
 			$( ".calls" ).button({
 			      icons: {
@@ -98,10 +85,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
+
 		    param 			= new Object();
 
 		    param.act							= "save_incomming";
-
+		    param.c_id1							= $("#c_id1").val();
 	    	param.id							= $("#id").val();
 	    	param.incom_date					= $("#incom_date").val();
 	    	param.incom_phone					= $("#incom_phone").val();
@@ -112,12 +100,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.production_category_id		= $("#production_category_id").val();
 	    	param.production_id					= $("#production_id").val();
 	    	param.redirect						= $("#redirect").val();
-	    	param.reaction_id					= $("#reaction_id").val();
+	  	  	param.reaction_id					= $("#reaction_id").val();
 	    	param.content						= $("#content").val();
 	    	param.task_type_id					= $("#task_type_id").val();
 	    	param.template_id					= $("#template_id").val();
 	    	param.priority_id					= $("#priority_id").val();
-	    	param.problem_comment				= $("#problem_comment").val();
+	    	param.comment						= $("#comment").val();
+	    	param.person_id						= $("#person_id").val();
+	    	param.requester_type				= $('input[name=5]:checked').val();
+	    	param.prod_status					= $('input[name=10]:checked').val();
+	    	param.connect						= $('input[name=rad]:checked').val();
 	    	
 	    	param.file_name						= file_name;
 	    	param.hidden_inc					= $("#hidden_inc").val();
@@ -135,6 +127,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 							}else{
 								LoadTable();
 				        		CloseDialog();
+				        	
 				        		console.log(data.error);
 							}
 						}
@@ -164,108 +157,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    }
 		    });
 		    }
-
-	    $(document).on("click", "#download", function () {
-	    	var download_file	= $(this).val();
-	    	var download_name 	= $('#download_name').val();
-	    	SaveToDisk(download_file, download_name);
-	    });
-
-	    function SaveToDisk(fileURL, fileName) {
-	        // for non-IE
-	        if (!window.ActiveXObject) {
-	            var save = document.createElement('a');
-	            save.href = fileURL;
-	            save.target = '_blank';
-	            save.download = fileName || 'unknown';
-
-	            var event = document.createEvent('Event');
-	            event.initEvent('click', true, true);
-	            save.dispatchEvent(event);
-	            (window.URL || window.webkitURL).revokeObjectURL(save.href);
-	        }
-		     // for IE
-	        else if ( !! window.ActiveXObject && document.execCommand)     {
-	            var _window = window.open(fileURL, "_blank");
-	            _window.document.close();
-	            _window.document.execCommand('SaveAs', true, fileName || fileURL)
-	            _window.close();
-	        }
-	    } 
-	    
-	    $(document).on("click", "#delete", function () {
-	    	var delete_id	= $(this).val();
-	    	
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: {
-					act: "delete_file",
-					delete_id: delete_id,
-					edit_id: $("#id").val(),
-				},
-		        success: function(data) {
-			        $("#file_div").html(data.page);
-			    }
-		    });	
-		});
-		
-	    $(document).on("click", "#choose_button", function () {
-		    $("#choose_file").click();
-		});
-		
-	    $(document).on("change", "#choose_file", function () {
-	    	var file		= $(this).val();	    
-	    	var files 		= this.files[0];
-		    var name		= uniqid();
-		    var path		= "../../media/uploads/file/";
-		    
-		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
-	        	alert('This is not an allowed file type.');
-                this.value = '';
-	        }else{
-	        	file_name = files.name;
-	        	rand_file = name + "." + ext;
-	        	$.ajaxFileUpload({
-	    			url: upJaxURL,
-	    			secureuri: false,
-	    			fileElementId: "choose_file",
-	    			dataType: 'json',
-	    			data:{
-						act: "upload_file",
-						path: path,
-						file_name: name,
-						type: ext
-					},
-	    			success: function (data, status){
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}
-    					}
-    							
-	    				$.ajax({
-					        url: aJaxURL,
-						    data: {
-								act: "up_now",
-								rand_file: rand_file,
-					    		file_name: file_name,
-								edit_id: $("#id").val(),
-
-							},
-					        success: function(data) {
-						        $("#file_div").html(data.page);
-						    }
-					    });	   					    				
-    				},
-    				error: function (data, status, e)
-    				{
-    					alert(e);
-    				}    				
-    			});
-	        }
-		});
-
 	    function runAjax() {
             $.ajax({
             	async: true,
@@ -359,11 +250,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 //
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
-
             	param 			= new Object();
     		 	param.act		= "get_add_info1";
-    		 	param.pin_n		= $("#personal_pin").val();
-
+    		 	param.pin_n		= $(this).val();
     	    	$.ajax({
     		        url: aJaxURL,
     			    data: param,
@@ -372,7 +261,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     						if(data.error != ''){
     							alert(data.error);
     						}else{
-    							$("#test").html(data);
+    							$("#info_c").html(data.info1);
     						}
     					}
     			    }

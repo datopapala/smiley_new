@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -89,22 +92,31 @@ function Addlegal_status($legal_status_id, $legal_status_name)
 	mysql_query("INSERT INTO 	 `legal_status`
 								(`user_id`,`name`)
 					VALUES 		('$user_id','$legal_status_name')");
+	GLOBAL $log;
+	$log->setInsertLog('legal_status');
 }
 
 function Savelegal_status($legal_status_id, $legal_status_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('legal_status', $legal_status_id);
+	
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `legal_status`
 					SET    `user_id`='$user_id',
 							 `name` = '$legal_status_name'
 					WHERE	`id` = $legal_status_id");
+	$log->setInsertLog('legal_status',$legal_status_id);
 }
 
 function Disablelegal_status($legal_status_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('legal_status', $legal_status_id);
 	mysql_query("	UPDATE `legal_status`
 					SET    `actived` = 0
 					WHERE  `id` = $legal_status_id");
+	$log->setInsertLog('legal_status',$legal_status_id);
 }
 
 function Checklegal_statusExist($legal_status_name)

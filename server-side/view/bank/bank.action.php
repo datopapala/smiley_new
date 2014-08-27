@@ -6,6 +6,8 @@
 */
 
 include('../../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -25,19 +27,26 @@ switch ($action) {
 		if($comp_id=='') $comp_id=$_REQUEST['bank_local_id'];
 		$trans_obj		= $_REQUEST['trans_obj'];
 		$trans_address 		= $_REQUEST['trans_address'];
+		GLOBAL $log;
+		$log->setUpdateLogAfter('bank_object', $c_person);
 		if($c_person!='')
+	
 		{	mysql_query("	UPDATE		`bank_object`
 							SET			`user_id`		=  '$user_id',
 										`name`			= '$trans_obj',
 										`address`		= '$trans_address'
 							WHERE
 										`id` 			= '$c_person'");
+		$log->setInsertLog('bank_object',$c_person);
 		}
 		else{
+			
 			mysql_query("	INSERT INTO bank_object
 									(`user_id`,bank_id, `name`, address )
 							VALUES
 									('$user_id',$comp_id,'$trans_obj', '$trans_address')	");
+			GLOBAL $log;
+			$log->setInsertLog('bank_object');
 			$data = array('myid'	=> mysql_insert_id());
 
 		}
@@ -150,13 +159,18 @@ function Addbank_object($bank_object_name, $bank_object_address)
 						(`user_id`,`name`, `address`)
 				VALUES
 						($user_id,'$bank_object_name', '$bank_object_address'))");
+	GLOBAL $log;
+	$log->setInsertLog('bank_object');
 }
 
 function Deleteobj($prod_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('bank_object', $prod_id);
 	mysql_query("	UPDATE `bank_object`
 					SET    `actived` = 0
 					WHERE  `id` = $prod_id");
+	$log->setInsertLog('bank_object',$prod_id);
 }
 
 function CheckobjExist($local_id, $prod_id)

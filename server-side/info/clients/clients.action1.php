@@ -6,15 +6,21 @@
 */
 
 require_once('../../../includes/classes/core.php');
+include('../../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
 
 //incomming
-$incom_id				= $_REQUEST['id'];
-$call_date				= $_REQUEST['call_date'];
-$site_user_pin			= $_REQUEST['pin'];
-$call_type_id			= $_REQUEST['call_type_id'];
+$client_id				= $_REQUEST['id'];
+$id_g					= $_REQUEST['id_g'];
+$client_gift			= $_REQUEST['id1'];
+$gift_date				= $_REQUEST['gift_date'];
+$gift_production_id		= $_REQUEST['gift_production_id'];
+$gift_price				= $_REQUEST['gift_price'];
+
 
 switch ($action) {
 	case 'get_add_page':
@@ -30,7 +36,7 @@ switch ($action) {
 										WHERE `id`=$incom_id ");
 		break;
 	case 'get_edit_page':
-		$page		= GetPage(Getincomming($incom_id));
+		$page		= GetPage(Getclient_gift($client_id));
 
 		$data		= array('page'	=> $page);
 
@@ -38,20 +44,14 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("select  		incomming_call.id,           
-												incomming_call.id,
-											  	DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s'),
-												category.`name`,
-												site_user.`pin`,
-												incomming_call.phone,				
-												site_user.`name`,
-	  											'' AS `time`,
-	  											incomming_call.call_content
-								FROM 			incomming_call
-								LEFT JOIN		site_user ON incomming_call.id=site_user.incomming_call_id
-								LEFT JOIN 		category  ON incomming_call.call_category_id=category.id
-	  							WHERE incomming_call.actived = 1");
-	  
+	  	$rResult = mysql_query("SELECT 	clinet_gift.id,
+										production.`name`,
+										clinet_gift.date,
+										clinet_gift.price
+								FROM    clinet_gift
+								JOIN    production ON  clinet_gift.production_id=production.id
+								WHERE	clinet_gift.actived=1 AND clinet_gift.client_id=$client_id");
+							  
 		$data = array(
 				"aaData"	=> array()
 		);
@@ -68,31 +68,16 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_incomming':
-		$incom_id = $_REQUEST['id'];
-		$task_type_id = $_REQUEST['task_type_id'];
-		if($incom_id == ''){
-			
-			Addincomming( $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc);
+	case 'save_client_gift':
+		
+	$client_gift			= $_REQUEST['id1'];
+		if($id_g == ''){			
+			Addclient_gift($client_gift, $gift_date, $gift_production_id, $gift_price);
 			$incomming_call_id = mysql_insert_id();
 		}else {
 			
-			Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file);
-			
+			Saveclient_gift($gift_date, $gift_production_id, $gift_price);
 		}
-		break;
-	
-	case 'get_add_info':
-	
-		$pin	=	$_REQUEST['pin'];
-		$data 	= 	array('info' => get_addition_all_info($pin));
-	
-		break;
-		case 'get_add_info1':
-		
-		$personal_id	=	$_REQUEST['personal_id'];
-		$data 	= 	array('info1' => get_addition_all_info1($personal_id));
-	
 		break;
 	default:
 		$error = 'Action is Null';
@@ -108,78 +93,59 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming(  $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc){
+function Addclient_gift($client_gift, $gift_date, $gift_production_id, $gift_price){
 	
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	
-	mysql_query("INSERT INTO `incomming_call` 
-			(`user_id`, `date`, `phone`, `call_type_id`, `call_category_id`, `call_subcategory_id`, `object_id`, `pay_type_id`, `bank_id`, `bank_object_id`, `card_type_id`, `pay_aparat_id`, `problem_date`, `call_content`, `actived`)
-			 VALUES 
-			( '$user', '$c_date', '$phone', '$call_type_id', '$category_id', '$category_parent_id', '$object_id', '$pay_type_id', '$bank_id', '', '$card_type_id', '$pay_aparat_id', '$problem_date', '$call_content', '1');");
 	
-	if($rand_file != ''){
-		mysql_query("INSERT INTO 	`file`
-		( 	`user_id`,
-		`incomming_call_id`,
-		`name`,
-		`rand_name`
-		)
-		VALUES
-		(	'$user',
-		'$hidden_inc',
-		'$file',
-		'$rand_file'
-		);");
-	}
+	mysql_query("INSERT INTO `clinet_gift`
+									(`user_id`, `client_id`, `date`, `production_id`, `price`, `actived`) 
+									VALUES 
+									('$user', '$client_gift', '$gift_date', '$gift_production_id', '$gift_price', '1');");
+	GLOBAL $log;
+	$log->setInsertLog('clinet_gift');
 }
 
 
 				
-function Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file)
+function Saveclient_gift($gift_date, $gift_production_id, $gift_price)
 {
-	$incom_id	= $_REQUEST['id'];
+	
 	$user		= $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
-	mysql_query("UPDATE  `incomming_call` 
-				SET  
-						 `user_id`				='$user', 
-						 `date`					='$c_date',
-						 `phone`				='$phone', 
-						 `call_type_id`			='$call_type_id',
-						 `call_category_id`		='$category_id',
-						 `call_subcategory_id`	='$category_parent_id', 
-						 `object_id`			='$object_id',
-						 `pay_type_id`			='$pay_type_id',
-						 `bank_id`				='$bank_id',
-						`card_type_id`			='$card_type_id', 
-						 `pay_aparat_id`		='$pay_aparat_id',
-						 `problem_date`			='$problem_date',
-						`call_content`			='$call_content',
-						 `actived`				='1'
-			    WHERE     `id`					='$incom_id'
-							");
 	
-
+	GLOBAL $log;
+	$log->setUpdateLogAfter('clinet_gift', $_REQUEST['id_g']);
+	mysql_query("	UPDATE `clinet_gift` SET 
+											`user_id`		='$user', 
+											`date`			='$gift_date', 
+											`production_id`	='$gift_production_id', 
+											`price`			='$gift_price', 
+											`actived`='1' 
+					WHERE					`id`			='".$_REQUEST['id_g']."'
+			");
+	
+	$log->setInsertLog('clinet_gift',$_REQUEST['id_g']);
 }       
 
 
 
-function Getcall_status($status)
+function Get_production($gift_production_id)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	`id`, `call_status`
-						FROM 	`status`
+	$req = mysql_query("SELECT 	`id`, `name`
+						FROM 	`production`
 						WHERE 	actived=1");
 	
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		
-		if($res['id'] == $status){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['call_status'] . '</option>';
+		if($res['id'] == $gift_production_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['call_status'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
 		}
 	}
 	return $data;
@@ -225,47 +191,23 @@ function getCalls(){
 }
 
 
-function Getincomming($incom_id)
+function Getclient_gift($client_id)
 {
-$res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,
-													incomming_call.phone AS `phone`,
-													DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS call_date,
-													incomming_call.call_type_id AS call_type_id,
-													incomming_call.call_category_id AS category_id,
-													IF(ISNULL(task.`status`), 3, task.`status`) AS `status`,
-													incomming_call.call_subcategory_id AS category_parent_id,
-													DATE_FORMAT(incomming_call.`date`,'%d-%m-%y %H:%i:%s') AS problem_date,
-													incomming_call.call_content AS call_content,
-													incomming_call.pay_type_id AS pay_type_id,
-													incomming_call.bank_id AS bank_id,
-													incomming_call.bank_object_id AS bank_object_id,
-													incomming_call.card_type_id AS card_type_id,
-													incomming_call.card_type_id AS card_type1_id,
-													incomming_call.pay_aparat_id AS pay_aparat_id,
-													incomming_call.object_id AS object_id,
-													site_user.`name` AS `name`,
-													site_user.mail AS mail,
-													site_user.personal_id AS personal_id,
-													site_user.phone AS personal_phone,
-													site_user.pin AS personal_pin,
-													site_user.friend_pin AS friend_pin,
-													site_user.`name` AS `name1`,
-													site_user.`mail` AS `mail`,
-													site_user.user AS user,
-													task.task_type_id AS task_type_id,
-													task.responsible_user_id AS persons_id,
-													task.priority_id AS priority_id,
-													task.department_id AS task_department_id,
-													task.`comment` AS `comment`
-										FROM 	   	incomming_call
-										LEFT JOIN  	site_user ON incomming_call.id=site_user.incomming_call_id
-										LEFT JOIN  	task  ON incomming_call.id=task.incomming_call_id
-										where      	incomming_call.id = $incom_id
-			" ));
+$res = mysql_fetch_assoc(mysql_query("	SELECT 
+												clinet_gift.id,
+												clinet_gift.date AS gift_date,
+												clinet_gift.production_id AS gift_production_id,
+												clinet_gift.price AS gift_price
+										FROM    clinet_gift
+										WHERE	clinet_gift.id=$client_id
+											" ));
 	
 	return $res;
 }
-
+function GetLocalID(){
+	GLOBAL $db;
+	return $db->increment('clinet_gift');
+}
 
 function GetPage($res='', $number)
 {
@@ -295,23 +237,23 @@ function GetPage($res='', $number)
 			    	<table width="100%" class="dialog-form-table">		
 							<td style="width: 180px;"><label for="">თარიღი</label></td>
 							<td style="width: 180px;">
-								<input type="text" id="c_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' .  $res['call_date']. '" disabled="disabled" />
+								<input type="text" id="gift_date" class="idle" onblur="this.className=\'idle\'" value="' .  $res['gift_date']. '" />
 							</td>
 						</tr>
 						<tr>
 							<td style="width: 180px;"><label for="phone">პროდუქტი</label></td>
-							<td style="width: 180px;">
-								<input type="text" id="phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
-							</td>
+							
+							<td style="width: 180px;"><select id="gift_production_id" class="idls object">'.Get_production($res['gift_production_id']).'</select></td>
 						</tr>
 						<tr>
 							<td><label for="person_name">თანხა</label></td>
 							<td style="width: 69px;">
-								<input type="text" id="person_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $num . '" />
+								<input type="text" id="gift_price" class="idle" onblur="this.className=\'idle\'"  value="' . $res['gift_price'] . '" />
 							</td>
 						</tr>						
 					</table>
 				</fieldset >
+								<input type="hidden" id="id_g" value="'.$_REQUEST['id'].'"/>	
 			 </div>';
 
 	return $data;

@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -96,23 +99,31 @@ function Addstatus($status_name, $call_status)
 									(`user_id`,`name`, `call_status`, `actived`)
 								VALUES 	
 									('$user_id','$status_name', '$call_status', 1)");
+	GLOBAL $log;
+	$log->setInsertLog('status');
 }
 
 function Savestatus($status_id, $status_name, $call_status)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('status', $status_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `status`
 					SET     `user_id`		='$user_id',
 							`name` 			= '$status_name',
 							`call_status`	= '$call_status'
 					WHERE	`id` 			= $status_id");
+	$log->setInsertLog('status',$status_id);
 }
 
 function Disablestatus($status_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('status', $status_id);
 	mysql_query("	UPDATE `status`
 					SET    `actived` = 0
-					WHERE  `id` = $template_id");
+					WHERE  `id` = $status_id");
+	$log->setInsertLog('status',$status_id);
 }
 
 function CheckstatusExist($status_name)

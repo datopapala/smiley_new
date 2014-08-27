@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,22 +93,30 @@ function Adddepartment($department_id, $department_name)
 	mysql_query("INSERT INTO 	 `department`
 								(`name`,`user_id`)
 					VALUES 		('$department_name', '$user_id')");
+	GLOBAL $log;
+	$log->setInsertLog('department');
 }
 
 function Savedepartment($department_id, $department_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('department', $department_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `department`
 					SET     `name` = '$department_name',
 							`user_id` ='$user_id'
 					WHERE	`id` = $department_id");
+	$log->setInsertLog('department',$department_id);
 }
 
 function Disabledepartment($department_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('department', $department_id);
 	mysql_query("	UPDATE `department`
 					SET    `actived` = 0
 					WHERE  `id` = $department_id");
+	$log->setInsertLog('department',$department_id);
 }
 
 function CheckdepartmentExist($department_name)

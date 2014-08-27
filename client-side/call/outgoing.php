@@ -55,7 +55,7 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
@@ -95,7 +95,7 @@
 				            }
 				        } 
 				    };
-					GetDialog("add-edit-form", 1060, "auto", buttons);
+					GetDialog("add-edit-form", 1184, "auto", buttons);
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -115,7 +115,7 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1060, "auto", buttons);
+					GetDialog("add-edit-form1", 1184, "auto", buttons);
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -135,7 +135,7 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1060, "auto", buttons);
+					GetDialog("add-edit-form2", 1184, "auto", buttons);
 			    break;
 			}
 			
@@ -180,28 +180,27 @@
 		
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
+		    param 			= new Object();
 
-			param 			= new Object();
-			param.act			= "save_outgoing";
-			
-			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
+		    param.act					= "save_incomming";
+		    
+		    param.id					= $("#id").val();
+	    	param.id					= $("#task_id").val();
+	    	param.person_id				= $("#person_id").val();
+	    	param.problem_comment		= $("#problem_comment").val();
+	    	param.status				= $("#status").val();
+	    	param.comment1				= $("#comment1").val();
+	    	
+	    	param.c_id1					= $("#c_id1").val();
+	    	
 	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.template_id			= $("#template_id").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+	    	param.task_status			= $("#task_status").val();
+	    	param.template_id			= $("#template_id").val();
+	    	param.person_id				= $("#person_id").val();
+	    	param.task_type_id			= $("#task_type_id").val();
+	    	param.task_date				= $("#task_date").val();
+	    	
+	    	
 		    $.ajax({
 		        url: aJaxURL,
 			    data: param,
@@ -221,25 +220,27 @@
 		
 	    $(document).on("click", "#save-dialog1", function () {
 		   
-			param 				= new Object();
- 			param.act			= "save_outgoing";
+	    	 param 			= new Object();
+
+			    param.act					= "save_outgoing1";
+			    
+			    param.id					= $("#id").val();
+		    	param.id					= $("#task_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.problem_comment		= $("#problem_comment").val();
+		    	param.status				= $("#status").val();
+		    	param.comment1				= $("#comment1").val();
 		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+		    	param.c_id1					= $("#c_id1").val();
+		    	
+		    	param.priority_id			= $("#priority_id").val();
+		    	param.task_status			= $("#task_status").val();
+		    	param.template_id			= $("#template_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.task_type_id			= $("#task_type_id").val();
+		    	param.task_date				= $("#task_date").val();
+		    	
+		    
 	 
  	    	$.ajax({
  		        url: aJaxURL1,
@@ -257,26 +258,34 @@
  		   });
 		});
 	    $(document).on("click", "#done-dialog1", function () {
-			   
-			param 				= new Object();
- 			param.act			= "done_outgoing";
+	    	 param 			= new Object();
+
+			    param.act					= "done_outgoing";
+			    
+			    param.id					= $("#id").val();
+		    	param.id					= $("#task_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.problem_comment		= $("#problem_comment").val();
+		    	param.status				= $("#status").val();
+		    	param.comment1				= $("#comment1").val();
 		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+		    	param.c_id1					= $("#c_id1").val();
+		    	
+		    	param.priority_id			= $("#priority_id").val();
+		    	param.task_status			= $("#task_status").val();
+		    	param.template_id			= $("#template_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.task_type_id			= $("#task_type_id").val();
+		    	param.task_date				= $("#task_date").val();
+		    	
+		    	param.persons_id			= $("#persons_id").val();
+		    	param.comment				= $("#comment").val();
+		    	param.task_department_id	= $("#task_department_id").val();
+		    	param.task_type_id			= $("#task_type_id").val();
+		    	param.priority_id			= $("#priority_id").val();
+		    	param.problem_id			= $("#problem_id").val();
+		    	param.pay_type_id			= $("#pay_type_id").val();
+		    	param.bank_id				= $("#bank_id").val();
 	 
  	    	$.ajax({
  		        url: aJaxURL1,
@@ -342,77 +351,27 @@
 		    });	
 		});
 
-	    $(document).on("change", "#choose_file", function () {
-	    	var file		= $(this).val();	    
-	    	var files 		= this.files[0];
-		    var name		= uniqid();
-		    var path		= "../../media/uploads/file/";
-		    
-		    var ext = file.split('.').pop().toLowerCase();
-	        if($.inArray(ext, ['pdf']) == -1) { //echeck file type
-	        	alert('This is not an allowed file type.');
-                this.value = '';
-	        }else{
-	        	file_name = files.name;
-	        	rand_file = name + "." + ext;
-	        	$.ajaxFileUpload({
-	    			url: upJaxURL,
-	    			secureuri: false,
-	    			fileElementId: "choose_file",
-	    			dataType: 'json',
-	    			data:{
-						act: "upload_file",
-						path: path,
-						file_name: name,
-						type: ext
-					},
-	    			success: function (data, status){
-	    				if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}
-    					}
-    							
-	    				$.ajax({
-					        url: aJaxURL,
-						    data: {
-								act: "up_now",
-								rand_file: rand_file,
-					    		file_name: file_name,
-								edit_id: $("#id").val(),
-
-							},
-					        success: function(data) {
-						        $("#file_div").html(data.page);
-						    }
-					    });	   					    				
-    				},
-    				error: function (data, status, e)
-    				{
-    					alert(e);
-    				}    				
-    			});
-	        }
-		});
-
-		
-	    $(document).on("click", "#save-dialog2", function () {
+	   $(document).on("click", "#save-dialog2", function () {
 			param 				= new Object();
- 			param.act			= "save_outgoing";
+ 			param.act			= "save_outgoing2";
 		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
+			  param.id					= $("#id").val();
+		    	param.id					= $("#task_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.problem_comment		= $("#problem_comment").val();
+		    	param.status				= $("#status").val();
+		    	param.comment1				= $("#comment1").val();
+		    	
+		    	param.c_id1					= $("#c_id1").val();
+		    	
+		    	param.priority_id			= $("#priority_id").val();
+		    	param.task_status			= $("#task_status").val();
+		    	param.template_id			= $("#template_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.task_type_id			= $("#task_type_id").val();
+		    	param.task_date				= $("#task_date").val();
+		    
+	 
 	 
  	    	$.ajax({
  			        url: aJaxURL2,
@@ -431,11 +390,9 @@
  		});
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
-
             	param 			= new Object();
-    		 	param.act		= "get_add_info";
-    		 	param.pin		= $("#personal_pin").val();
-
+    		 	param.act		= "get_add_info1";
+    		 	param.pin_n		= $(this).val();
     	    	$.ajax({
     		        url: aJaxURL,
     			    data: param,
@@ -444,7 +401,7 @@
     						if(data.error != ''){
     							alert(data.error);
     						}else{
-    							$("#additional_info").html(data.info);
+    							$("#info_c").html(data.info1);
     						}
     					}
     			    }
@@ -579,52 +536,7 @@
 	        });
 		}	    		
 	}
-	$(document).on("change", "#category_parent_id",function(){
- 	 	param 			= new Object();
-		 	param.act		= "sub_category";
-		 	param.cat_id   	= this.value;
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#category_id").html(data.cat);
-						}
-					}
-			    }
-		    });
-
-		if(this.value == 407){
-			$("#additional").removeClass('hidden');
-		}else{
-			$("#additional").addClass('hidden');
-		}
-    });
     
-	
-	    $(document).on("keyup", "#req_time1, #req_time2", function() {
-	        var val = $(this).val();
-	        if(isNaN(val) || (val>60)){
-		        
-	         alert("მოცემულ ველში შეიყვანეთ მხოლოდ ციფრები");
-	             val = val.replace(/[^0-9\.]/g,'');
-	             if(val.split('.').length>2) 
-	                 val =val.replace(/\.+$/,"");
-	        }
-	        $(this).val(val); 
-	    });
-
-	    $(document).on("change", "#task_type_id",function(){
-		    var task_type = $("#task_type_id").val();
-
-			if(task_type == 1){
-				$("#task_department_id").val(37);
-			}
-		    
-	    });
 		
     </script>
 </head>
@@ -653,8 +565,7 @@
 		                            <th>ID</th>
 									<th style="width:7%;">ID</th>
 									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
+									<th style="width:36%;">პასუხისმგებელი პირი</th>
 									<th style="width:19%;">ოპერატორი</th>
 									<th style="width:19%;">ზარის შ.თარიღი</th>
 									<th class="check">#</th>
@@ -670,9 +581,6 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -707,8 +615,7 @@
 		                            <th>ID</th>
 									<th style="width:7%;">ID</th>
 									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
+									<th style="width:36%;">პასუხისმგებელი პირი</th>
 									<th style="width:19%;">ოპერატორი</th>
 									<th style="width:19%;">ზარის შ.თარიღი</th>
 								</tr>
@@ -720,9 +627,6 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -753,8 +657,7 @@
 		                            <th>ID</th>
 									<th style="width:7%;">ID</th>
 									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
+									<th style="width:36%;">პასუხისმგებელი პირი</th>
 									<th style="width:19%;">ოპერატორი</th>
 									<th style="width:19%;">ზარის შ.თარიღი</th>
 								</tr>
@@ -766,9 +669,6 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -799,8 +699,7 @@
 		                            <th>ID</th>
 									<th style="width:7%;">ID</th>
 									<th style="width:19%;">user-ი</th>
-									<th style="width:19%;">PIN-კოდი</th>
-									<th style="width:19%;">პასუხისმგებელი პირი</th>
+									<th style="width:36%;">პასუხისმგებელი პირი</th>
 									<th style="width:19%;">ოპერატორი</th>
 									<th style="width:19%;">ზარის შ.თარიღი</th>
 								</tr>
@@ -812,9 +711,6 @@
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />

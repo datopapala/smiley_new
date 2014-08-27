@@ -30,7 +30,7 @@ class log{
  				
        	$result_columns = mysql_query("SELECT 	CONCAT(COLUMN_NAME) AS `COLUMN_NAME`
                                        FROM  	`INFORMATION_SCHEMA`.`COLUMNS` 
-                                       WHERE 	`TABLE_SCHEMA`='adrenaline' AND `TABLE_NAME`='$this->table' AND `COLUMN_NAME`!='id' AND `COLUMN_NAME`!='user_id'"); 
+                                       WHERE 	`TABLE_SCHEMA`='smiley_new' AND `TABLE_NAME`='$this->table' AND `COLUMN_NAME`!='id' AND `COLUMN_NAME`!='user_id'"); 
        	
        	$array = array();
        	

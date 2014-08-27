@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,22 +93,30 @@ function Addcard_type($cardtype_id, $cardtype_name)
 	mysql_query("INSERT INTO 	 `card_type`
 								(`user_id`,`name`)
 					VALUES 		('$user_id','$cardtype_name')");
+	GLOBAL $log;
+	$log->setInsertLog('card_type');
 }
 
 function Savecard_type($cardtype_id, $cardtype_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('card_type', $cardtype_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `card_type`
 					SET    `user_id`='$user_id',
 							 `name` = '$cardtype_name'
 					WHERE	`id` = $cardtype_id");
+	$log->setInsertLog('card_type',$cardtype_id);
 }
 
 function Disablecard_type($cardtype_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('card_type', $cardtype_id);
 	mysql_query("	UPDATE `card_type`
 					SET    `actived` = 0
 					WHERE  `id` = $cardtype_id");
+	$log->setInsertLog('card_type',$cardtype_id);
 }
 
 function Checkcard_typeExist($cardtype_name)

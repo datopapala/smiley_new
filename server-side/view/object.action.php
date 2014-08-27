@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,10 +93,14 @@ function Addobject( $object_name, $object_phone)
 	mysql_query("INSERT INTO 	 	`object`
 									(`user_id`,`name`, `phone`, `actived`)
 					VALUES 		('$user_id','$object_name', '$object_phone', 1)");
+	GLOBAL $log;
+	$log->setInsertLog('object');
 }
 
 function Saveobject($object_id, $object_name, $object_phone)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('object', $object_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `object`
 					SET    `user_id`='$user_id',
@@ -101,13 +108,17 @@ function Saveobject($object_id, $object_name, $object_phone)
 							 `phone`= '$object_phone',
 							 `actived` = 1
 					WHERE	`id` = $object_id");
+	$log->setInsertLog('object',$object_id);
 }
 
 function Disableobject($object_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('object', $object_id);
 	mysql_query("	UPDATE `object`
 					SET    `actived` = 0
 					WHERE  `id` = $object_id");
+	$log->setInsertLog('object',$object_id);
 }
 
 function CheckobjectExist($object_name)

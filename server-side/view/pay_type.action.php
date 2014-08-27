@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,22 +93,30 @@ function Addpay_type($paytype_id, $paytype_name)
 	mysql_query("INSERT INTO 	 	`pay_type`
 									(`user_id`,`name`)
 						VALUES 		('$user_id','$paytype_name')");
+	GLOBAL $log;
+	$log->setInsertLog('pay_type');
 }
 
 function Savepay_type($paytype_id, $paytype_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('pay_type', $paytype_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE  `pay_type`
 					SET     `user_id`='$user_id',
 							`name` = '$paytype_name'
 					WHERE	`id` = $paytype_id");
+	$log->setInsertLog('pay_type',$paytype_id);
 }
 
 function Disablepay_type($paytype_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('pay_type', $paytype_id);
 	mysql_query("	UPDATE `pay_type`
 					SET    `actived` = 0
 					WHERE  `id` = $paytype_id");
+	$log->setInsertLog('pay_type',$paytype_id);
 }
 
 function Checkpay_typeExist($paytype_name)

@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -88,22 +91,31 @@ function Addpriority($priority_id, $priority_name)
 	mysql_query("INSERT INTO 	 	`priority`
 									(`user_id`,`name`)
 					VALUES 		('$user_id','$priority_name')");
+	GLOBAL $log;
+	$log->setInsertLog('priority');
 }
 
 function Savepriority($priority_id, $priority_name)
+
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('priority', $priority_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `priority`
 					SET     `user_id`='$user_id',
 							`name` = '$priority_name'
 					WHERE	`id` = $priority_id");
+	$log->setInsertLog('priority',$priority_id);
 }
 
 function Disablepriority($priority_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('priority', $priority_id);
 	mysql_query("	UPDATE `priority`
 					SET    `actived` = 0
 					WHERE  `id` = $priority_id");
+	$log->setInsertLog('priority',$priority_id);
 }
 
 function CheckpriorityExist($priority_name)

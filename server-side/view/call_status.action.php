@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -89,22 +92,31 @@ function Addcall_status($callstatus_id, $callstatus_name)
 	mysql_query("INSERT INTO 	 	`call_status`
 	                                    (`name`,`user_id`)
 				VALUES 		('$callstatus_name','$user_id')");
+	GLOBAL $log;
+	$log->setInsertLog('call_status');
 }
 
 function Savecall_status($callstatus_id, $callstatus_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('call_status', $callstatus_id);
+	
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `call_status`
 					SET     `name` = '$callstatus_name',
 							`user_id`=$user_id
 					WHERE	`id` = $callstatus_id");
+	$log->setInsertLog('call_status',$callstatus_id);
 }
 
 function Disablecall_status($callstatus_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('call_status', $callstatus_id);
 	mysql_query("	UPDATE `call_status`
 					SET    `actived` = 0
 					WHERE  `id` = $callstatus_id");
+	$log->setInsertLog('call_status',$callstatus_id);
 }
 
 function Checkcall_statusExist($callstatus_name)

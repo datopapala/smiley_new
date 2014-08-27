@@ -6,6 +6,9 @@
 */
 
 require_once('../../../includes/classes/core.php');
+include('../../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
@@ -26,6 +29,7 @@ $Juristic_postal_code	= $_REQUEST['Juristic_postal_code'];
 $physical_address		= $_REQUEST['physical_address'];
 $physical_city			= $_REQUEST['physical_city'];
 $physical_postal_code	= $_REQUEST['physical_postal_code'];
+$client_comment			= $_REQUEST['client_comment'];
 
 //task
 $task_type_id			= $_REQUEST['task_type_id'];
@@ -63,18 +67,38 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("SELECT 	`client`.`id`,
-										`client`.`id`,
-										`client`.`code`,
-										`legal_status`.`name`,
-										`client`.`name`,
-										`client`.`phone`,
-										`client`.`mail`,
-										`client`.`name`,
-										`client`.`name`,
-	  									`client`.`name`
-								FROM 	`client`
-								JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`");
+	  	$rResult = mysql_query("SELECT DISTINCT	`client`.`id`,
+												`client`.`id`,
+												`client`.`code`,
+												`legal_status`.`name`,
+												`client`.`name`,
+												`client`.`phone`,
+												`client`.`mail`,
+												(SELECT COUNT(`client_sale`.`client_id`)  FROM client_sale WHERE client.id=client_sale.client_id) AS mtvleli,
+											  	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
+												CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>1000 
+																AND
+																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=3000
+																THEN 'VIP'
+															 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>3000 
+																AND
+																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=5000
+															THEN 'VIP-fold'
+															WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000 
+																AND
+																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=10000
+															THEN 'VIP-platinium'
+															WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
+															THEN 'VIP-priliant'
+															WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=1000 
+															THEN 'ლოიალური'
+												END AS `status`
+												
+										FROM 	`client`
+										left JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`
+										left JOIN 	client_sale ON client.id=client_sale.client_id						
+											  			");
+	  	
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -87,15 +111,19 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
+				
+				
 			}
+			
 			$data['aaData'][] = $row;
+			
 		}
 
 		break;
 	case 'save_client':
 		$client_id				= $_REQUEST['id'];		
 		if($client_id == ''){			
-			Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code);
+			Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
 			$task_type_id = $_REQUEST['task_type_id'];			
 			if($task_type_id != ''){
 			$incomming_call_id = mysql_insert_id();
@@ -103,7 +131,7 @@ switch ($action) {
 			
 			}
 		}else {
-			Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code);
+			Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
 			Savetask();
 			
 			
@@ -137,36 +165,42 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code){
+function Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment){
 	
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `client` 
-							(`name`, `legal_status_id`, `code`, `phone`, `mail`, `born_date`, `mobile1`, `mobile2`, `Juristic_address`, `Juristic_city`, `Juristic_postal_code`, `physical_address`, `physical_city`, `physical_postal_code`)
+							(`name`, `legal_status_id`, `code`, `phone`, `mail`, `born_date`, `mobile1`, `mobile2`, `Juristic_address`, `Juristic_city`, `Juristic_postal_code`, `physical_address`, `physical_city`, `physical_postal_code`,`comment`)
  						VALUES 
-							( '$client_name', '$client_status', '$client_pin', '$client_phone', '$client_mail',' $born_date', '$client_mobile1', '$client_mobile2', '$Juristic_address', '$Juristic_city', '$Juristic_postal_code', '$physical_address', '$physical_city','$physical_postal_code');");
+							( '$client_name', '$client_status', '$client_pin', '$client_phone', '$client_mail',' $born_date', '$client_mobile1', '$client_mobile2', '$Juristic_address', '$Juristic_city', '$Juristic_postal_code', '$physical_address', '$physical_city','$physical_postal_code','$client_comment');");
 	
-	
+	GLOBAL $log;
+	$log->setInsertLog('client');
 }
 
 function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment)
 {	
+	
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
 								( `user_id`, `incomming_call_id`, `template_id`, `task_type_id`, `priority_id`,  `problem_comment`, `status`, `actived`) 
 							VALUES 
 								( '$user', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id',  '$problem_comment', '0', '1');");
 	
-	
+	GLOBAL $log;
+	$log->setInsertLog('task');
 }
 
 
 				
-function Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code)
+function Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code, $client_comment)
 {
+	
 	$client_id				= $_REQUEST['id'];
 	$user		= $_SESSION['USERID'];
+	GLOBAL $log;
+	$log->setUpdateLogAfter('client', $client_id);
 	mysql_query("	UPDATE `client` SET 
 									`name`='$client_name', 
 									`legal_status_id`='$client_status', 
@@ -181,10 +215,11 @@ function Saveclient($client_name, $client_status, $client_pin, $born_date, $clie
 									`Juristic_postal_code`='$Juristic_postal_code', 
 									`physical_address`='$physical_address', 
 									`physical_city`='$physical_city', 
-									`physical_postal_code`='$physical_postal_code' 
+									`physical_postal_code`='$physical_postal_code',
+									`comment` = '$client_comment'
 					WHERE			`id`='$client_id'
 			");
-	
+	$log->setInsertLog('client',$client_id);
 
 }       
 function Savetask()
@@ -193,6 +228,8 @@ function Savetask()
 	$template_id			= $_REQUEST['template_id'];
 	$priority_id			= $_REQUEST['priority_id'];
 	$problem_comment		= $_REQUEST['problem_comment'];
+	GLOBAL $log;
+	$log->setUpdateLogAfter('task', $id);
 	
 	$user  = $_SESSION['USERID'];
 	mysql_query(" UPDATE `task` SET 
@@ -209,7 +246,7 @@ function Savetask()
 				 WHERE 			`incomming_call_id`='$id'
 			");
 				
-
+	$log->setInsertLog('task',$id);
 }
 
 function Getpriority($priority_id)
@@ -340,6 +377,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	client.id,
 												client.mobile2 AS client_mobile2,
 												client.phone   AS client_phone,
 												client.mail		AS client_mail,
+												client.comment	AS client_comment,
 												client.Juristic_address AS Juristic_address,
 												client.Juristic_city AS Juristic_city,
 												client.Juristic_postal_code AS Juristic_postal_code,
@@ -349,11 +387,18 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	client.id,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
-												task.problem_comment AS problem_comment
+												task.problem_comment AS problem_comment,
+												object.`name` AS obj_name,
+												production.`name` AS pro_name,
+												client_sale.date as sale_date,
+												client_sale.price
+
 										FROM    client
-										
+										LEFT JOIN client_sale ON client.id=client_sale.client_id
+										LEFT JOIN production 	ON client_sale.production_id=production.id
+										LEFT JOIN object ON client_sale.object_id=object.id
 										left JOIN    task ON client.id = task.incomming_call_id
-										WHERE   client.id= ".$_REQUEST['id']."	
+										WHERE   client.id=".$_REQUEST['id']."	
 			" ));
 	
 	return $res;
@@ -431,9 +476,20 @@ function GetPage($res='', $number)
 								<td>
 									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"  />
 								</td>
-							</tr>					
+							</tr>
+							
+						</tr>					
 						</table>
 					</fieldset>
+						<fieldset style="width:665px; float:left;">
+						<legend>მოკლე შინაარსი</legend>
+				    	<table width="100%" class="dialog-form-table">
+							<tr>
+							<td colspan="6">
+								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2">' . $res['client_comment'] . '</textarea>
+							</td>
+						</table>
+						</fieldset>									
 					<fieldset style="width:665px; float:left;">
 						<legend>მისამართი</legend>
 				    	<table width="100%" class="dialog-form-table">
@@ -508,7 +564,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 80px; resize: none;" id="problem_comment" class="idle" name="content" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
+								<textarea  style="width: 627px; height: 45px; resize: none;" id="problem_comment" class="idle" name="content" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
@@ -571,15 +627,31 @@ function GetPage($res='', $number)
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">1</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>	
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all"></td>		
-						</tr>						
-					<table/>
+						</tr>';
+		
+		
+		$qvr = mysql_query("	SELECT 	client_sale.id,
+												
+										object.`name` AS obj_name,
+										production.`name` AS pro_name,
+										client_sale.date as sale_date,
+										client_sale.price
+								FROM    client
+								LEFT JOIN client_sale ON client.id=client_sale.client_id
+								LEFT JOIN production 	ON client_sale.production_id=production.id
+								LEFT JOIN object ON client_sale.object_id=object.id
+								WHERE   client.id=".$_REQUEST['id']."
+			" );
+						while($res_sale = mysql_fetch_assoc($qvr)){
+						$data .= '<tr style="border-bottom: 1px solid #85b1de; ">
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['id'].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['obj_name'].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['sale_date'].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['pro_name'].'</td>	
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['price'].'</td>		
+						</tr>';
+	  					}						
+					$data .= '<table/>
 				</fieldset>
 	  			<fieldset style="width: 440px;">
 					<legend>საუბრის ჩანაწერი</legend> 

@@ -6,6 +6,8 @@
 */
 
 require_once('../../../includes/classes/core.php');
+include('../../../includes/classes/log.class.php');
+$log 		= new log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
@@ -116,7 +118,8 @@ function Addaction(  $action_name,  $start_date, $end_date, $action_content){
 						VALUES
 							 ('$user', '$action_name', '$start_date', '$end_date', '$action_content', '1');
 	");
-	
+	GLOBAL $log;
+	$log->setInsertLog('action');
 }
 
 function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
@@ -152,7 +155,8 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 				
 function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content)
 {
-	
+	GLOBAL $log;
+	$log->setUpdateLogAfter('action', $action_id);
 	$user		= $_SESSION['USERID'];
 	mysql_query("UPDATE `action` SET 
 									`user_id`='$user',
@@ -163,7 +167,7 @@ function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_
 									`actived`='1' 
 				WHERE 				`id`='$action_id'");
 	
-
+	$log->setInsertLog('action',$action_id);
 }       
 function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
 {

@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,22 +93,30 @@ function Addproblem($problem_id, $problem_name)
 	mysql_query("INSERT INTO 	 	`problem`
 									(`user_id`,`name`)
 					VALUES 		('$user_id','$problem_name')");
+	GLOBAL $log;
+	$log->setInsertLog('problem');
 }
 
 function Saveproblem($problem_id, $problem_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('problem', $problem_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `problem`
 					SET     `user_id`='$user_id'
 							`name` = '$problem_name'
 					WHERE	`id` = $problem_id");
+	$log->setInsertLog('problem',$problem_id);
 }
 
 function Disableproblem($problem_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('problem', $problem_id);
 	mysql_query("	UPDATE `problem`
 					SET    `actived` = 0
 					WHERE  `id` = $problem_id");
+	$log->setInsertLog('problem',$problem_id);
 }
 
 function CheckproblemExist($problem_name)

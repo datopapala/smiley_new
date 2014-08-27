@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -90,22 +93,30 @@ function Addpay_aparat($payaparat_id, $payaparat_name)
 	mysql_query("INSERT INTO 	 	`pay_aparat`
 									(`user_id`,`name`)
 					VALUES 		('$user_id','$payaparat_name')");
+	GLOBAL $log;
+	$log->setInsertLog('pay_aparat');
 }
 
 function Savepay_aparat($payaparat_id, $payaparat_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('pay_aparat', $payaparat_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `pay_aparat`
 					SET     `user_id`='$user_id',
 							`name` = '$payaparat_name'
 					WHERE	`id` = $payaparat_id");
+	$log->setInsertLog('pay_aparat',$payaparat_id);
 }
 
 function Disablepay_aparat($payaparat_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('pay_aparat', $payaparat_id);
 	mysql_query("	UPDATE `pay_aparat`
 					SET    `actived` = 0
 					WHERE  `id` = $payaparat_id");
+	$log->setInsertLog('pay_aparat',$payaparat_id);
 }
 
 function Checkpay_aparatExist($payaparat_name)

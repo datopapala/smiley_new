@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -91,22 +94,30 @@ function Addposition($position_id, $position_name)
 								( `user_id`, `person_position`,actived)
 						VALUES 
 								( '$user_id','$position_name',  '1')");
+	GLOBAL $log;
+	$log->setInsertLog('position');
 }
 
 function Saveposition($position_id, $position_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('position', $position_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `position`
 					SET     `person_position` = '$position_name',
 							`user_id` ='$user_id'
 					WHERE	`id` = $position_id");
+	$log->setInsertLog('position',$position_id);
 }
 
 function Disableposition($position_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('position', $position_id);
 	mysql_query("	UPDATE `position`
 					SET    `actived` = 0
 					WHERE  `id` = $position_id");
+	$log->setInsertLog('position',$position_id);
 }
 
 function CheckpositionExist($position_name)

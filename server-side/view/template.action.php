@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -96,23 +99,32 @@ function Addtemplate($template_name, $content)
 									(`user_id`,`name`, `content`, `actived`)
 								VALUES 	
 									('$user_id','$template_name', '$content', 1)");
+	GLOBAL $log;
+	$log->setInsertLog('template');
 }
 
 function Savetemplate($template_id, $template_name, $content)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('template', $template_id);
+	
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `template`
 					SET     `user_id`	='$user_id',
 							`name` 		= '$template_name',
 							`content`	= '$content'
 					WHERE	`id` 		= $template_id");
+	$log->setInsertLog('template',$template_id);
 }
 
 function Disabletemplate($template_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('template', $template_id);
 	mysql_query("	UPDATE `template`
 					SET    `actived` = 0
 					WHERE  `id` = $template_id");
+	$log->setInsertLog('template',$template_id);
 }
 
 function ChecktemplateExist($template_name)

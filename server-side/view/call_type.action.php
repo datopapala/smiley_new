@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -83,26 +86,35 @@ echo json_encode($data);
 
 function AddCallType($call_id, $call_name)
 {
+	
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("INSERT INTO 	`call_type`
 								(`user_id`,`name`)
 					VALUES 		('$user_id','$call_name')");
+	GLOBAL $log;
+	$log->setInsertLog('call_type');
 }
 
 function SaveCallType($call_id, $call_name)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('call_type', $call_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("UPDATE `call_type`
 				 SET    `user_id`='$user_id',
 				 		`name` = '$call_name'
 				 WHERE	`id` = $call_id");
+	$log->setInsertLog('call_type',$call_id);
 }
 
 function DisableCallType($call_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('call_type', $call_id);
 	mysql_query("	UPDATE `call_type`
 					SET    `actived` = 0
 					WHERE	`id` = $call_id");
+	$log->setInsertLog('call_type',$call_id);
 }
 
 function CheckCallTypeExist($call_name)

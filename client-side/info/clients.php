@@ -2,7 +2,8 @@
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/info/clients/clients.action.php";		//server side folder url
 		var aJaxURL1	= "server-side/info/clients/clients.action1.php";		//server side folder url
-		var aJaxURL2	= "server-side/info/clients/clients.action2.php";		//server side folder url
+		var aJaxURL2	= "server-side/info/clients/clients.action2.php";
+		var aJaxURL3	= "server-side/info/clients/clients.action3.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -35,14 +36,14 @@
         
 		 function GetTable1() {
              LoadTable1();
-             SetEvents("add_button", "", "", "example1", "add-edit-form1", aJaxURL1);
+             //SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL2);
          }
 
 		 function GetTable2() {
              LoadTable2();
-             SetEvents("", "", "", "example1", "add-edit-form2", aJaxURL1);
+            // SetEvents("", "", "", "example2", "add-edit-form2", aJaxURL3);
          }
-
+         
 		 function LoadTable0(){			
 			 var total=[5];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -52,21 +53,25 @@
 		function LoadTable1(){			
 			var total=[1];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL2, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 		
 		function LoadTable2(){			
 			var total=[1];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
+		
 
 		function LoadTable3(){			
 			var total=[1];
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("examplee", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+			//(add, dis, check, tname, fname, aJaxURL, c_data)
+			SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1);
+			GetDateTimes("gift_date");	
 		}
-
+		
 
 		//SeoYyy
 		$(document.body).click(function (e) {
@@ -94,7 +99,7 @@
 					GetDateTimes("born_date");
 					LoadTable3();
 					GetButtons("add_button_p","");
-					SetEvents("add_button_p", "", "", "example2", "add-edit-form1", aJaxURL1);
+					
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -112,6 +117,8 @@
 				        }
 				    };
 					GetDialog("add-edit-form1", 400, "auto", buttons);
+					LoadTable3();
+					
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -194,13 +201,12 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();
-
-			
+			param.physical_postal_code	= $("#physical_postal_code").val();			
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
 			param.problem_comment		= $("#problem_comment").val();
+			param.client_comment		= $("#client_comment").val();
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
@@ -225,24 +231,14 @@
 	    $(document).on("click", "#save-dialog1", function () {
 		   
 			param 				= new Object();
- 			param.act			= "save_outgoing";
+ 			param.act			= "save_client_gift";
 		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+ 			param.id1					= $("#id").val();
+ 			param.id_g					= $("#id_g").val();
+			param.gift_date				= $("#gift_date").val();
+	    	param.gift_production_id	= $("#gift_production_id").val();
+	    	param.gift_price			= $("#gift_price").val();
+		
 	 
  	    	$.ajax({
  		        url: aJaxURL1,
@@ -252,52 +248,15 @@
  						if(data.error != ""){
  							alert(data.error);
  						}else{
-							LoadTable1();
+							LoadTable3();
  							CloseDialog("add-edit-form1");
  						}
  					}
  		    	}
  		   });
 		});
-	    $(document).on("click", "#done-dialog1", function () {
-			   
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-
-	    $(document).on("click", "#save-dialog2", function () {
+	    
+	   $(document).on("click", "#save-dialog2", function () {
 			param 				= new Object();
  			param.act			= "save_outgoing";
 		    	
@@ -351,7 +310,7 @@
     			    }
     		    });
                 
-                event.preventDefault();
+              //  event.preventDefault();
             }
         });
 //
@@ -731,7 +690,7 @@
 </div>
 
 <!-- jQuery Dialog -->
-<div id="add-edit-form1" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form1" class="form-dialog" title="საჩუქარი">
 <!-- aJax -->
 </div>
 

@@ -104,7 +104,7 @@ switch ($action) {
 FROM 	`client`
 left JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`
 left JOIN 	client_sale ON client.id=client_sale.client_id
-WHERE (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>1000");
+WHERE (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<1000");
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -123,6 +123,7 @@ WHERE (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=clien
 
 		break;
 	
+	
 	default:
 		$error = 'Action is Null';
 }
@@ -132,7 +133,152 @@ $data['error'] = $error;
 echo json_encode($data);
 
 
+/* ******************************
+ *	Request Functions
+* ******************************
+*/
 
+
+function Getcategory1($category_id)
+{
+
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `category`
+						WHERE actived=1 && parent_id=$category_id");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $category_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+	
+}
+
+function Getcategory1_edit($category_id)
+{
+
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `category`
+						WHERE actived=1 && id=$category_id");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $category_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+
+}
+
+function Getcall_type($call_type_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					FROM `call_type`
+					WHERE actived=1");
+	
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $call_type_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+
+function Getdepartment($task_department_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					    FROM `department`
+					    WHERE actived=1 ");
+	
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $task_department_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+
+function Getpriority($priority_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `priority`
+						WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $priority_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Gettask_type($task_type_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					    FROM `task_type`
+					    WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $task_type_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+
+function Getpersons($persons_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+							FROM `persons`
+							WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $persons_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
 
 function getCalls(){
 	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
@@ -172,7 +318,198 @@ function getCalls(){
 
 }
 
+function get_addition_all_info($pin)
+{
+	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
+	
+	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a1`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
+	
+	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a2`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
+	
+	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a3`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.pin = $pin AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
+	
+	$sum_incomming	 	= $res1['a'] + $res2['a1'] + $res3['a2'] + $res4['a3'];
+	$sum_end	 		= $res1['a'] + $res2['a1'];
+	$sum_actived		= $res3['a2'] + $res4['a3'];
+	
+	$data .= '<fieldset>
+					<legend>მომართვების ისტორია</legend>
+					<table>
+						<tr>
+							<td>სულ</td>
+							<td></td>
+							<td></td>
+							<td style="width: 150px;"></td>
+							<td>'.$sum_incomming.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>მოგვარებულები</td>
+							<td></td>
+							<td style="width: 150px;"></td>
+						    <td>'.$sum_end.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td style="width: 150px;"></td>
+							<td>'. $res1['a'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>ინფორმაცია</td>
+							<td style="width: 150px;"></td>
+							<td>'.$res2['a1'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td></td>
+							<td style="width: 150px;"></td>
+							<td>'.$sum_actived.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td style="width: 150px;"></td>
+							<td>'.$res3['a2'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>ინფორმაცია</td>
+							<td style="width: 150px;"></td>
+							<td>'. $res4['a3'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td style="width: 150px;"></td>
+				    		<td style="width: 300px;">
+							<input type="button" value="ვრცლად"/>
+		      				</td>
+						</tr>
+					</table>
+				</fieldset>';
 
+	return $data;
+}
+function get_addition_all_info1($personal_id)
+{
+	$res1 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
+
+	$res2 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` = 3 OR ISNULL(task.`status`))"));
+
+	$res3 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 1 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
+
+	$res4 = mysql_fetch_assoc(mysql_query("	SELECT COUNT(*) AS `a`
+											FROM 			`site_user`
+											JOIN 			incomming_call ON site_user.incomming_call_id = incomming_call.id
+											LEFT JOIN 		task ON incomming_call.id = task.incomming_call_id
+											WHERE 			site_user.personal_id = $personal_id AND incomming_call.call_type_id = 2 AND (task.`status` != 3 AND NOT ISNULL(task.`status`))"));
+
+	$sum_incomming	 	= $res1['a'] + $res2['a'] + $res3['a'] + $res4['a'];
+	$sum_end	 		= $res1['a'] + $res2['a'];
+	$sum_actived		= $res3['a'] + $res4['a'];
+
+	$data .= '<fieldset>
+					<legend>მომართვების ისტორია</legend>
+					<table>
+						<tr>
+							<td>სულ</td>
+							<td></td>
+							<td></td>
+							<td style="width: 150px;"></td>
+							<td>'.$sum_incomming.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>მოგვარებულები</td>
+							<td></td>
+							<td style="width: 150px;"></td>
+						    <td>'.$sum_end.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td style="width: 150px;"></td>
+							<td>'. $res1['a'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>ინფორმაცია</td>
+							<td style="width: 150px;"></td>
+							<td>'.$res2['a'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td></td>
+							<td style="width: 150px;"></td>
+							<td>'.$sum_actived.'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>პრეტენზია</td>
+							<td style="width: 150px;"></td>
+							<td>'.$res3['a'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>ინფორმაცია</td>
+							<td style="width: 150px;"></td>
+							<td>'. $res4['a'].'</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td style="width: 150px;"></td>
+				    		<td style="width: 300px;">
+							<input type="button" value="ვრცლად"/>
+		      				</td>
+						</tr>
+					</table>
+				</fieldset>';
+
+	return $data;
+}
 function Getincomming($incom_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT    	incomming_call.id AS id,

@@ -6,6 +6,8 @@
 */
 
 require_once('../../../includes/classes/core.php');
+include('../../../includes/classes/log.class.php');
+$log 		= new log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
@@ -16,18 +18,26 @@ $action_name		= $_REQUEST['action_name'];
 $start_date			= $_REQUEST['start_date'];
 $end_date			= $_REQUEST['end_date'];
 $action_content	    = $_REQUEST['action_content'];
+$person_id			= $_REQUEST['person_id'];
+$hidden_inc			= $_REQUEST['hidden_inc'];
+$edit_id			= $_REQUEST['edit_id'];
+$delete_id			= $_REQUEST['delete_id'];
+
 
 //task
-$persons_id			    = $_REQUEST['persons_id'];
-$task_type_id			= $_REQUEST['task_type_id'];
-$priority_id			= $_REQUEST['priority_id'];
-$comment 	        	= $_REQUEST['comment'];
-$task_department_id 	= $_REQUEST['task_department_id'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
+$comment			= $_REQUEST['comment'];
+$task_type_id		= $_REQUEST['task_type_id'];
+$priority_id		= $_REQUEST['priority_id'];
+$template_id		= $_REQUEST['template_id'];
+$person_id			= $_REQUEST['person_id'];
 
 
+
+
+
+// file
+$rand_file			= $_REQUEST['rand_file'];
+$file				= $_REQUEST['file_name'];
 
 switch ($action) {
 	case 'get_add_page':
@@ -79,21 +89,87 @@ switch ($action) {
 
 		break;
 	case 'save_action':
-		
-	
+		$action_id			= $_REQUEST['id'];
+		$task_type_id			= $_REQUEST['task_type_id'];
 		if($action_id == ''){
 			
 			Addaction(  $action_name,  $start_date, $end_date, $action_content);
-			
+			$task_id = mysql_insert_id();
+			if($task_type_id != 0){
+			Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id,  $comment);
+			}
 		}else {
 			
 			saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content);
-			
+			Savetask($action_id,$person_id, $task_type_id,  $priority_id, $template_id,  $comment);
 			
 		}
 		break;
 		
+		case 'delete_file':
 		
+			mysql_query("DELETE FROM file WHERE id = $delete_id");
+		
+			$increm = mysql_query("	SELECT  `name`,
+					`rand_name`,
+					`id`
+					FROM 	`file`
+					WHERE   `action_id` = $edit_id
+					");
+		
+			$data1 = '';
+		
+			while($increm_row = mysql_fetch_assoc($increm))	{
+			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
+				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
+				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+ 					  </tr>';
+		}
+		
+		$data = array('page' => $data1);
+		
+				break;
+		
+				case 'up_now':
+				$user		= $_SESSION['USERID'];
+				if($rand_file != ''){
+				mysql_query("INSERT INTO 	`file`
+				( 	`user_id`,
+				`action_id`,
+				`name`,
+				`rand_name`
+				)
+				VALUES
+				(	'$user',
+				'$edit_id',
+				'$file',
+				'$rand_file'
+				);");
+				GLOBAL $log;
+				$log->setInsertLog('file');
+				}
+		
+				$increm = mysql_query("	SELECT  `name`,
+				`rand_name`,
+				`id`
+				FROM 	`file`
+				WHERE   `action_id` = $edit_id
+				");
+		
+				$data1 = '';
+		
+				while($increm_row = mysql_fetch_assoc($increm))	{
+				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
+				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
+				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+						          </tr>';
+		}
+		
+		$data = array('page' => $data1);
+		
+		break;
 	
 		
 	
@@ -112,7 +188,9 @@ echo json_encode($data);
 */
 
 function Addaction(  $action_name,  $start_date, $end_date, $action_content){
-	
+	$rand_file			= $_REQUEST['rand_file'];
+	$file				= $_REQUEST['file_name'];
+	$hidden_inc			= $_REQUEST['hidden_inc'];
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `action` 
@@ -121,36 +199,48 @@ function Addaction(  $action_name,  $start_date, $end_date, $action_content){
 							 ('$user', '$action_name', '$start_date', '$end_date', '$action_content', '1');
 	");
 	
-	
+	//GLOBAL $log;
+	//$log->setInsertLog('action');
+	if($rand_file != ''){
+		mysql_query("INSERT INTO 	`file`
+		( 	`user_id`,
+		`task_id`,
+		`name`,
+		`rand_name`
+		)
+		VALUES
+		(	'$user',
+		'$hidden_inc',
+		'$file',
+		'$rand_file'
+		);");
+		//GLOBAL $log;
+		//$log->setInsertLog('file');
+	}
 	
 }
 
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
+function Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id,  $comment)
 {
-	
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO	`task` 
 									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
+									`responsible_user_id`,
+									`action_id`,
 									 `task_type_id`,
 									 `priority_id`,
-									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
+									 `template_id`,
+									 `comment`
+									)
 						VALUES
 									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
+									'$person_id',
+									'$task_id',
+									'$task_type_id',
+									'$priority_id',
+								    '$template_id',
+								  	'$comment'
+								   )");
 	
 	
 }
@@ -159,7 +249,8 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 				
 function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content)
 {
-	
+	GLOBAL $log;
+	$log->setUpdateLogAfter('action', $action_id);
 	$user		= $_SESSION['USERID'];
 	mysql_query("UPDATE `action` SET 
 									`user_id`='$user',
@@ -170,28 +261,47 @@ function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_
 									`actived`='1' 
 				WHERE 				`id`='$action_id'");
 	
-
+	$log->setInsertLog('action',$action_id);
+	
 }       
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
+function Savetask($action_id,$person_id, $task_type_id,  $priority_id, $template_id,  $comment)
 {
-
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $task_id);
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
+										`responsible_user_id`='$person_id',
 									 	 `task_type_id`='$task_type_id',
 										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
+										 `template_id`='$template_id', 
 										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
-
+										  WHERE (`action_id`='$action_id');");
+	//$log->setInsertLog('task',$task_id);
 }
-
-
-function Getdepartment($task_department_id)
+function Getpersons($persons_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
-					    FROM `department`
+							FROM `persons`
+							WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $persons_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Gettemplate($task_department_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					    FROM `template`
 					    WHERE actived=1 ");
 	
 
@@ -253,8 +363,16 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 												action.`name` AS action_name,
 												action.start_date AS start_date,
 												action.end_date AS end_date,
-												action.content AS action_content
+												action.content AS action_content,
+												task.task_type_id AS task_type_id,
+												task.`comment` AS `comment`,
+												task.priority_id AS priority_id,
+												task.responsible_user_id AS responsible_user_id,
+												task.template_id AS template_id
+												
+	
 										FROM 	action
+										JOIN task ON task.action_id=action.id
 										WHERE 	action.id=$action_id
 									" ));
 	
@@ -274,6 +392,13 @@ function GetPage($res='', $number)
 	}else{ 
 		$num=$res[phone]; 
 	}
+	
+	$increm = mysql_query("	SELECT  `name`,
+			`rand_name`,
+			`id`
+			FROM 	`file`
+			WHERE   `action_id` = $res[id]
+			");
 
 	$data  .= '
 	<!-- jQuery Dialog -->
@@ -329,9 +454,19 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object">'. Gettemplate($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+						</tr>
+						<tr>
+							<td style="width: 180px;"><label for="d_number">ასუხისმგებელი პირი</label></td>
+							<td style="width: 180px;"></td>
+							<td style="width: 180px;"></td>
+						</tr>		
+						<tr>
+							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object">'.Getpersons($res['responsible_user_id']).'</select></td>
+							<td  style="width: 180px;"></td>
+							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -346,7 +481,7 @@ function GetPage($res='', $number)
 					</table>
 		        </fieldset>
 			</div>
-			<div style="float: right;  width: 360px;">
+			<div style="float: right;  width: 461px;">
 				</fieldset>
 				<fieldset style="float: right;  width: 440px;">
 					<legend>აქციის პროდუქტები</legend>
@@ -386,7 +521,6 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:30px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
 									</th>
-									
 								</tr>
 							</thead>
 		                </table>
@@ -394,8 +528,38 @@ function GetPage($res='', $number)
 		            <div class="spacer">
 		            </div>
 		        </div>
-
 				</fieldset>
+				<fieldset>		
+					<legend>ფაილი</legend>
+					<table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
+     <tr>
+      <td>
+       <div class="file-uploader">
+        <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
+        <button id="choose_button" class="center">აირჩიეთ ფაილი</button>
+        <input id="hidden_inc" type="text" value="'. increment('action') .'" style="display: none;">
+       </div>
+      </td>
+     </tr>
+    </table>
+        <table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
+             <tr style="border-bottom: 1px solid #85b1de;">
+              <td colspan="3">მიმაგრებული ფაილი</td>
+             </tr>
+    </table>
+    <table id="file_div" style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">';
+     
+     while($increm_row = mysql_fetch_assoc($increm)) { 
+      $data .=' 
+                <tr style="border-bottom: 1px solid #85b1de;">
+                  <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>              
+                  <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+                  <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+                </tr>';
+     }
+            
+  $data .= '
+    </table>				
 						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
 	  			
 			</div>
@@ -404,6 +568,15 @@ function GetPage($res='', $number)
 	return $data;
 }
 
+function increment($table){
 
+	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
+	$row   			= mysql_fetch_array($result);
+	$increment   	= $row['Auto_increment'];
+	$next_increment = $increment+1;
+	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
+
+	return $increment;
+}
 
 ?>

@@ -1,5 +1,8 @@
 <?php
 require_once('../../includes/classes/core.php');
+include('../../includes/classes/log.class.php');
+
+$log 		= new log();
 session_start();
 $action		= $_REQUEST['act'];
 $error		= '';
@@ -92,21 +95,29 @@ function Addtask_type($task_id, $task_name, $user_id)
 mysql_query("INSERT INTO 	`task_type`
 						(`user_id`,`name`)
 			VALUES 		( $a,'$task_name')");
+GLOBAL $log;
+$log->setInsertLog('task_type');
 }
 
 function Savetask_type($task_id, $task_name, $user_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('task_type', $task_id);
 mysql_query("	UPDATE `task_type`
 					SET     `name` = '$task_name',
 							`user_id`='$user_id'
 					WHERE	`id` = $task_id");
+$log->setInsertLog('task_type',$task_id);
 }
 
 function Disabletask_type($task_id)
 {
+	GLOBAL $log;
+	$log->setUpdateLogAfter('task_type', $task_id);
 	mysql_query("	UPDATE `task_type`
 					SET    `actived` = 0
 					WHERE  `id` = $task_id");
+	$log->setInsertLog('task_type',$task_id);
 }
 
 function Checktask_typeExist($task_name)
