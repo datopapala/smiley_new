@@ -184,11 +184,30 @@ function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_de
 }
 
 
-function Getdepartment($task_department_id)
+function Getpersons($persons_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
-					    FROM `department`
+							FROM `persons`
+							WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $persons_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Gettemplate($task_department_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					    FROM `template`
 					    WHERE actived=1 ");
 	
 
@@ -243,16 +262,22 @@ function Gettask_type($task_type_id)
 	return $data;
 }
 
-
 function Getaction($action_id)
 {
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 												action.`name` AS action_name,
-												action.`name` AS action_name,
 												action.start_date AS start_date,
 												action.end_date AS end_date,
-												action.content AS action_content
+												action.content AS action_content,
+												task.task_type_id AS task_type_id,
+												task.`comment` AS `comment`,
+												task.priority_id AS priority_id,
+												task.responsible_user_id AS responsible_user_id,
+												task.template_id AS template_id
+												
+	
 										FROM 	action
+										left JOIN task ON task.action_id=action.id
 										WHERE 	action.id=$action_id
 									" ));
 	
@@ -333,9 +358,19 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object">'. Gettemplate($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+						</tr>
+						<tr>
+							<td style="width: 180px;"><label for="d_number">ასუხისმგებელი პირი</label></td>
+							<td style="width: 180px;"></td>
+							<td style="width: 180px;"></td>
+						</tr>		
+						<tr>
+							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object">'.Getpersons($res['responsible_user_id']).'</select></td>
+							<td  style="width: 180px;"></td>
+							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
