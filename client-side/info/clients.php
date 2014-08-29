@@ -4,6 +4,9 @@
 		var aJaxURL1	= "server-side/info/clients/clients.action1.php";		//server side folder url
 		var aJaxURL2	= "server-side/info/clients/clients.action2.php";
 		var aJaxURL3	= "server-side/info/clients/clients.action3.php";		//server side folder url
+		var aJaxURL4	= "server-side/info/clients/clients.action4.php";		//server side folder url
+		var aJaxURL5	= "server-side/info/clients/clients.action5.php";
+		var aJaxURL6	= "server-side/info/clients/clients.action6.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -23,10 +26,20 @@
         		GetTable0();
         	}else if(tab == 1){
         		GetTable1();
+
+        		var subtab = GetSelectedTab("subtabs");
+            	if (subtab == 0) {
+            		GetTable3();
+            	}else if(subtab == 1){
+            		GetTable4();
+                }else if(subtab == 2){
+            		GetTable5();
+                }
             }else if(tab == 2){
         		GetTable2();
             }
         });
+
 
 		function GetTable0() {
             LoadTable0();
@@ -36,35 +49,57 @@
         
 		 function GetTable1() {
              LoadTable1();
-             //SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL2);
          }
 
 		 function GetTable2() {
              LoadTable2();
             // SetEvents("", "", "", "example2", "add-edit-form2", aJaxURL3);
          }
+
+		function GetTable3() {
+	    	LoadTable4();
+	    }
+	        
+		function GetTable4() {
+	    	LoadTable5();
+	    }
+
+		function GetTable5() {
+	    	LoadTable6();
+	    }
          
-		 function LoadTable0(){			
-			 var total=[5];
+		function LoadTable0(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example0", aJaxURL, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 			
-		function LoadTable1(){			
-			var total=[1];
+		function LoadTable1(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example1", aJaxURL2, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
 		
-		function LoadTable2(){			
-			var total=[1];
+		function LoadTable2(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
 		}
+
+		function LoadTable4(){		
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
+		}
+			
+		function LoadTable5(){		
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example5", aJaxURL5, "get_list", 10, "", 0, "", 1, "asc", "");
+		}
 		
+		function LoadTable6(){		
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example6", aJaxURL6, "get_list", 10, "", 0, "", 1, "asc", "");
+		}
 
 		function LoadTable3(){			
-			var total=[1];
+			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
 			//(add, dis, check, tname, fname, aJaxURL, c_data)
@@ -561,15 +596,26 @@
 		        </div>
 		    </div>
 		 </div>
+		 
+		 
+		 
 		<div id="tab-1">
-		    <div id="dt_example" class="ex_highlight_row">
+		<div id="subtabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+		<ul>
+			<li><a href="#subtab-0">VIP-A</a></li>
+			<li><a href="#subtab-1">VIP-B</a></li>
+			<li><a href="#subtab-2">VIP-C</a></li>
+		</ul>
+		<div id="subtab-0">
+		 <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">VIP კლიენტები</h2>
-		                <table class="display" id="example1">
-		                    <thead>
+		                <table class="display" id="example4">
+		                <thead>
+		                
 								<tr id="datatable_header">
-		                            <th>ID</th>
+									 <th>ID</th>
 									<th style="width:7%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
 									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
@@ -622,6 +668,137 @@
 		        </div>
 		    </div>
 		 </div>
+		 
+		 <div id="subtab-1">
+		 <div id="dt_example" class="ex_highlight_row">
+		        <div id="container" style="width: 100%;">        	
+		            <div id="dynamic">
+		            	<h2 align="center">VIP კლიენტები</h2>
+		                <table class="display" id="example5">
+		                <thead>
+		                
+								<tr id="datatable_header">
+									 <th>ID</th>
+									<th style="width:7%;">#</th>
+									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
+									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
+									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
+									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
+									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
+									<th style="width:21%; word-break:break-all;">ჯამური ნავაჭრი<br>თანხა</th>
+									<th style="width:21%; word-break:break-all;">სტატუსი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+		    </div>
+		 </div>
+		 
+		 <div id="subtab-2">
+		 <div id="dt_example" class="ex_highlight_row">
+		        <div id="container" style="width: 100%;">        	
+		            <div id="dynamic">
+		            	<h2 align="center">VIP კლიენტები</h2>
+		                <table class="display" id="example6">
+		                <thead>
+		                
+								<tr id="datatable_header">
+									 <th>ID</th>
+									<th style="width:7%;">#</th>
+									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
+									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
+									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
+									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
+									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
+									<th style="width:21%; word-break:break-all;">ჯამური ნავაჭრი<br>თანხა</th>
+									<th style="width:21%; word-break:break-all;">სტატუსი</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
+                            		</th>
+									<th>
+										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
+									</th>									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+		    </div>
+		 </div>
+		 </div>
+		  </div>
+		 
+		 
+		 
 		 <div id="tab-2">
 		    <div id="dt_example" class="ex_highlight_row">
 		        <div id="container" style="width: 100%;">        	

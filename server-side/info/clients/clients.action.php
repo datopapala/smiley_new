@@ -76,22 +76,18 @@ switch ($action) {
 												`client`.`mail`,
 												(SELECT COUNT(`client_sale`.`client_id`)  FROM client_sale WHERE client.id=client_sale.client_id) AS mtvleli,
 											  	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
-												CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>1000 
-																AND
-																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=3000
-																THEN 'VIP'
-															 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>3000 
-																AND
-																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=5000
-															THEN 'VIP-fold'
-															WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000 
-																AND
-																	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=10000
-															THEN 'VIP-platinium'
-															WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
-															THEN 'VIP-priliant'
-															WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=1000 
-															THEN 'ლოიალური'
+												CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=3000 
+														AND
+														  (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<5000
+														THEN 'VIP Gold'
+													 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=5000 
+														AND
+														  (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<10000
+														THEN 'VIP Platinium'
+													WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
+														THEN 'VIP Briliant'
+													WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<3000 
+														THEN 'ლოიალური'
 												END AS `status`
 												
 										FROM 	`client`

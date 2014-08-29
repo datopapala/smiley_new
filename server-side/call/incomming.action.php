@@ -834,7 +834,7 @@ function GetPage($res='', $number, $pin)
 			<div>
 				  </fieldset>
 			</div>
-			<div id="info_c" style="float: right;  width: 355px;">';
+			<div id="info_c" style="float: right;  width: 371px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
 			$data .= '
 				
