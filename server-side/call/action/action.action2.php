@@ -21,18 +21,6 @@ $date    			= $_REQUEST['date'];
 $action_id    		= $_REQUEST['action_id'];
 
 
-
-
-//task
-$persons_id			    = $_REQUEST['persons_id'];
-$task_type_id			= $_REQUEST['task_type_id'];
-$priority_id			= $_REQUEST['priority_id'];
-$comment 	        	= $_REQUEST['comment'];
-$task_department_id 	= $_REQUEST['task_department_id'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
-
 switch ($action) {
 	case 'get_add_page':
 		$number		= $_REQUEST['number'];

@@ -77,6 +77,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			        primary: " ui-icon-contact"
 			      }
 			});
+			GetDateTimes("sale_date");
 		}
 
 		function CloseDialog(){

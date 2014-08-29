@@ -14,6 +14,7 @@
 			GetTable0();
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");			
+			
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -104,7 +105,7 @@
 					GetButtons("add_button_p1","");
 					GetDataTable("example4", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
 					SetEvents("add_button_p1", "", "", "example4", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());
-				
+					
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -122,8 +123,7 @@
 				    };
 					GetDialog("add-edit-form2", 400, "auto", buttons);
 					LoadTable3();
-					GetDate("date");
-					
+					GetDateTimes("date");
 			    break;
 			}
 			
@@ -484,7 +484,7 @@
 </div>
 
 <!-- jQuery Dialog -->
-<div id="add-edit-form2" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form2" class="form-dialog" title="აქცია">
 <!-- aJax -->
 </div>
 
