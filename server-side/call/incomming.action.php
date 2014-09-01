@@ -20,6 +20,7 @@ $requester_type					= $_REQUEST['requester_type'];
 $prod_status					= $_REQUEST['prod_status'];
 $first_name						= $_REQUEST['first_name'];
 $category_id					= $_REQUEST['category_id'];
+$production_brand_id			= $_REQUEST['production_brand_id'];
 $information_sub_category_id	= $_REQUEST['category_parent_id'];
 $category_parent_id				= $_REQUEST['category_parent_id'];
 $production_category_id			= $_REQUEST['production_category_id'];
@@ -93,7 +94,7 @@ switch ($action) {
 		$incom_id = $_REQUEST['id'];
 		if($incom_id == ''){
 			
-			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id , $production_category_id, $redirect, $connect, $reaction_id, $content);
+			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id , $production_category_id, $production_brand_id, $redirect, $connect, $reaction_id, $content);
 			$incomming_call_id = mysql_insert_id();
 		
 			Addtask( $person_id, $incomming_call_id, $template_id, $task_type_id, $priority_id,  $comment);
@@ -101,7 +102,7 @@ switch ($action) {
 		
 		}else {
 			
-			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id, $redirect, $connect, $reaction_id, $content);
+			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content);
 			
 			 savetask($incom_id, $person_id, $template_id, $task_type_id,  $priority_id,  $comment);			
 
@@ -141,7 +142,7 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id, $redirect, $connect, $reaction_id, $content){
+function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content){
 	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
@@ -149,7 +150,7 @@ function Addincomming( $incom_phone, $first_name, $requester_type, $category_id,
 	mysql_query("INSERT INTO `incomming_call` 
 				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `redirect`, `connect`, `reaction_id`, `content`, `actived`) 
 				VALUES 
-				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '',  '$redirect', '$connect', '$reaction_id', '$content', '1');");
+				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id',  '$redirect', '$connect', '$reaction_id', '$content', '1');");
 	//GLOBAL $log;
 	//$log->setInsertLog('incomming_call');
 	}
@@ -167,7 +168,7 @@ function Addtask($person_id, $incomming_call_id,  $template_id, $task_type_id,  
 	//$log->setInsertLog('task');
 }
 				
-function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id, $redirect, $connect, $reaction_id, $content)
+function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content)
 {
 	GLOBAL $log;
 	$log->setUpdateLogAfter('incomming_call', $incom_id);
@@ -183,7 +184,8 @@ function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $ca
 											`information_sub_category_id`='$information_sub_category_id',
 											`production_type`= '$prod_status',
 											`production_id`='$production_id', 
-											`production_category_id`='$production_category_id', 
+											`production_category_id`='$production_category_id',
+											`production_brand_id` = '$production_brand_id',
 											`redirect`='$redirect', 
 											`connect` = '$connect',
 											`reaction_id`='$reaction_id', 
@@ -232,27 +234,6 @@ function Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail, 
 }
 
 
-function Getproduction($production_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	production.id,
-								production.`name`
-						FROM  	production
-						WHERE 	actived=1");
-		
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		
-		if($res['id'] == $production_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-	return $data;
-}
-	
 function Getobject($object_id)
 {
 	$data = '';
@@ -377,6 +358,26 @@ function Get_production_category($production_category_id)
 	return $data;
 }
 
+function Get_production_brand($production_brand_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT 	brand.id,
+								brand.`name`
+						FROM    brand
+						WHERE   actived = 1 ");
+
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $production_brand_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
 
 function Getpriority($priority_id)
 {
@@ -636,6 +637,7 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 												incomming_call.connect AS connect,
 												incomming_call.content AS content,
 												incomming_call.production_type AS production_type,
+												incomming_call.production_brand_id AS production_brand_id,
 												incomming_call.requester AS requester,
 												client.`code` AS personal_pin,
 												task.responsible_user_id AS person_id,
@@ -757,7 +759,7 @@ function GetPage($res='', $number, $pin)
 						</tr>				
 						<tr>
 							<td style="width: 300px;"><select id="production_id" class="idls object">'.Get_production($res['production_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_category_id" class="idls object">'. Get_production_category($res['production_category_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object">'. Get_production_brand($res['production_brand_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>

@@ -99,6 +99,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.category_parent_id			= $("#category_parent_id").val();
 	    	param.sale_date						= $("#sale_date").val();
 	    	param.production_category_id		= $("#production_category_id").val();
+	    	param.production_brand_id			= $("#production_brand_id").val();
 	    	param.production_id					= $("#production_id").val();
 	    	param.redirect						= $("#redirect").val();
 	  	  	param.reaction_id					= $("#reaction_id").val();

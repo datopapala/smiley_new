@@ -319,6 +319,26 @@ function Get_production_category($production_category_id)
 
 	return $data;
 }
+function Get_production_brand($production_brand_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT 	brand.id,
+								brand.`name`
+						FROM    brand
+						WHERE   actived = 1 ");
+
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $production_brand_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
 
 
 function Getpriority($priority_id)
@@ -596,6 +616,7 @@ function Gettask($id)
 													incomming_call.connect AS connect,
 													incomming_call.content AS content,
 													incomming_call.production_type AS production_type,
+													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
 													client_sale.date AS sale_date,
 													client.`code` AS personal_pin,
@@ -731,7 +752,7 @@ $num = 0;
 							</tr>
 						<tr>
 		<td style="width: 300px;"><select id="production_id" class="idls object" disabled="disabled">'.Get_production($res['production_id']).'</select></td>
-		<td style="width: 300px;"><select style="margin-left: 15px;" id="production_category_id" class="idls object" disabled="disabled">'. Get_production_category($res['production_category_id']).'</select></td>
+		<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object" disabled="disabled">'. Get_production_brand($res['production_brand_id']).'</select></td>
 		</tr>
 		</table>
 				</fieldset>
@@ -788,8 +809,8 @@ $num = 0;
 							<td style="width: 180px;"></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object"disabled="disabled">'.Getpersons($res['person_id']).'</select></td>
-							<td '.$hide1.' style="width: 180px;"><select style="width: 186px;" id="status" class="idls object"disabled="disabled">'.Getstatus($res['status']).'</select></td>
+							<td style="width: 180px;"><select style="width: 16px;" id="person_id" class="idls object"disabled="disabled">'.Getpersons($res['person_id']).'</select></td>
+							<td '.$hide1.' style="width: 180px;"><select style="width: 166px;" id="status" class="idls object"disabled="disabled">'.Getstatus($res['status']).'</select></td>
 							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
