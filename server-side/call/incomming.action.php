@@ -680,10 +680,10 @@ function GetPage($res='', $number, $pin)
 		$production_type0="";
 	}
 	$num = 0;
-	if($res[phone]==""){
+	if($res[incom_phone]==""){
 		$num=$number;
 	}else{ 
-		$num=$res[phone]; 
+		$num=$res[incom_phone]; 
 	}	
 	$data  .= '
 	<!-- jQuery Dialog -->
@@ -711,7 +711,7 @@ function GetPage($res='', $number, $pin)
 								<input type="text" id="incom_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField date\'" value="' .  $res['incom_date']. '" disabled="disabled" />
 							</td>
 							<td style="width: 180px;">
-								<input type="text" id="incom_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['incom_phone'] . '" />
+								<input type="text" id="incom_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="'  . $num .'" />
 							</td>
 							<td style="width: 69px;">
 								<button class="calls">ნომრები</button>
