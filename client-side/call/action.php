@@ -122,7 +122,7 @@
 				        }
 				    };
 					GetDialog("add-edit-form2", 400, "auto", buttons);
-					LoadTable3();
+					
 					GetDateTimes("date");
 			    break;
 			}

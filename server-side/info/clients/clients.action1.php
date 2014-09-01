@@ -232,7 +232,7 @@ function GetPage($res='', $number)
 	<div id="dialog-form">
 			<div style="float: left; width: 375px;">	
 				<fieldset style= width: 200px;" >
-			    	<legend>sgvdgvsdgvs</legend>
+			    	<legend>საჩუქარი</legend>
 		
 			    	<table width="100%" class="dialog-form-table">		
 							<td style="width: 180px;"><label for="">თარიღი</label></td>

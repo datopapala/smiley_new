@@ -870,14 +870,5 @@
 <div id="add-edit-form1" class="form-dialog" title="საჩუქარი">
 <!-- aJax -->
 </div>
-
-<!-- jQuery Dialog -->
-<div id="add-edit-form2" class="form-dialog" title="გამავალი ზარი">
-<!-- aJax -->
-</div>
-
-<div id="add-responsible-person" class="form-dialog" title="პასუხისმგებელი პირი">
-<!-- aJax -->
-</div>
 </body>
 

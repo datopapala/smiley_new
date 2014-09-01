@@ -697,7 +697,7 @@ function GetPage($res='', $number, $pin)
 						<tr>
 							<td style="width: 180px;"><label for="">მომართვა №</label></td>
 							<td style="width: 180px;"><label for="">თარიღი</label></td>
-							<td style="width: 180px;"><label for="phone">ტელეფონი</label></td>
+							<td style="width: 180px;"><label for="">ტელეფონი</label></td>
 							<td></td>
 							<td><label for="person_name">აბონენტის სახელი</label></td>
 						</tr>
