@@ -713,8 +713,8 @@ function GetPage($res='', $number, $pin)
 							<td style="width: 180px;">
 								<input type="text" id="incom_phone" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="'  . $num .'" />
 							</td>
-							<td style="width: 69px;">
-								<button class="calls">ნომრები</button>
+							<td style="width: 69px;z-index: 99999999 !important;">
+								<button style="" id="button_calls" class="calls">ნომრები</button>
 							</td>
 							<td style="width: 69px;">
 								<input type="text" id="first_name" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['first_name'] . '" />

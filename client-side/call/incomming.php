@@ -71,7 +71,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 			GetDialog(fName, 1200, "auto", "");
 			
-
+			 $(document).on("click", "#button_calls", function () {
+				 LoadDialogCalls();
+				 $('#refresh-dialog').click(); })
+			
 			$( ".calls" ).button({
 			      icons: {
 			        primary: " ui-icon-contact"
@@ -185,7 +188,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	var phone = $(this).attr("number");
 	    	console.log(phone);
 	    	if(phone != ""){
-	    		$('#phone').val(phone);
+	    		$('#incom_phone').val(phone);
 		    }
 	    });
 
