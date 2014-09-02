@@ -243,11 +243,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 							        primary: "ui-icon-plus"
 							      }
 							});
-						}
+						} 	
 					}
 			    }
 		    });
-
+	    
 	    });
 //
 	    $(document).on("keydown", "#personal_pin", function(event) {
@@ -295,7 +295,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 <table style="width: 1100px; margin: 0 0 0 100px; padding-top:25px; display: block;">
 		<tr style="width: 800px">
 			<td>
-            	<h2 align="center">შემომავალი ზარები</h2>
+            	<h2 align="center" >შემომავალი ზარები</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         		</div>
