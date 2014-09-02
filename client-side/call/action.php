@@ -370,7 +370,7 @@
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 90%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">აქციები</h2>
 		            	<div id="button_area">

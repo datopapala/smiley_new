@@ -295,14 +295,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<table style="width: 1100px; margin: 0 0 0 100px; padding-top:25px; display: block;">
-		<tr style="width: 800px">
-			<td>
+<table style="width: 100%; margin: 1 0 0 100px; padding-top:25px; display: block; ">
+		<tr>
+			<td style="width: 70%;">
+			<div id="container" style="width: 95%;">        	
+		       <div id="dynamic">
             	<h2 align="center" >შემომავალი ზარები</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         		</div>
-                <table class="display" id="example">
+                <table class="display" id="example" style="width: 100%;">
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
@@ -337,11 +339,13 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                     </thead>
                 </table>
 	            <div class="spacer">
+	            </div>
+		   </div>
 	         </div>
-	    <td style="width: 20px;">
+	    <td style="width: 0px;">
 		   &nbsp;
 		</td>
-		<td style="width: 450px;">
+		<td style="width: 30%;">
 		   <div id="jq" style="width: 450px; position: fixed;"></div>
 		</td>
 	</tr>
