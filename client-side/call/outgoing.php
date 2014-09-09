@@ -543,7 +543,7 @@
 
 <body>
 
-<div id="tabs" style="width: 90%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მენეჯერი</a></li>
 			<li><a href="#tab-1">პირველადი</a></li>
@@ -552,7 +552,7 @@
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		            	<div id="button_area">
@@ -606,7 +606,7 @@
 		 </div>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		                <table class="display" id="example1">
@@ -648,7 +648,7 @@
 		 </div>
 		 <div id="tab-2">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		                <table class="display" id="example2">
@@ -690,7 +690,7 @@
 		 </div>
 		 <div id="tab-3">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 95%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		                <table class="display" id="example3">

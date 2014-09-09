@@ -363,14 +363,14 @@
 
 <body>
 
-<div id="tabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
+<div id="tabs" style="width: 100%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
 			<li><a href="#tab-0">მიმდინარე აქციები</a></li>
 			<li><a href="#tab-1">აქციების არქივი</a></li>
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 90%;">        	
+		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">აქციები</h2>
 		            	<div id="button_area">

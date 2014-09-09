@@ -263,8 +263,8 @@
 
 			
     <div id="dt_example" class="ex_highlight_row">
-        <div id="container">        	
-            <div id="dynamic" >
+        <div id="container" style="width: 95%;">        	
+		            <div id="dynamic">
             	<h2 align="center">დავალებები</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
