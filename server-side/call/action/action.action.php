@@ -372,7 +372,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 												
 	
 										FROM 	action
-										JOIN task ON task.action_id=action.id
+										LEFT JOIN task ON task.action_id=action.id
 										WHERE 	action.id=$action_id
 									" ));
 	

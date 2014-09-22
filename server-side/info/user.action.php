@@ -539,7 +539,7 @@ function GetPage($res = '')
 			</div>
         </fieldset>
  	    <fieldset>
-	    	<legend>ტანამშრომლის სურათი</legend>
+	    	<legend>თანამშრომლის სურათი</legend>
 
 	    	<table class="dialog-form-table" width="100%">
 	    		<tr>
