@@ -55,22 +55,22 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "desc", "");
 		}
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "desc", "");
 		}
 
 		function LoadTable2(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "asc", "");
+			GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "desc", "");
 		}
 		
 		function LoadTable3(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "desc", "");
 		}
 
 		//SeoYyy
@@ -559,11 +559,11 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:36%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:33%;">user-ი</th>
+									<th style="width:33%;">პასუხისმგებელი პირი</th>
+									<th style="width:33%;">ოპერატორი</th>
+									<th style="width:150px;">ზარის შ.თარიღი</th>
 									<th class="check">#</th>
 								</tr>
 							</thead>
@@ -609,11 +609,11 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:36%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:33%;">user-ი</th>
+									<th style="width:33%;">პასუხისმგებელი პირი</th>
+									<th style="width:33%;">ოპერატორი</th>
+									<th style="width:150px;">ზარის შ.თარიღი</th>
 								</tr>
 							</thead>
 							<thead>
@@ -651,11 +651,11 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:36%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:33%;">user-ი</th>
+									<th style="width:33%;">პასუხისმგებელი პირი</th>
+									<th style="width:33%;">ოპერატორი</th>
+									<th style="width:150px;">ზარის შ.თარიღი</th>
 								</tr>
 							</thead>
 							<thead>
@@ -693,11 +693,11 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">ID</th>
-									<th style="width:19%;">user-ი</th>
-									<th style="width:36%;">პასუხისმგებელი პირი</th>
-									<th style="width:19%;">ოპერატორი</th>
-									<th style="width:19%;">ზარის შ.თარიღი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:33%;">user-ი</th>
+									<th style="width:33%;">პასუხისმგებელი პირი</th>
+									<th style="width:33%;">ოპერატორი</th>
+									<th style="width:150px;">ზარის შ.თარიღი</th>
 								</tr>
 							</thead>
 							<thead>

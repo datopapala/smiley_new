@@ -626,6 +626,7 @@ function Getincomming($incom_id)
 {
 $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 												incomming_call.date AS incom_date,
+												DATE_FORMAT(incomming_call.`date`,'%Y-%m-%d') AS record_date,
 												incomming_call.phone AS incom_phone,
 												incomming_call.first_name AS first_name,
 												incomming_call.information_category_id AS category_id,
@@ -733,7 +734,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:400px; float:left; margin-left: 15px;">
+				<fieldset style="width:399px; float:left; margin-left: 15px;">
 			    	<legend>ინფორმაციის კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">						
 						<tr>
@@ -786,7 +787,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:557px; float:left; margin-left: 10px;">
+				<fieldset style="width:557px; float:left; margin-left: 9px;">
 			    	<legend>შინაარსი</legend>
 					<table id="additional" class="dialog-form-table" width="150px">	
 						<tr>
@@ -840,26 +841,52 @@ function GetPage($res='', $number, $pin)
 			</div>
 			<div id="info_c" style="float: right;  width: 371px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
-			$data .= '
-				
-			</div><div>		
-	  			<fieldset>
-					<legend>საუბრის ჩანაწერი</legend> 
-	  				<table style="float: left; border: 1px solid #85b1de; width: 250px; text-align: center; margin-left:40px;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">დრო</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">ჩანაწერი</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">10:05:12 AM</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">მოსმენა</td>
-	  					</tr>
-					<table/>
-				</fieldset>
-			</div>
+			$data .= '</div>';
+				$data .=GetRecordingsSection($res);
+			$data .='	
+	  		
     </div>';
 
 	return $data;
 }
+function GetRecordingsSection($res)
+{
+	if ($res[incom_phone]==''){
+		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+	}else{
+		$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
+				`userfield`
+				FROM     `cdr`
+				WHERE     (`dst` = '2555655' && `userfield` != '' && DATE(`calldate`) = '$res[record_date]' && `src` LIKE '%$res[incom_phone]%')
+				OR      (`dst` LIKE '%$res[incom_phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[record_date]');");
+	}
+	$data .= '
+        <fieldset style="margin-top: 10px; width: 333px; float: right;">
+            <legend>ჩანაწერები</legend>
 
+            <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <th style="padding-left: 10px;">დრო</th>
+                    <th  style="border: solid 1px #85b1de; padding-left: 10px;">ჩანაწერი</th>
+                </tr>';
+	if (mysql_num_rows($req) == 0){
+		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+	}
+
+	while( $res2 = mysql_fetch_assoc($req)){
+		$src = $res2['userfield'];
+		$link = explode("/", $src);
+		$data .= '
+                <tr style="border-bottom: solid 1px #85b1de; height: 20px;">
+                    <td>' . $res2['time'] . '</td>
+                    <td><button class="download" str="' . $link[5] . '">მოსმენა</button></td>
+                </tr>';
+	}
+
+	$data .= '
+            </table>
+        </fieldset>';
+
+	return $data;
+}
 ?>

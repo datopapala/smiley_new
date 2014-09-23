@@ -14,6 +14,23 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 .hidden{
 	display: none;
 }
+.download {
+
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:14px;
+	
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
 
 #box-table-b
 {
@@ -175,6 +192,14 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                 setTimeout(runAjax, 1000);
             });
         }
+	    $(document).on("click", ".download", function () {
+            var link = ($(this).attr("str")).replace("audio:/var/spool/asterisk/monitor/", "");
+      //      alert(link)
+            link = 'http://212.72.155.176:8181/records/' + link + '.wav';
+
+            window.open(link, 'chatwindow', "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
+            
+        });
 
 	    $(document).on("click", ".number", function () {
 	    	var number = $(this).attr("number");
@@ -295,10 +320,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<table style="width: 100%; margin: 1 0 0 100px; padding-top:25px; display: block; ">
+<table style="width:86%; margin: 1 0 0 100px; padding-top:-18px; display: block; ">
 		<tr>
 			<td style="width: 70%;">
-			<div id="container" style="width: 95%;">        	
+			<div id="container" style="width: 95%;margin-top: -20px;">        	
 		       <div id="dynamic">
             	<h2 align="center" >შემომავალი ზარები</h2>
             	<div id="button_area">
@@ -308,11 +333,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 35px;" >№</th>
+                            <th style="width: 80px;" >№</th>
                             <th style="width: 150px;">თარიღი</th>
-                            <th style="width: 150px;">კატეგორია</th>
-                            <th style="width: 150px;">ტელეფონი</th>
-                            <th style="width: 150px;">შინაარსი</th>
+                            <th style="width: 200px;">კატეგორია</th>
+                            <th style="width: 100px;">ტელეფონი</th>
+                            <th style="width: 100%;">შინაარსი</th>
                         </tr>
                     </thead>
                     <thead>
@@ -345,7 +370,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    <td style="width: 0px;">
 		   &nbsp;
 		</td>
-		<td style="width: 30%;">
+		<td style="width: 30%;margin-top: 30px;">
 		   <div id="jq" style="width: 450px; position: fixed;"></div>
 		</td>
 	</tr>

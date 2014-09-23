@@ -320,10 +320,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<table style="width: 100%; margin: 1 0 0 100px; padding-top:25px; display: block; ">
+<table style="width:86%; margin: 1 0 0 100px; padding-top:-18px; display: block; ">
 		<tr>
 			<td style="width: 70%;">
-			<div id="container" style="width: 95%;">        	
+			<div id="container" style="width: 95%;margin-top: -20px;">        	
 		       <div id="dynamic">
             	<h2 align="center" >შემომავალი ზარები</h2>
             	<div id="button_area">
@@ -333,10 +333,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 35px;" >№</th>
+                            <th style="width: 80px;" >№</th>
                             <th style="width: 150px;">თარიღი</th>
-                            <th style="width: 150px;">კატეგორია</th>
-                            <th style="width: 150px;">ტელეფონი</th>
+                            <th style="width: 200px;">კატეგორია</th>
+                            <th style="width: 100px;">ტელეფონი</th>
                             <th style="width: 100%;">შინაარსი</th>
                         </tr>
                     </thead>
@@ -370,7 +370,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    <td style="width: 0px;">
 		   &nbsp;
 		</td>
-		<td style="width: 30%;">
+		<td style="width: 30%;margin-top: 30px;">
 		   <div id="jq" style="width: 450px; position: fixed;"></div>
 		</td>
 	</tr>

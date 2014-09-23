@@ -39,17 +39,17 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "desc", "");
 		}
 			
 		function LoadTable1(){	
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 7, "", 0, "", 1, "desc", "");
 		}
 		function LoadTable2(){						
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example3", aJaxURL2, "get_list", 6,"action_idd="+$("#action_id").val(), 0, "", 1, "asc", "");
+			GetDataTable("example3", aJaxURL2, "get_list", 6,"action_idd="+$("#action_id").val(), 0, "", 1, "desc", "");
 		}
 		
 
@@ -378,12 +378,12 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                           <th>ID</th>
-									<th style="width:6%;">#</th>
-									<th style="width:15%; word-break:break-all;">დასახელება</th>
-									<th style="width:13%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:13%; word-break:break-all;">დასასრული</th>
-									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:300px; word-break:break-all;">დასახელება</th>
+									<th style="width:150px; word-break:break-all;">დასაწყისი</th>
+									<th style="width:150px; word-break:break-all;">დასასრული</th>
+									<th style="width:100%; word-break:break-all;">შინაარსი</th>
+									<th style="width:180px; word-break:break-all;">ავტორი</th>
 									
 								</tr>
 							</thead>
@@ -428,12 +428,12 @@
 		                    <thead>
 								<tr id="datatable_header">
 		                           <th>ID</th>
-									<th style="width:6%;">#</th>
-									<th style="width:15%; word-break:break-all;">დასახელება</th>
-									<th style="width:13%; word-break:break-all;">დასაწყისი</th>
-									<th style="width:13%; word-break:break-all;">დასასრული</th>
-									<th style="width:40%; word-break:break-all;">შინაარსი</th>
-									<th style="width:15%; word-break:break-all;">ავტორი</th>
+									<th style="width:80px;">#</th>
+									<th style="width:300px; word-break:break-all;">დასახელება</th>
+									<th style="width:150px; word-break:break-all;">დასაწყისი</th>
+									<th style="width:150px; word-break:break-all;">დასასრული</th>
+									<th style="width:100%; word-break:break-all;">შინაარსი</th>
+									<th style="width:180px; word-break:break-all;">ავტორი</th>
 									
 								</tr>
 							</thead>

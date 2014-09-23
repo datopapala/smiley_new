@@ -289,7 +289,7 @@
 
 			
     <div id="dt_example" class="ex_highlight_row">
-        <div id="container" style="width: 95%;">        	
+        <div id="container" style="width: 99%;">        	
 		            <div id="dynamic">
             	<h2 align="center">დავალებები</h2>
             	<div id="button_area">
@@ -300,12 +300,12 @@
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width:35px;">ID</th>
-                            <th style="width: 150px;">user-ი</th>
-                           	<th style="width: 200px;">პასუხისმგებელი პირი</th>
-                            <th style="width: 150px;">ოპერატორი</th>
-                            <th style="width: 100%;">ზარის შ. თარიღი</th>
-                            <th style="width: 170px;">სტატუსი</th>
+                            <th style="width:70px;">ID</th>
+                            <th style="width: 33%;">user-ი</th>
+                           	<th style="width: 33%;">პასუხისმგებელი პირი</th>
+                            <th style="width: 33%;">ოპერატორი</th>
+                            <th style="width: 150px;">ზარის შ. თარიღი</th>
+                            <th style="width: 220px;">სტატუსი</th>
                            
                         </tr>
                     </thead>

@@ -69,16 +69,13 @@ switch ($action) {
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,
-											`status`.`call_status`,
-  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
+									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
 							FROM 			`task`
 							JOIN users ON users.id = task.user_id
 							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id
 							left JOIN 		persons AS `user1`			ON task.responsible_user_id=user1.id
 							JOIN 		users AS `user2`			ON task.user_id=user2.id
 							JOIN 		persons AS `person2`		ON user2.person_id=person2.id
-				
-							left JOIN 	`status`  	ON	task.`status`=`status`.`id`
 							WHERE 		task.actived=1 and task.task_type_id= 1 AND task.`status`=1 $filter
 									
 	  			");
