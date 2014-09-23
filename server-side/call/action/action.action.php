@@ -145,8 +145,8 @@ switch ($action) {
 				'$file',
 				'$rand_file'
 				);");
-				GLOBAL $log;
-				$log->setInsertLog('file');
+				//GLOBAL $log;
+				//$log->setInsertLog('file');
 				}
 		
 				$increm = mysql_query("	SELECT  `name`,
