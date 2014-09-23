@@ -6,10 +6,10 @@
 	}
 	</style>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/info/group.action.php";		//server side folder url
-		var tName	= "example";											//table name
-		var fName	= "add-edit-form";										//form name
-		var img_name		= "0.jpg";
+		var aJaxURL		= "server-side/info/group.action.php";		//server side folder url
+		var tName		= "example";											//table name
+		var fName		= "add-edit-form";										//form name
+		var img_name	= "0.jpg";
 
 		$(document).ready(function () {
 			LoadTable();

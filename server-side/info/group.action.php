@@ -63,13 +63,13 @@ switch ($action) {
 									     FROM    `pages`
 									LEFT JOIN    `menu_detail` ON `menu_detail`.`page_id` = `pages`.`id`
 									LEFT JOIN    `group_permission` ON group_permission.page_id = `pages`.`id` && `group_permission`.`group_id` = $group_id
-									    WHERE     ((`menu_detail`.`parent` != 0 && menu_detail.url = '#') || (menu_detail.url = '')) ");
+									    WHERE     ((`menu_detail`.`parent` != 0 && menu_detail.url = '#') || (menu_detail.url = '') ) ");
 		}else {
 			$rResult = mysql_query("SELECT    `pages`.`id`,
-								          `menu_detail`.`title`
-								FROM      `pages`
-								LEFT JOIN `menu_detail` ON `menu_detail`.`page_id` = `pages`.`id`
-								WHERE     (`menu_detail`.`parent` != 0 && menu_detail.url = '#') || (menu_detail.url = '')");
+									          `menu_detail`.`title`
+									FROM      `pages`
+									LEFT JOIN `menu_detail` ON `menu_detail`.`page_id` = `pages`.`id`
+									WHERE     (`menu_detail`.`parent` != 0 && menu_detail.url = '#') || (menu_detail.url = '') && `pages`.`name` != 'main'");
 		}								
 		$data = array(
 				"aaData"	=> array()
@@ -154,19 +154,19 @@ function SaveGroup($group_name, $group_pages){
 			array_push($parrentaray, $res['parent_id']);		
 		}
 	}	
-	$res = mysql_fetch_assoc( mysql_query("	SELECT	`pages`.`id` as `id`
-											FROM	`pages`
-											WHERE	`pages`.`name` = 'logout'"));
-	mysql_query("INSERT	INTO `group_permission`
-					(`group_permission`.`group_id`, `group_permission`.`page_id`)
-				VALUES
-					('$group_id','$res[id]')");
-
 	
-	mysql_query("INSERT	INTO `group_permission`
-					(`group_permission`.`group_id`, `group_permission`.`page_id`)
-				VALUES
-					('$group_id','31')");
+	//log out and main page
+	$res = ( mysql_query("	SELECT	`pages`.`id` as `id`
+							FROM	`pages`
+							WHERE	`pages`.`name` = 'logout' || `pages`.`name` = 'main'"));
+	
+	while ($row = mysql_fetch_assoc($res)) {
+		mysql_query("INSERT	INTO `group_permission`
+						(`group_permission`.`group_id`, `group_permission`.`page_id`)
+					VALUES
+						('$group_id', $row[id])");
+	}
+	
 
 	
 	foreach($parrentaray as $parrent) {
@@ -203,19 +203,18 @@ function UpdateGroup($group_id, $group_pages, $group_name){
 			array_push($parrentaray, $res['parent_id']);
 		}
 	}
-	$res = mysql_fetch_assoc( mysql_query("	SELECT	`pages`.`id` as `id`
-											FROM	`pages`
-											WHERE	`pages`.`name` = 'logout'"));
-	mysql_query("INSERT	INTO `group_permission`
-											(`group_permission`.`group_id`, `group_permission`.`page_id`)
-											VALUES
-											('$group_id','$res[id]')");
 	
+	//log out and main page
+	$res = ( mysql_query("	SELECT	`pages`.`id` as `id`
+							FROM	`pages`
+							WHERE	`pages`.`name` = 'logout' || `pages`.`name` = 'main'"));
 	
-	mysql_query("INSERT	INTO `group_permission`
-											(`group_permission`.`group_id`, `group_permission`.`page_id`)
-											VALUES
-											('$group_id','31')");
+	while ($row = mysql_fetch_assoc($res)) {
+		mysql_query("INSERT	INTO `group_permission`
+						(`group_permission`.`group_id`, `group_permission`.`page_id`)
+					VALUES
+						('$group_id', $row[id])");
+	}
 	
 	
 	foreach($parrentaray as $parrent) {

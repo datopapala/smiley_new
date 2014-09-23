@@ -10,7 +10,7 @@ if(!empty($action) && $action == 'logout'){
 	require_once ("includes/menu.php");	
 	require_once ("includes/classes/page.class.php");
 	if (empty($page)) {
-		$page = 11;
+		$page = 14;
 	}
 	$page = new page($user_id, $page);
 	$page->reqPage();
