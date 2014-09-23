@@ -1,12 +1,12 @@
 <?php
 
-//quire_once('../../includes/classes/core.php');
+include('../../includes/classes/core.php');
 
-mysql_close();
-$conn = mysql_connect('212.72.155.176', 'root', 'Gl-1114');
-if (!$conn) {
-	$error = 'dgfhg';
-}
+//mysql_close();
+//$conn = mysql_connect('212.72.155.176', 'root', 'Gl-1114');
+//if (!$conn) {
+	//$error = 'dgfhg';
+//}
 mysql_select_db('asteriskcdrdb');
 
 $action 	= $_REQUEST['act'];
@@ -22,10 +22,10 @@ switch ($action) {
 								       cdr.src,
 								       cdr.dst,
 								       CONCAT(SUBSTR((cdr.duration / 60), 1, 1), ':', cdr.duration % 60) as `time`,
-								       CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 7), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://212.72.155.176:8181/records/', SUBSTRING(cdr.userfield, 7), '\">ჩამოტვირთვა</a>')
+								       CONCAT('<p onclick=play(', '\'', SUBSTRING(cdr.userfield, 35), '\'',  ')>მოსმენა</p>', '<a download=\"image.jpg\" href=\"http://212.72.155.176:8181/records/', SUBSTRING(cdr.userfield, 35), '\">ჩამოტვირთვა</a>')
 								FROM   cdr
-								WHERE      cdr.disposition = 'ANSWERED' AND cdr.userfield != '' AND cdr.dcontext = 'ALFA'");
-	  
+							WHERE      cdr.disposition = 'ANSWERED' AND cdr.userfield != '' AND cdr.dcontext = 'ext-queues'");
+	  	
 		$data = array(
 				"aaData"	=> array()
 		);
