@@ -198,8 +198,8 @@ function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $ca
 }       
 function  savetask($incomming_call_id, $person_id, $template_id, $task_type_id,  $priority_id,  $comment){
 	//echo "$incomming_call_id, $template_id, $task_type_id,  $priority_id,  $problem_comment";
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $incomming_call_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $incomming_call_id);
 	$user  = $_SESSION['USERID'];
 	mysql_query("	UPDATE`task` SET 
 								`user_id`				='$user',
@@ -212,7 +212,7 @@ function  savetask($incomming_call_id, $person_id, $template_id, $task_type_id, 
 								`actived`				='1' 
 					WHERE		`incomming_call_id`		='$incomming_call_id'
 					");
-	$log->setInsertLog('task',$incomming_call_id);
+	//$log->setInsertLog('task',$incomming_call_id);
 }
 function Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id)
 {

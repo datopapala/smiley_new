@@ -189,9 +189,9 @@ function UpdateGroup($group_id, $group_pages, $group_name){
 	$parrentaray = array();
 	foreach($group_pages as $group_page) {
 		mysql_query("INSERT	INTO `group_permission`
-		(`group_permission`.`group_id`, `group_permission`.`page_id`)
-		VALUES
-		('$group_id','$group_page')");
+										(`group_permission`.`group_id`, `group_permission`.`page_id`)
+									VALUES
+										('$group_id','$group_page')");
 	
 	
 		$res = mysql_fetch_assoc( mysql_query("	SELECT		`menu_detail`.`parent` as `parent_id`
@@ -207,22 +207,22 @@ function UpdateGroup($group_id, $group_pages, $group_name){
 											FROM	`pages`
 											WHERE	`pages`.`name` = 'logout'"));
 	mysql_query("INSERT	INTO `group_permission`
-	(`group_permission`.`group_id`, `group_permission`.`page_id`)
-	VALUES
-	('$group_id','$res[id]')");
+											(`group_permission`.`group_id`, `group_permission`.`page_id`)
+											VALUES
+											('$group_id','$res[id]')");
 	
 	
 	mysql_query("INSERT	INTO `group_permission`
-	(`group_permission`.`group_id`, `group_permission`.`page_id`)
-	VALUES
-	('$group_id','31')");
+											(`group_permission`.`group_id`, `group_permission`.`page_id`)
+											VALUES
+											('$group_id','31')");
 	
 	
 	foreach($parrentaray as $parrent) {
 		mysql_query("INSERT	INTO `group_permission`
-		(`group_permission`.`group_id`, `group_permission`.`page_id`)
-		VALUES
-		('$group_id','$parrent')");
+											(`group_permission`.`group_id`, `group_permission`.`page_id`)
+										VALUES
+											('$group_id','$parrent')");
 	
 	}
 	

@@ -22,7 +22,6 @@ $comment 	     	= $_REQUEST['comment1'];
 $priority_id 		= $_REQUEST['priority_id'];
 $task_status 		= $_REQUEST['task_status'];
 $template_id		= $_REQUEST['template_id'];
-$person_id			= $_REQUEST['person_id'];
 $task_type_id		= $_REQUEST['task_type_id'];
 $task_date			= $_REQUEST['task_date'];
 $task_status				= $_REQUEST['status'];
@@ -52,23 +51,35 @@ switch ($action) {
 		$count 		= $_REQUEST['count'];
 		$hidden 	= $_REQUEST['hidden'];
 		$user_id	= $_SESSION['USERID'];
-  		$rResult = mysql_query("SELECT 	 	`task`.id,
+		
+		$user_id	= $_SESSION['USERID'];
+		$user		= $_SESSION['USERID'];
+		$group		= checkgroup($user);
+		
+		$filter = '';
+		if ($group != 1) {
+			$res_row = mysql_fetch_assoc(mysql_query("SELECT 	users.person_id
+					FROM 	`users`
+					WHERE 	`users`.`id` = $user_id"));
+		
+			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
+		}
+  		$rResult = mysql_query("SELECT		`task`.id,
 											`task`.id,
-											`users`.`username`,
-											`person1`.`name` ,
+  											users.username,
+											`user1`.`name` ,
 											`person2`.`name` ,
-											task.date
-											
-								FROM 		`task`			
-								JOIN    	users  ON task.user_id=users.id
-								JOIN 		users AS `user1`			ON task.responsible_user_id=user1.id
-								JOIN 		persons AS `person1`	ON user1.person_id=person1.id
-								
-								JOIN 		users AS `user2`			ON task.user_id=user2.id
-								left JOIN 		persons AS `person2`	ON user2.person_id=person2.id
-								
-							
-								WHERE 		task.actived=1 AND task.`task_type_id` =1 AND task.`status`=1 AND task.user_id=$user_id
+											`status`.`call_status`,
+  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
+							FROM 			`task`
+							JOIN users ON users.id = task.user_id
+							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id
+							left JOIN 		persons AS `user1`			ON task.responsible_user_id=user1.id
+							JOIN 		users AS `user2`			ON task.user_id=user2.id
+							JOIN 		persons AS `person2`		ON user2.person_id=person2.id
+				
+							left JOIN 	`status`  	ON	task.`status`=`status`.`id`
+							WHERE 		task.actived=1 and task.task_type_id= 1 AND task.`status`=1 $filter
 									
 	  			");
 	  
@@ -130,12 +141,20 @@ echo json_encode($data);
  *	Request Functions
 * ******************************
 */
+function checkgroup($user){
+	$res = mysql_fetch_assoc(mysql_query("
+			SELECT users.group_id
+			FROM    users
+			WHERE  users.id = $user
+			"));
+	return $res['group_id'];
 
+}
 function savetask($id, $problem_comment)
 {
 
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $id);
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET 
@@ -145,13 +164,13 @@ function savetask($id, $problem_comment)
 								`problem_comment`='$problem_comment', 
 								`status`='2' 
 					WHERE		`id`='$id'");
-	$log->setInsertLog('task',$id);
+	//$log->setInsertLog('task',$id);
 
 }
 function Savetask1($id, $problem_comment)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $id);
 						$c_date		= date('Y-m-d H:i:s');
 						$user  = $_SESSION['USERID'];
 						mysql_query("UPDATE `task` SET
@@ -160,7 +179,7 @@ function Savetask1($id, $problem_comment)
 													`status`	='3'
 													WHERE 	`id`		='$id'
 						");
-						$log->setInsertLog('task',$id);
+						//$log->setInsertLog('task',$id);
 }
 
 function Getproduction($production_id)
@@ -388,7 +407,7 @@ function Get_task_type($task_type_id)
 
 	return $data;
 }
-function Getpersons($persons_id)
+function Getpersons($person_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
@@ -397,7 +416,7 @@ function Getpersons($persons_id)
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $persons_id){
+		if($res['id'] == $person_id){
 			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
 			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';

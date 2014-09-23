@@ -54,23 +54,34 @@ switch ($action) {
 		$count 		= $_REQUEST['count'];
 		$hidden 	= $_REQUEST['hidden'];
 		$user_id	= $_SESSION['USERID'];
-  		$rResult = mysql_query("SELECT 	 	`task`.id,
+		$user_id	= $_SESSION['USERID'];
+		$user		= $_SESSION['USERID'];
+		$group		= checkgroup($user);
+		
+		$filter = '';
+		if ($group != 1) {
+			$res_row = mysql_fetch_assoc(mysql_query("SELECT 	users.person_id
+					FROM 	`users`
+					WHERE 	`users`.`id` = $user_id"));
+		
+			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
+		}
+  		$rResult = mysql_query("SELECT		`task`.id,
 											`task`.id,
-											`users`.`username`,
-											`person1`.`name` ,
+  											users.username,
+											`user1`.`name` ,
 											`person2`.`name` ,
-											task.date
-											
-								FROM 		`task`			
-								JOIN    users  ON task.user_id=users.id
-								JOIN 		users AS `user1`			ON task.responsible_user_id=user1.id
-								JOIN 		persons AS `person1`	ON user1.person_id=person1.id
-								
-								JOIN 		users AS `user2`			ON task.user_id=user2.id
-								left JOIN 		persons AS `person2`	ON user2.person_id=person2.id
-								
-							
-								WHERE 		task.actived=1 AND task.`task_type_id` =1 AND task.`status`=2 AND task.user_id=$user_id
+											`status`.`call_status`,
+  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
+							FROM 			`task`
+							JOIN users ON users.id = task.user_id
+							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id
+							left JOIN 		persons AS `user1`			ON task.responsible_user_id=user1.id
+							JOIN 		users AS `user2`			ON task.user_id=user2.id
+							JOIN 		persons AS `person2`		ON user2.person_id=person2.id
+				
+							left JOIN 	`status`  	ON	task.`status`=`status`.`id`
+							WHERE 		task.actived=1 and task.task_type_id= 1 AND task.`status`=2 $filter
 									
 	  			");
 	  
@@ -150,13 +161,21 @@ echo json_encode($data);
  *	Request Functions
 * ******************************
 */
+function checkgroup($user){
+	$res = mysql_fetch_assoc(mysql_query("
+			SELECT users.group_id
+			FROM    users
+			WHERE  users.id = $user
+			"));
+	return $res['group_id'];
 
+}
       
 function savetask($id, $problem_comment)
 {
 
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $id);
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET 
@@ -167,13 +186,13 @@ function savetask($id, $problem_comment)
 								`status`='3' 
 					WHERE		`id`='$id'
 					");
-	$log->setInsertLog('task',$id);
+	//$log->setInsertLog('task',$id);
 
 }
 function Savetask1($id, $problem_comment)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('task', $id);
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET
@@ -182,7 +201,7 @@ function Savetask1($id, $problem_comment)
 								`status`	='3'
 								WHERE 	`id`		='$id'
 								");
-	$log->setInsertLog('task',$id);
+	//$log->setInsertLog('task',$id);
 }
 
 function Getproduction($production_id)

@@ -196,7 +196,6 @@
 	    	param.priority_id			= $("#priority_id").val();
 	    	param.task_status			= $("#task_status").val();
 	    	param.template_id			= $("#template_id").val();
-	    	param.person_id				= $("#person_id").val();
 	    	param.task_type_id			= $("#task_type_id").val();
 	    	param.task_date				= $("#task_date").val();
 	    	
@@ -236,7 +235,6 @@
 		    	param.priority_id			= $("#priority_id").val();
 		    	param.task_status			= $("#task_status").val();
 		    	param.template_id			= $("#template_id").val();
-		    	param.person_id				= $("#person_id").val();
 		    	param.task_type_id			= $("#task_type_id").val();
 		    	param.task_date				= $("#task_date").val();
 		    	
@@ -274,7 +272,6 @@
 		    	param.priority_id			= $("#priority_id").val();
 		    	param.task_status			= $("#task_status").val();
 		    	param.template_id			= $("#template_id").val();
-		    	param.person_id				= $("#person_id").val();
 		    	param.task_type_id			= $("#task_type_id").val();
 		    	param.task_date				= $("#task_date").val();
 		    	
@@ -367,7 +364,6 @@
 		    	param.priority_id			= $("#priority_id").val();
 		    	param.task_status			= $("#task_status").val();
 		    	param.template_id			= $("#template_id").val();
-		    	param.person_id				= $("#person_id").val();
 		    	param.task_type_id			= $("#task_type_id").val();
 		    	param.task_date				= $("#task_date").val();
 		    
