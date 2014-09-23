@@ -1386,8 +1386,8 @@
 		var record;
 		function play(record){
 			
-			link = 'http://92.241.82.243:8181/records/' + record;
-			var newWin = window.open(link, 'newWin','width=420,height=200');
+			link = 'http://212.72.155.176:8181/records/' + record;
+			var newWin = window.open(link, 'newWin','width=320,height=200');
             newWin.focus();
             
 		}

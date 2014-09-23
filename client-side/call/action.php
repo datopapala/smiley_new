@@ -142,7 +142,7 @@
 
 			param 			= new Object();
 			param.act			= "save_action";			
-			param.id					= $("#id").val();			
+			//param.id				= $("#id").val();			
 			param.id1				= $("#action_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
