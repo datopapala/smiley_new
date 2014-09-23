@@ -113,38 +113,6 @@ function Addaction_1($action_id, $object_id,  $date, $production_id,   $price ){
 	///GLOBAL $log;
 	///$log->setInsertLog('action_detail');
 }
-
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
-{
-	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO	`task` 
-									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
-									 `task_type_id`,
-									 `priority_id`,
-									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
-						VALUES
-									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
-	
-	
-}
-
-
 				
 function saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $price)
 {
@@ -160,22 +128,8 @@ function saveaction_1( $action_detail_id,  $object_id, $date, $production_id,  $
 						WHERE action_detail.`id`='$action_detail_id'");
 	
 	//$log->setInsertLog('action_detail',$action_detail_id);
-}       
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
-{
-
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
-										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
-										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
-
-}
-
-
+}  
+     
 function Getproduction($production_id)
 {
 	$data = '';

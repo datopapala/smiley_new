@@ -6,8 +6,8 @@
 */
 
 require_once('../../../includes/classes/core.php');
-include('../../../includes/classes/log.class.php');
-$log 		= new log();
+//include('../../../includes/classes/log.class.php');
+//$log 		= new log();
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
@@ -90,8 +90,7 @@ switch ($action) {
 
 		break;
 	case 'save_action':
-		$action_id			= $_REQUEST['id'];
-		$task_type_id			= $_REQUEST['task_type_id'];
+			$task_type_id			= $_REQUEST['task_type_id'];
 		if($action_id == ''){			
 			Addaction($action_id1,  $action_name,  $start_date, $end_date, $action_content);
 			$task_id = mysql_insert_id();
@@ -378,11 +377,6 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	action.id,
 	return $res;
 }
 
-function GetLocalID(){
-	GLOBAL $db;
-	return $db->increment('action');
-}
-
 function GetPage($res='', $number)
 {
 	$num = 0;
@@ -499,8 +493,8 @@ function GetPage($res='', $number)
 									<th style="width:7%;">#</th>
 									<th style="width:25%; word-break:break-all;">ფილიალი</th>
 									<th style="width:20%; word-break:break-all;">თარიღი</th>
-									<th style="width:35%; word-break:break-all;">პროდუქტი</th>
-									<th style="width:13%; word-break:break-all;">თანხა</th>
+									<th style="width:33%; word-break:break-all;">პროდუქტი</th>
+									<th style="width:15%; word-break:break-all;">თანხა</th>
 								</tr>
 							</thead>
 					</table>
