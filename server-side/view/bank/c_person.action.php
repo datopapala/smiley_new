@@ -5,8 +5,8 @@
 * ******************************
 */
 include('../../../includes/classes/core.php');
-include('../../includes/classes/log.class.php');
-$log 		= new log();
+//include('../../includes/classes/log.class.php');
+//$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -62,8 +62,8 @@ switch ($action) {
 		$phone					= $_REQUEST['phone'];
 		$mail					= $_REQUEST['mail'];
 		$user_id	= $_SESSION['USERID'];
-		GLOBAL $log;
-		$log->setUpdateLogAfter('bank_person', $person_id);
+		//GLOBAL $log;
+		//$log->setUpdateLogAfter('bank_person', $person_id);
 		if($person_id!=''){
 			mysql_query("	UPDATE		`bank_person`
 							SET			`user_id`			= '$user_id',
@@ -72,14 +72,14 @@ switch ($action) {
 										`phone`				= '$phone',
 										`email`				= '$mail'
 							WHERE		`id`   				= $person_id");
-			$log->setInsertLog('bank_person',$person_id);
+			//$log->setInsertLog('bank_person',$person_id);
 		}else{
 			mysql_query("	INSERT INTO bank_person
 								(`user_id`,bank_id, `c_person`, `phone`, `email`, `actived` )
 							VALUES
 								($user_id,$object_id,'$c_person', '$phone', '$mail', 1)");
-			GLOBAL $log;
-			$log->setInsertLog('bank_person');
+			//GLOBAL $log;
+			//$log->setInsertLog('bank_person');
 		}
 
 			break;
@@ -109,18 +109,18 @@ function Addbank_object($user_id, $bank_object_name, $bank_object_address)
 						(`user_id`,`name`, `address`)
 				VALUES
 						($user_id,$bank_object_name, $bank_object_address)");
-	GLOBAL $log;
-	$log->setInsertLog('bank_object');
+	//GLOBAL $log;
+	//$log->setInsertLog('bank_object');
 }
 
 function Deleteobj($person_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('bank_person', $person_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('bank_person', $person_id);
 	mysql_query("	UPDATE `bank_person`
 					SET    `actived` = 0
 					WHERE  `id` = $person_id");
-	$log->setInsertLog('bank_person',$person_id);
+	//$log->setInsertLog('bank_person',$person_id);
 }
 
 function CheckobjExist($local_id, $prod_id)

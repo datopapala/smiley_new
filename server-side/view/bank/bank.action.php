@@ -6,8 +6,8 @@
 */
 
 include('../../../includes/classes/core.php');
-include('../../includes/classes/log.class.php');
-$log 		= new log();
+//include('../../includes/classes/log.class.php');
+//$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -27,8 +27,8 @@ switch ($action) {
 		if($comp_id=='') $comp_id=$_REQUEST['bank_local_id'];
 		$trans_obj		= $_REQUEST['trans_obj'];
 		$trans_address 		= $_REQUEST['trans_address'];
-		GLOBAL $log;
-		$log->setUpdateLogAfter('bank_object', $c_person);
+		//GLOBAL $log;
+		//$log->setUpdateLogAfter('bank_object', $c_person);
 		if($c_person!='')
 	
 		{	mysql_query("	UPDATE		`bank_object`
@@ -37,7 +37,7 @@ switch ($action) {
 										`address`		= '$trans_address'
 							WHERE
 										`id` 			= '$c_person'");
-		$log->setInsertLog('bank_object',$c_person);
+		//$log->setInsertLog('bank_object',$c_person);
 		}
 		else{
 			
@@ -45,8 +45,8 @@ switch ($action) {
 									(`user_id`,bank_id, `name`, address )
 							VALUES
 									('$user_id',$comp_id,'$trans_obj', '$trans_address')	");
-			GLOBAL $log;
-			$log->setInsertLog('bank_object');
+			//GLOBAL $log;
+			//$log->setInsertLog('bank_object');
 			$data = array('myid'	=> mysql_insert_id());
 
 		}

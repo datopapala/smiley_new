@@ -88,10 +88,7 @@
 				break;	
 				case "add-edit-form1":
 					var buttons = {
-						"save": {
-				            text: "შენახვა",
-				            id: "save-dialog1"
-				        }, 
+						
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -146,7 +143,7 @@
 			param 			= new Object();
 			param.act			= "save_action";			
 			param.id					= $("#id").val();			
-			param.id				= $("#action_id").val();
+			param.id1				= $("#action_id").val();
 			param.action_name		= $("#action_name").val();
 			param.start_date		= $("#start_date").val();
 			param.end_date			= $("#end_date").val();

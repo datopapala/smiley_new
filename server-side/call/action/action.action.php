@@ -14,6 +14,7 @@ $data		= '';
 
 //action
 $action_id			= $_REQUEST['id'];
+$action_id1			= $_REQUEST['id1'];
 $action_name		= $_REQUEST['action_name'];
 $start_date			= $_REQUEST['start_date'];
 $end_date			= $_REQUEST['end_date'];
@@ -91,16 +92,14 @@ switch ($action) {
 	case 'save_action':
 		$action_id			= $_REQUEST['id'];
 		$task_type_id			= $_REQUEST['task_type_id'];
-		if($action_id == ''){
-			
-			Addaction(  $action_name,  $start_date, $end_date, $action_content);
+		if($action_id == ''){			
+			Addaction($action_id1,  $action_name,  $start_date, $end_date, $action_content);
 			$task_id = mysql_insert_id();
 			if($task_type_id != 0){
 			Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id,  $comment);
 			}
-		}else {
-			
-			saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content);
+		}else {			
+			saveaction($action_id, $action_name,  $start_date, $end_date, $action_content);
 			Savetask($action_id,$person_id, $task_type_id,  $priority_id, $template_id,  $comment);
 			
 		}
@@ -187,16 +186,16 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addaction(  $action_name,  $start_date, $end_date, $action_content){
+function Addaction($action_id1,  $action_name,  $start_date, $end_date, $action_content){
 	$rand_file			= $_REQUEST['rand_file'];
 	$file				= $_REQUEST['file_name'];
 	$hidden_inc			= $_REQUEST['hidden_inc'];
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `action` 
-							(`user_id`, `name`, `start_date`, `end_date`, `content`, `actived`) 
+							(`id`,`user_id`, `name`, `start_date`, `end_date`, `content`, `actived`) 
 						VALUES
-							 ('$user', '$action_name', '$start_date', '$end_date', '$action_content', '1');
+							 ('$action_id1','$user', '$action_name', '$start_date', '$end_date', '$action_content', '1');
 	");
 	
 	//GLOBAL $log;
@@ -249,8 +248,8 @@ function Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id
 				
 function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('action', $action_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('action', $action_id);
 	$user		= $_SESSION['USERID'];
 	mysql_query("UPDATE `action` SET 
 									`user_id`='$user',
@@ -261,7 +260,7 @@ function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_
 									`actived`='1' 
 				WHERE 				`id`='$action_id'");
 	
-	$log->setInsertLog('action',$action_id);
+	//$log->setInsertLog('action',$action_id);
 	
 }       
 function Savetask($action_id,$person_id, $task_type_id,  $priority_id, $template_id,  $comment)
@@ -504,26 +503,7 @@ function GetPage($res='', $number)
 									<th style="width:13%; word-break:break-all;">თანხა</th>
 								</tr>
 							</thead>
-							<thead>
-								<tr class="search_header">
-									<th class="colum_hidden">
-                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
-                            		</th>
-									<th>
-										<input style="width:70px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:65px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:30px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
-									</th>
-								</tr>
-							</thead>
-		                </table>
+					</table>
 		            </div>
 		            <div class="spacer">
 		            </div>
@@ -560,7 +540,7 @@ function GetPage($res='', $number)
             
   $data .= '
     </table>				
-						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
+						<input type="hidden" id="action_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
 	  			
 			</div>
     </div>';

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<script type="text/javascript">
-		var aJaxURL	= "server-side/view/pay_aparat.action.php";		//server side folder url
+		var aJaxURL	= "server-side/view/production.action.php";		//server side folder url
 		var tName	= "example";													//table name
 		var fName	= "add-edit-form";												//form name
 		    	
@@ -16,12 +16,12 @@
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 2, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 5, "", 0, "", 1, "desc");
     		
 		}
 		
 		function LoadDialog(){
-			var id		= $("#payaparat_id").val();
+			var id		= $("#id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 600, "auto", "");
@@ -31,9 +31,12 @@
 	    $(document).on("click", "#save-dialog", function () {
 		    param 			= new Object();
 
-		    param.act		="save_payaparat";
-	    	param.id		= $("#payaparat_id").val();
-	    	param.name		= $("#name").val();
+		    param.act						="save_production";
+	    	param.id						= $("#id").val();
+	    	param.name						= $("#name").val();
+	    	param.price						= $("#price").val();
+	    	param.production_category_id	= $("#production_category_id").val();
+	    	param.production_brand_id		= $("#production_brand_id").val();
 	    	
 			if(param.name == ""){
 				alert("შეავსეთ ველი!");
@@ -54,7 +57,6 @@
 			    });
 			}
 		});
-
 	   
     </script>
 </head>
@@ -63,7 +65,7 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">სწრაფი გადახდის აპარატები</h2>
+            	<h2 align="center">შემოტანის ფორმა</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>
@@ -72,7 +74,10 @@
                     <thead >
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 100%;">სახელი</th>
+                            <th style="width: 25%;">დასახელება</th>
+                             <th style="width: 25%;">კატეგორია</th>
+                              <th style="width: 25%;">ბრენდი</th>
+                               <th style="width: 25%;">ფასი</th>
                         	<th class="check">#</th>
                         </tr>
                     </thead>
@@ -80,6 +85,18 @@
                         <tr class="search_header">
                             <th class="colum_hidden">
                             <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                              <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                              <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                              <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" />
+                            </th>
+                              <th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" />
                             </th>
                           <th>
@@ -98,6 +115,5 @@
 	</div>
 </body>
 </html>
-
 
 

@@ -14,8 +14,8 @@ switch ($action) {
 
 		break;
 	case 'get_edit_page':
-		$paytype_id		= $_REQUEST['id'];
-		$page		= GetPage(Getpay_type($paytype_id));
+		$brand_id		= $_REQUEST['id'];
+		$page		= GetPage(Get_brand($brand_id));
 		$data		= array('page'	=> $page);
 
 		break;
@@ -23,10 +23,10 @@ switch ($action) {
 		$count	= $_REQUEST['count'];
 		$hidden	= $_REQUEST['hidden'];
 			
-		$rResult = mysql_query("SELECT 	pay_type.id,
-										pay_type.`name`
-							    FROM 	pay_type
-							    WHERE 	pay_type.actived=1");
+		$rResult = mysql_query("SELECT 	brand.id,
+										brand.`name`
+							    FROM 	brand
+							    WHERE 	brand.actived=1");
 
 		$data = array(
 				"aaData"	=> array()
@@ -47,30 +47,30 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_paytype':
-		$paytype_id 		= $_REQUEST['id'];
-		$paytype_name    = $_REQUEST['name'];
+	case 'save_brand':
+		$brand_id 		= $_REQUEST['id'];
+		$brand_name    = $_REQUEST['name'];
 
 
 
-		if($paytype_name != ''){
-			if(!Checkpay_typeExist($paytype_name, $paytype_id)){
-				if ($paytype_id == '') {
-					Addpay_type( $paytype_id, $paytype_name);
+		if($brand_name != ''){
+			if(!Checkbrand_Exist($brand_name, $brand_id)){
+				if ($brand_id == '') {
+					Addbrand( $brand_id, $brand_name);
 				}else {
-					Savepay_type($paytype_id, $paytype_name);
+					Savebrand($brand_id, $brand_name);
 				}
 
 			} else {
-				$error = '"' . $paytype_name . '" უკვე არის სიაში!';
+				$error = '"' . $brand_name . '" უკვე არის სიაში!';
 
 			}
 		}
 
 		break;
 	case 'disable':
-		$paytype_id	= $_REQUEST['id'];
-		Disablepay_type($paytype_id);
+		$brand_id	= $_REQUEST['id'];
+		Disablebrand($brand_id);
 
 		break;
 	default:
@@ -87,43 +87,44 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addpay_type($paytype_id, $paytype_name)
+function Addbrand($brand_id, $brand_name)
 {
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("INSERT INTO 	 	`pay_type`
+	mysql_query("INSERT INTO 	 	`brand`
 									(`user_id`,`name`)
-						VALUES 		('$user_id','$paytype_name')");
-	GLOBAL $log;
-	$log->setInsertLog('pay_type');
+					VALUES 		('$user_id','$brand_name')");
+	//GLOBAL $log;
+	//$log->setInsertLog('pay_aparat');
 }
 
-function Savepay_type($paytype_id, $paytype_name)
+function Savebrand($brand_id, $brand_name)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('pay_type', $paytype_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('pay_aparat', $brand_id);
 	$user_id	= $_SESSION['USERID'];
-	mysql_query("	UPDATE  `pay_type`
+	
+	mysql_query("	UPDATE `brand`
 					SET     `user_id`='$user_id',
-							`name` = '$paytype_name'
-					WHERE	`id` = $paytype_id");
-	$log->setInsertLog('pay_type',$paytype_id);
+							`name` = '$brand_name'
+					WHERE	`id` = $brand_id");
+	//$log->setInsertLog('pay_aparat',$payaparat_id);
 }
 
-function Disablepay_type($paytype_id)
+function Disablebrand($brand_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('pay_type', $paytype_id);
-	mysql_query("	UPDATE `pay_type`
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('pay_aparat', $brand_id);
+	mysql_query("	UPDATE `brand`
 					SET    `actived` = 0
-					WHERE  `id` = $paytype_id");
-	$log->setInsertLog('pay_type',$paytype_id);
+					WHERE  `id` = $brand_id");
+	//$log->setInsertLog('pay_aparat',$payaparat_id);
 }
 
-function Checkpay_typeExist($paytype_name)
+function Checkbrand_Exist($brand_name)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT `id`
-											FROM   `pay_type`
-											WHERE  `name` = '$paytype_name' && `actived` = 1"));
+											FROM   `brand`
+											WHERE  `name` = '$brand_name' && `actived` = 1"));
 	if($res['id'] != ''){
 		return true;
 	}
@@ -131,12 +132,12 @@ function Checkpay_typeExist($paytype_name)
 }
 
 
-function Getpay_type($paytype_id)
+function Get_brand($brand_id)
 {
 	$res = mysql_fetch_assoc(mysql_query("	SELECT  `id`,
 													`name`
-											FROM    `pay_type`
-											WHERE   `id` = $paytype_id" ));
+											FROM    `brand`
+											WHERE   `id` = $brand_id" ));
 
 	return $res;
 }
@@ -158,7 +159,7 @@ function GetPage($res = '')
 
 			</table>
 			<!-- ID -->
-			<input type="hidden" id="paytype_id" value="' . $res['id'] . '" />
+			<input type="hidden" id="brand_id" value="' . $res['id'] . '" />
         </fieldset>
     </div>
     ';

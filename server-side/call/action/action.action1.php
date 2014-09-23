@@ -80,20 +80,6 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_action':
-		
-	
-		if($action_id == ''){
-			
-			Addaction(  $action_name,  $start_date, $end_date, $action_content);
-			
-		}else {
-			
-			saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content);
-			
-			
-		}
-		break;
 	
 	default:
 		$error = 'Action is Null';
@@ -108,82 +94,6 @@ echo json_encode($data);
  *	Request Functions
 * ******************************
 */
-
-function Addaction(  $action_name,  $start_date, $end_date, $action_content){
-	
-	$user		= $_SESSION['USERID'];
-	
-	mysql_query("INSERT INTO `action` 
-							(`user_id`, `name`, `start_date`, `end_date`, `content`, `actived`) 
-						VALUES
-							 ('$user', '$action_name', '$start_date', '$end_date', '$action_content', '1');
-	");
-	GLOBAL $log;
-	$log->setInsertLog('action');
-}
-
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
-{
-	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO	`task` 
-									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
-									 `task_type_id`,
-									 `priority_id`,
-									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
-						VALUES
-									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
-	
-	
-}
-
-				
-function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content)
-{
-	GLOBAL $log;
-	$log->setUpdateLogAfter('action', $action_id);
-	$user		= $_SESSION['USERID'];
-	mysql_query("UPDATE `action` SET 
-									`user_id`='$user',
-									`name`='$action_name',
-									`start_date`='$start_date', 
-									`end_date`='$end_date', 
-									`content`='$action_content', 
-									`actived`='1' 
-				WHERE 				`id`='$action_id'");
-	
-	$log->setInsertLog('action',$action_id);
-}       
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
-{
-
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
-										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
-										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
-
-}
-
-
 function Getpersons($persons_id)
 {
 	$data = '';
@@ -320,17 +230,17 @@ function GetPage($res='', $number)
 								<td style="width:20px;></td>
 								
 								<td colspan "5">
-									<input  type="text" id="action_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['action_name']. '"  />
+									<input  type="text" id="action_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['action_name']. '" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
 								<td style="width: 150px;"><label for="d_number">პერიოდი</label></td>
 								<td>
-									<input type="text" id="start_date" class="idle" onblur="this.className=\'idle\'" value="' . $res['start_date']. '" />
+									<input type="text" id="start_date" class="idle" onblur="this.className=\'idle\'" value="' . $res['start_date']. '" disabled="disabled" />
 								</td>
 								<td style="width: 150px;"><label for="d_number">-დან</label></td>
 								<td>
-									<input type="text" id="end_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['end_date']. '"  />
+									<input type="text" id="end_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['end_date']. '" disabled="disabled" />
 								</td>
 								<td style="width: 150px;"><label for="d_number">-მდე</label></td>
 							</tr>
@@ -342,7 +252,7 @@ function GetPage($res='', $number)
 				    		<table width="100%" class="dialog-form-table">
 							<tr>
 								<td colspan="5">
-									<textarea  style="width: 530px; height: 100px; resize: none;" id="action_content" class="idle" name="content" cols="100" rows="2">' . $res['action_content'] . '</textarea>
+									<textarea  style="width: 530px; height: 100px; resize: none;" id="action_content" class="idle" name="content" cols="100" rows="2" disabled="disabled">' . $res['action_content'] . '</textarea>
 								</td>
 							</tr>		
 							</table>
@@ -358,9 +268,9 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="template_id" class="idls object">'. Gettemplate($res['template_id']).'</select></td>
-							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object"disabled="disabled">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object"disabled="disabled">'. Gettemplate($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object"disabled="disabled">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 180px;"><label for="d_number">ასუხისმგებელი პირი</label></td>
@@ -368,7 +278,7 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"></td>
 						</tr>		
 						<tr>
-							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object">'.Getpersons($res['responsible_user_id']).'</select></td>
+							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object"disabled="disabled">'.Getpersons($res['responsible_user_id']).'</select></td>
 							<td  style="width: 180px;"></td>
 							<td style="width: 180px;"></td>
 						</tr>
@@ -379,7 +289,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 530px; height: 80px; resize: none;" id="comment" class="idle" name="content" cols="100" rows="2">' . $res['comment'] . '</textarea>
+								<textarea  style="width: 530px; height: 80px; resize: none;" id="comment" class="idle" name="content" cols="100" rows="2"disabled="disabled">' . $res['comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
@@ -394,7 +304,7 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >        	
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		<button id="add_button_p1">დამატება</button>
+		            		<button id="add_button_p1"disabled="disabled">დამატება</button>
 	        			</div>
 		                <table class="" id="example4" style="width: 100%;">
 		                    <thead>

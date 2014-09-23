@@ -1,7 +1,7 @@
 <?php
 require_once('../../includes/classes/core.php');
-include('../../includes/classes/log.class.php');
-$log 		= new log();
+//include('../../includes/classes/log.class.php');
+//$log 		= new log();
 $action	= $_REQUEST['act'];
 $error	= '';
 $data	= '';
@@ -96,37 +96,37 @@ echo json_encode($data);
 
 function Addbank($bank_name, $bank_phone)
 {
-	$user_id	= $_SESSION['USERID'];
-	global $bank_phone;
+	//$user_id	= $_SESSION['USERID'];
+	//global $bank_phone;
 	mysql_query("INSERT INTO 	`bank`
 									(`user_id`,`name`,`bank_phone`)
 					VALUES 		('$user_id','$bank_name', '$bank_phone')");
 
-	GLOBAL $log;
-	$log->setInsertLog('bank');
+	//GLOBAL $log;
+	//$log->setInsertLog('bank');
 }
 
 function Savebank($bank_id, $bank_name, $bank_phone)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('bank', $bank_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('bank', $bank_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("	UPDATE `bank`
 					SET    `user_id`= '$user_id',
 							`name` = '$bank_name',
 							`bank_phone`='$bank_phone'
 					WHERE	`id` = $bank_id");
-	$log->setInsertLog('bank',$bank_id);
+	//$log->setInsertLog('bank',$bank_id);
 }
 
 function Disablebank($bank_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('bank', $bank_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('bank', $bank_id);
 	mysql_query("	UPDATE `bank`
 					SET    `actived` = 0
 					WHERE  `id` = $bank_id");
-	$log->setInsertLog('bank',$bank_id);
+	//$log->setInsertLog('bank',$bank_id);
 }
 
 function CheckbankExist($bank_name)
