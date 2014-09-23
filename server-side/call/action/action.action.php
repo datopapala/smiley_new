@@ -13,6 +13,7 @@ $error		= '';
 $data		= '';
 
 //action
+
 $action_id			= $_REQUEST['id'];
 $action_id1			= $_REQUEST['id1'];
 $action_name		= $_REQUEST['action_name'];
@@ -90,15 +91,16 @@ switch ($action) {
 
 		break;
 	case 'save_action':
-			$task_type_id			= $_REQUEST['task_type_id'];
-		if($action_id == ''){			
+			$task_type_id	= $_REQUEST['task_type_id'];
+			$action   	= $_REQUEST['action'];
+		if($action == ''){			
 			Addaction($action_id1,  $action_name,  $start_date, $end_date, $action_content);
 			$task_id = mysql_insert_id();
 			if($task_type_id != 0){
 			Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id,  $comment);
 			}
 		}else {			
-			saveaction($action_id, $action_name,  $start_date, $end_date, $action_content);
+			saveaction($action_id1,$action_id, $action_name,  $start_date, $end_date, $action_content);
 			Savetask($action_id,$person_id, $task_type_id,  $priority_id, $template_id,  $comment);
 			
 		}
@@ -245,7 +247,7 @@ function Addtask($person_id,$task_id, $task_type_id,  $priority_id, $template_id
 
 
 				
-function saveaction($action_id,  $action_name,  $start_date, $end_date, $action_content)
+function saveaction($action_id1,$action_id,  $action_name,  $start_date, $end_date, $action_content)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('action', $action_id);
@@ -534,9 +536,9 @@ function GetPage($res='', $number)
             
   $data .= '
     </table>				
-						<input type="hidden" id="action_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
-	  			
-			</div>
+		<input type="hidden" id="action_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
+		<input type="hidden" id="action" value="'.$res['id'].'"/>
+	  	</div>
     </div>';
 
 	return $data;
