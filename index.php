@@ -1,4 +1,4 @@
-<?php require_once(dirname(__FILE__) . '/config.php'); ?>
+<?php session_start(); require_once(dirname(__FILE__) . '/config.php'); ?>
 
 <?php if ($_SESSION['USERID'] == ''): ?>
 	<?php require_once(ABSPATH . 'includes/login.php');?>
