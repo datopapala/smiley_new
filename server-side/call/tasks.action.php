@@ -62,8 +62,9 @@ switch ($action) {
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,
-											`status`.`call_status`,
-  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
+											
+  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee,
+											`status`.`call_status`
 							FROM 			`task`
 							JOIN users ON users.id = task.user_id
 							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id

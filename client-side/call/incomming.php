@@ -14,6 +14,23 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 .hidden{
 	display: none;
 }
+.download {
+
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:14px;
+	
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
 
 #box-table-b
 {
@@ -175,6 +192,14 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                 setTimeout(runAjax, 1000);
             });
         }
+	    $(document).on("click", ".download", function () {
+            var link = ($(this).attr("str")).replace("audio:/var/spool/asterisk/monitor/", "");
+      //      alert(link)
+            link = 'http://212.72.155.176:8181/records/' + link + '.wav';
+
+            window.open(link, 'chatwindow', "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
+            
+        });
 
 	    $(document).on("click", ".number", function () {
 	    	var number = $(this).attr("number");
