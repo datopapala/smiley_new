@@ -36,10 +36,10 @@ $row_done_blank = mysql_query(" SELECT 	COUNT(*) AS `count`,
 $row1 = array();
 while($r1 = mysql_fetch_array($row_done_blank)) {
 	$row1[0] = $r1[1];
-	$row1[1] = $r1[0];
+	$row1[1] = (float)$r1[0];
 	array_push($rows,$row1);
 }
 
-echo json_encode($rows, JSON_NUMERIC_CHECK);
+echo json_encode($rows);
 
 ?>

@@ -38,7 +38,7 @@ $row = array();
 $rows = array();
 while($r = mysql_fetch_array($result)) {
 	$row[0] = $r[1];
-	$row[1] = $r[0];
+	$row[1] = (float)$r[0];
 	array_push($rows,$row);
 }
 
@@ -57,6 +57,6 @@ while($r = mysql_fetch_array($result)) {
 	//array_push($rows,$row1);
 //}
 
-echo json_encode($rows, JSON_NUMERIC_CHECK);
+echo json_encode($rows);
 
 ?>
