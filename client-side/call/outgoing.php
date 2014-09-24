@@ -1,4 +1,64 @@
+<?php
+require_once("AsteriskManager/config.php");
+include("AsteriskManager/sesvars.php");
+if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
+    $ocultar=$_SESSION['QSTATS']['hideloggedoff'];
+} else {
+    $ocultar="false";
+}
+?>
 <head>
+<style type="text/css">
+.hidden{
+	display: none;
+}
+.download {
+
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:arial;
+	font-size:14px;
+	
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+
+#box-table-b
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	text-align: center;
+	border-collapse: collapse;
+	border-top: 7px solid #F8B64A;
+	border-bottom: 7px solid #F8B64A;
+}
+#box-table-b th
+{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #e8edff;
+	border-right: 1px solid #CC840E;
+	border-left: 1px solid #CC840E;
+	color: #039;
+}
+#box-table-b td
+{
+	padding: 8px;
+	background: #e8edff; 
+	border-right: 1px solid #CC840E;
+	border-left: 1px solid #CC840E;
+	color: #669;
+}
+</style>
+
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/call/outgoing/outgoing_tab0.action.php";		//server side folder url
 		var aJaxURL1	= "server-side/call/outgoing/outgoing_tab1.action.php";		//server side folder url
@@ -300,6 +360,15 @@
  		   });
 		});
 
+	    $(document).on("click", ".download", function () {
+            var link = ($(this).attr("str")).replace("audio:/var/spool/asterisk/monitor/", "");
+      //      alert(link)
+            link = 'http://212.72.155.176:8181/records/' + link + '.wav';
+
+            window.open(link, 'chatwindow', "width=420,height=230,resizable=yes,scrollbars=yes,status=yes");
+            
+        });
+        
 	    $(document).on("click", "#download", function () {
 	    	var download_file	= $(this).val();
 	    	var download_name 	= $('#download_name').val();

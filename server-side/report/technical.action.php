@@ -771,6 +771,7 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 	
 	
 	
+	
 	while($row = mysql_fetch_assoc($res)){
 		$roww = mysql_fetch_assoc($ress);
 			$data['page']['call_distribution_per_day'] .= '
@@ -779,8 +780,8 @@ $row_COMPLETEAGENT = mysql_fetch_assoc(mysql_query("	SELECT	COUNT(*) AS `count`,
 					<td>'.$row[datetime].'</td>
 					<td>'.$row[answer_count].'</td>
 					<td>'.$row[call_answer_pr].' %</td>
-					<td>'.$roww[unanswer_call].'</td>
-					<td>'.$roww[call_unanswer_pr].' %</td>
+					<td>'.(($roww[unanswer_call]!='')?$roww[unanswer_call]:"0").'</td>
+					<td>'.(($roww[call_unanswer_pr]!='')?$roww[call_unanswer_pr]:"0").' %</td>
 					<td>'.$row[avg_durat].' წუთი</td>
 					<td>'.$row[avg_hold].' წამი</td>
 					<td></td>
