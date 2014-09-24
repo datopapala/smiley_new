@@ -63,7 +63,7 @@ switch ($action) {
 											`user1`.`name` ,
 											`person2`.`name` ,
 											
-  									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee,
+  									if(task.incomming_call_id=0, task.`date`, incomming_call.`date`) AS datee,
 											`status`.`call_status`
 							FROM 			`task`
 							JOIN users ON users.id = task.user_id
@@ -97,10 +97,11 @@ switch ($action) {
 
 		break;
 	case 'save_incomming':
+		
 		$id		 = $_REQUEST['id'];
 		if($id == ''){
 			
-			Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status);
+			Addtask($person_id, $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status);
 					
 			$task_id = mysql_insert_id();
 			//if($personal_pin != 0){
@@ -143,13 +144,13 @@ function checkgroup($user){
 
 function Addtask($person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status)
 {
-	
+	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-							(`user_id`, `responsible_user_id`, `incomming_call_id`, `date`, `template_id`, `task_type_id`, `priority_id`, `comment`, `problem_comment`, `status`, `actived`) 
+							(`user_id`,`client_id`, `responsible_user_id`, `incomming_call_id`, `date`, `template_id`, `task_type_id`, `priority_id`, `comment`, `problem_comment`, `status`, `actived`) 
 						VALUES 
-							( '$user', '$person_id', '', '$c_date', '$template_id', '$task_type_id', '$priority_id', '$comment', '$problem_comment', '$task_status', '1');");
+							( '$user', '$c_id1', '$person_id', '', '$c_date', '$template_id', '$task_type_id', '$priority_id', '$comment', '$problem_comment', '$task_status', '1');");
 	
 	//GLOBAL $log;
 	//$log->setInsertLog('task');
@@ -160,11 +161,13 @@ function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $c
 
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('task', $id);
+	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET 
 						
-								`user_id`='$user', 
+								`user_id`='$user',
+								`client_id` ='$c_id1',
 								`responsible_user_id`='$person_id', 
 								`date`='$c_date', 
 								`template_id`='$template_id', 
@@ -625,21 +628,24 @@ function Gettask($id)
 													incomming_call.production_type AS production_type,
 													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
+													IF(task.incomming_call_id=0,client.`code`,cl.`code`) AS personal_pin,													
 													client_sale.date AS sale_date,
-													client.`code` AS personal_pin,
 													task.responsible_user_id AS person_id,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
 													task.priority_id AS priority_id,
-													task.status AS status,
+													task.`status` AS `status`,
 													task.`comment` AS `comment1`,
 													task.problem_comment AS problem_comment
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
-											LEFT JOIN 	client 				ON incomming_call.client_id=client.id
-											LEFT JOIN 	client_sale 		ON client.id=client_sale.client_id
+											LEFT JOIN 	client ON task.client_id = client.id
+											LEFT JOIN client AS cl ON cl.id=incomming_call.client_id
+											
+											LEFT JOIN 	client_sale ON client.id=client_sale.client_id
 											WHERE 	task.id=$id
+LIMIT 1
 			" ));
 		
 	return $res;

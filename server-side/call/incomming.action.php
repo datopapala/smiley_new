@@ -172,11 +172,13 @@ function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $ca
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('incomming_call', $incom_id);
+	$c_id1		= $_REQUEST['c_id1'];
 	$user		= $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
 	mysql_query("	UPDATE `incomming_call` SET 
 											
 											`user_id`='$user', 
+											`client_id`='$c_id1',
 											`phone`='$incom_phone', 
 											`first_name`='$first_name', 
 											`requester`='$requester_type', 

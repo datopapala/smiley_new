@@ -69,7 +69,7 @@ switch ($action) {
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,
-									if(ISNULL(task.incomming_call_id), task.`date`, incomming_call.`date`) AS datee
+									if(task.incomming_call_id=0, task.`date`, incomming_call.`date`) AS datee
 							FROM 			`task`
 							JOIN users ON users.id = task.user_id
 							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id
@@ -625,7 +625,8 @@ function Gettask($id)
 													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
 													client_sale.date AS sale_date,
-													client.`code` AS personal_pin,
+													IF(task.incomming_call_id=0,client.`code`,cl.`code`) AS personal_pin,
+													task.responsible_user_id AS person_id,
 													task.responsible_user_id AS person_id,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
@@ -636,7 +637,8 @@ function Gettask($id)
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
-											LEFT JOIN 	client 				ON incomming_call.client_id=client.id
+											LEFT JOIN 	client ON task.client_id = client.id
+											LEFT JOIN client AS cl ON cl.id=incomming_call.client_id
 											LEFT JOIN 	client_sale 		ON client.id=client_sale.client_id
 											WHERE 	task.id=$id
 			" ));
