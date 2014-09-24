@@ -1466,7 +1466,7 @@
 			    data: parame,
 		        success: function(data) {		        	
 					$("#test").html(data.page.answear_dialog);
-					GetDialog("add-edit-form", 500, "auto", "");
+					GetDialog("add-edit-form-unansver", 500, "auto", "");
 					/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 					GetDataTable("example", aJaxURL, "unanswear_dialog_table&start_time="+parame.start_time+"&end_time="+parame.end_time+"&queuet="+parame.queuet,5, "", 0, "", 1, "desc");
 
@@ -2039,6 +2039,11 @@
 </div>
 <!-- jQuery Dialog -->
 <div id="add-edit-form" class="form-dialog" title="ნაპასუხები ზარები">
+<div id="test"></div>
+</div>
+
+<!-- jQuery Dialog -->
+<div id="add-edit-form-unansver" class="form-dialog" title="უპასუხო ზარები">
 <div id="test"></div>
 </div>
 
