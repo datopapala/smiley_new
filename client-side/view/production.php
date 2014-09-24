@@ -24,7 +24,7 @@
 			var id		= $("#id").val();
 			
 			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 600, "auto", "");
+			GetDialog(fName, 392, "auto", "");
 		}
 		
 	    // Add - Save
@@ -65,7 +65,7 @@
     <div id="dt_example" class="ex_highlight_row" style="width: 1024px; margin: 0 auto;">
         <div id="container">        	
             <div id="dynamic">
-            	<h2 align="center">შემოტანის ფორმა</h2>
+            	<h2 align="center">პროდუქტი</h2>
             	<div id="button_area">
         			<button id="add_button">დამატება</button>
         			<button id="delete_button">წაშლა</button>

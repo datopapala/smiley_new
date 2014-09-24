@@ -206,9 +206,8 @@ function GetPage($res = '')
 	$data = '
 	<div id="dialog-form">
 	    <fieldset>
-	    	<legend>ძირითადი ინფორმაცია</legend>
-
-	    	<table class="dialog-form-table">
+			<legend>ძირითადი ინფორმაცია</legend>
+				<table style="height: 161px;" class="dialog-form-table">
 				<tr>
 					<td style="width: 170px;"><label for="CallType">დასახელება</label></td>
 					<td>
