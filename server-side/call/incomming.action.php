@@ -775,7 +775,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 						<tr>
 							<td style="width: 250px;"><select style=" width: 450px;" id="redirect" class="idls object">'. Getobject($res['redirect']).'</select></td>
-							<td style="width: 250px;"><input name="rad" style="margin-left: 35px;" type="radio" value="1"'.$connect0.'></td>
+							<td style="width: 250px;"><input name="check_" style="margin-left: 35px;" type="checkbox" value="1"'.$connect0.'></td>
 						</tr>
 					</table>
 				</fieldset>

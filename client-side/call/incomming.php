@@ -131,7 +131,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.person_id						= $("#person_id").val();
 	    	param.requester_type				= $('input[name=5]:checked').val();
 	    	param.prod_status					= $('input[name=10]:checked').val();
-	    	param.connect						= $('input[name=rad]:checked').val();
+	    	param.connect						= $('input[name=check_]:checked').val();
 	    	
 	    	param.file_name						= file_name;
 	    	param.hidden_inc					= $("#hidden_inc").val();
