@@ -145,7 +145,7 @@ if($_REQUEST['act'] =='unanswear_dialog'){
 	$data['page']['answear_dialog'] = '
 								
 							
-                <table class="display" id="example">
+                <table class="display" id="example1">
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
