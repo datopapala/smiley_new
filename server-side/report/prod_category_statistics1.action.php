@@ -8,7 +8,7 @@ $agent = $_REQUEST['agent'];
 $queuet = $_REQUEST['queuet'];
 
 $result = mysql_query("SELECT	COUNT(*) AS `count1`,
-								CONCAT('ნაპასუხები ',' ',COUNT(*)) AS `cause` 
+								CONCAT('ნაპასუხები ',' ',COUNT(*),' ','ზარი') AS `cause` 
 								FROM	queue_stats AS qs,
 								qname AS q,
 								qagent AS ag,
@@ -29,7 +29,7 @@ while($r = mysql_fetch_array($result)) {
 }
 
 $row_done_blank = mysql_query(" SELECT 	COUNT(*) AS `count`,
-		CONCAT('დამუშავებული',' ',COUNT(*)) AS `cause1`
+		CONCAT('დამუშავებული',' ',COUNT(*),' ','ზარი') AS `cause1`
 		FROM `incomming_call`
 		WHERE DATE(date) >= '$start' AND DATE(date) <= '$end' AND phone != '' ");
 
