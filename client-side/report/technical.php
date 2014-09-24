@@ -150,7 +150,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -232,7 +232,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -314,7 +314,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -396,7 +396,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -483,7 +483,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -567,7 +567,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -651,7 +651,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -735,7 +735,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -820,7 +820,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -906,7 +906,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -990,7 +990,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },
@@ -1222,7 +1222,7 @@
 			        },
 			        legend: {
 		                layout: 'vertical',
-		                align: 'right',
+		                align: 'left',
 		                verticalAlign: 'top',
 		                borderWidth: 0
 			        },

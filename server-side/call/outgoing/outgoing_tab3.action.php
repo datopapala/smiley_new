@@ -782,7 +782,7 @@ $num = 0;
 						</tr>
 						<tr>
 							<td style="width: 250px;"><select style=" width: 450px;" id="redirect" class="idls object" disabled="disabled">'. Getobject($res['redirect']).'</select></td>
-							<td style="width: 250px;"><input name="rad" style="margin-left: 35px;" type="radio" value="1"'.$connect0.' disabled="disabled"></td>
+							<td style="width: 250px;"><input'.$hide.'name="check_" style="margin-left: 35px;" type="checkbox" value="1"disabled="disabled"'.$connect0.'></td>
 						</tr>
 					</table>
 				</fieldset>
