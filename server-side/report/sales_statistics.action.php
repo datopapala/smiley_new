@@ -431,7 +431,7 @@ $res4 =mysql_query("SELECT 	DATE(qs.datetime) AS `datetime`,
 $mas = array($w15,$d30,$d45,$d60,$d75,$d90,$d91);
 $call_second=array('15 წამში','30 წამში','45წამში','60 წამში','75 წამში','90 წამში','90+წამში');			
 							
-$unit[]="ზარი";
+$unit[]=" ზარი";
 $series[] = array('name' => $name, 'unit' => $unit, 'quantity' => $quantity, 'cause' => $cause);
 $series[] = array('name' => $name, 'unit' => $unit, 'call_count' => $call_count, 'agent' => $agent);
 $series[] = array('name' => $name, 'unit' => $unit, 'answer_count' => $answer_count, 'datetime' => $datetime);

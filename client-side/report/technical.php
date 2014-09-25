@@ -1044,8 +1044,9 @@
 			                      renderTo: 'chart_container0',
 			                      plotBackgroundColor: null,
 			                      plotBorderWidth: null,
-			                      plotShadow: '#FA3A3A'
+			                      plotShadow: null,
 			                  },
+			                  colors: ['#538DD5', '#FA3A3A'],
 			                  title: {
 			                      text: 'ტექნიკური ინფორმაცია'
 			                  },
@@ -1117,8 +1118,9 @@
 			                      renderTo: 'chart_container0r',
 			                      plotBackgroundColor: null,
 			                      plotBorderWidth: null,
-			                      plotShadow: '#FA3A3A'
+			                      plotShadow: null,
 			                  },
+			                  colors: ['#538DD5', '#76933C'],
 			                  title: {
 			                      text: 'ტექნიკური ინფორმაცია'
 			                  },
