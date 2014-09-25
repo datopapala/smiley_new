@@ -157,12 +157,12 @@ function Addincomming( $incom_phone, $first_name, $requester_type, $category_id,
 
 function Addtask($person_id, $incomming_call_id,  $template_id, $task_type_id,  $priority_id,  $comment)
 {
-	
+	$c_id1		= $_REQUEST['c_id1'];
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-							( `user_id`,`responsible_user_id`, `incomming_call_id`,`template_id`, `task_type_id`, `priority_id`, `comment`, `status`, `actived`) 
+							( `user_id`,`client_id`,`responsible_user_id`, `incomming_call_id`,`template_id`, `task_type_id`, `priority_id`, `comment`, `status`, `actived`) 
 							VALUES 
-							('$user', '$person_id', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id', '$comment', '0', '1');");
+							('$user', '$c_id1','$person_id', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id', '$comment', '0', '1');");
 	
 	//GLOBAL $log;
 	//$log->setInsertLog('task');

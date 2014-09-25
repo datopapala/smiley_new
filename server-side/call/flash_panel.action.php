@@ -3,8 +3,10 @@
 require_once('../../includes/classes/core.php');
 
 $res = mysql_query("SELECT queue_stats.info1
+					
 					FROM   queue_stats
-					WHERE  DATE(queue_stats.datetime) = CURDATE() AND queue_stats.qevent = 10
+					
+					WHERE  DATE(queue_stats.datetime) = CURDATE() AND queue_stats.qevent = 10 AND queue_stats.qname=4
 					"); 
 $w15 = 0;
 $w30 = 0;
