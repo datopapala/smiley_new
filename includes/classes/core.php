@@ -35,12 +35,9 @@ class sql_db {
 		}
 	}
 	
-	function increment($table){
-		$this->table = $table;
-	
-		$result   		= mysql_query("SHOW TABLE STATUS LIKE '$this->table'");
-		$row   			= mysql_fetch_array($result);
-		$increment   	= $row['Auto_increment'];
+	function increment($table){ 		$this->table = $table;
+	 		$result   		= mysql_query("SHOW TABLE STATUS LIKE '$this->table'");
+		$row   			= mysql_fetch_array($result);		$increment   	= $row['Auto_increment'];
 		$next_increment = $increment+1;
 		mysql_query("ALTER TABLE $this->table AUTO_INCREMENT=$next_increment");
 	

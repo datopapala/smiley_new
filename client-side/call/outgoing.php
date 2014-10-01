@@ -75,8 +75,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		$(document).ready(function () {     
 			GetTabs(tbName);   	
 			GetTable0();
-			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
-			GetButtons("add_button","add_responsible_person");
+
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -86,24 +85,248 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
         	}else if(tab == 1){
         		GetTable1();
             }else if(tab == 2){
-            	GetTable2()
+            	GetTable2();
             }else{
-            	GetTable3()
+            	GetTable3();
             }
         });
+		 function LoadTable0(){			
+				/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+				GetDataTable("example0", aJaxURL, "get_list", 6, "", 0, "", 1, "desc", "");
+			}
+				
+			function LoadTable1(){			
+				/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+				GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "desc", "");
+			}
 
+			function LoadTable2(){			
+				/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+				GetDataTable("example2", aJaxURL2, "get_list",10, "", 0, "", 1, "desc", "");
+			}
+			
+			function LoadTable3(){			
+				/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+				GetDataTable("example3", aJaxURL3, "get_list", 10, "", 0, "", 1, "desc", "");
+			}
 		function GetTable0() {
-            LoadTable0();
-            SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-           
-        }
-        
-		 function GetTable1() {
+			LoadTable0();
+			SetEvents("add_button", "", "", "example0", fName, aJaxURL);
+			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
+			GetButtons("add_button","add_responsible_person");
+	    }
+		 function GetTable1() {			 
              LoadTable1();
              SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
+		 }
+
+		 function GetTable3() {
+             LoadTable3();
+             SetEvents("", "", "", "example3", fName, aJaxURL3);
          }
+
+
+
+
+
+         
+			$(document).on("click", "#save-dialog", function () {
+			    param 			= new Object();
+
+			    param.act					= "save_incomming";
+			    
+			    //param.id					= $("#id").val();
+		    	param.id					= $("#h_id").val();
+		    	param.person_id				= $("#person_id").val();
+		    	param.problem_comment		= $("#problem_comment").val();
+		    	param.status				= $("#status").val();
+		    	param.comment1				= $("#comment1").val();		    	
+		    	param.c_id1					= $("#c_id1").val();		    	
+		    	param.priority_id			= $("#priority_id").val();
+		    	param.task_status			= $("#task_status").val();
+		    	param.template_id			= $("#template_id").val();
+		    	param.task_type_id			= $("#task_type_id").val();
+		    	param.task_date				= $("#task_date").val();
+		    	
+		    	
+			    $.ajax({
+			        url: aJaxURL,
+				    data: param,
+			        success: function(data) {       
+						if(typeof(data.error) != "undefined"){
+							if(data.error != ""){
+								alert(data.error);
+							}else{
+								LoadTable0();
+								CloseDialog("add-edit-form");
+							}
+						}
+				    }
+			    });
+			});
+           
+            
+           
+    
+        
+		
+              $(document).on("click", "#save-dialog1", function () {
+				    console.log('t');
+				   
+			    	 param 			= new Object();
+
+					    param.act					= "save_outgoing1";
+					    
+					    //param.id					= $("#id").val();
+				    	param.id					= $("#hidden_task_id").val();
+				    	param.person_id				= $("#person_id").val();
+				    	param.problem_comment		= $("#problem_comment").val();
+				    	param.status				= $("#status").val();
+				    	param.comment1				= $("#comment1").val();
+				    	
+				    	param.c_id1					= $("#c_id1").val();
+				    	
+				    	param.priority_id			= $("#priority_id").val();
+				    	param.task_status			= $("#task_status").val();
+				    	param.template_id			= $("#template_id").val();
+				    	param.task_type_id			= $("#task_type_id").val();
+				    	param.task_date				= $("#task_date").val();
+				    	
+				    
+			 
+		 	    	$.ajax({
+		 		        url: aJaxURL1,
+		 			    data: param,
+		 		        success: function(data) {       
+		 					if(typeof(data.error) != "undefined"){
+		 						if(data.error != ""){
+		 							alert(data.error);
+		 						}else{
+									LoadTable1();
+		 							CloseDialog("add-edit-form1");
+		 						}
+		 					}
+		 		    	}
+		 		   });
+				});
+				
+			    $(document).on("click", "#done-dialog1", function () {
+			    	 param 			= new Object();
+
+					    param.act					= "done_outgoing";
+					    
+					    //param.id					= $("#id").val();
+				    	param.id					= $("#hidden_task_id").val();
+				    	param.person_id				= $("#person_id").val();
+				    	param.problem_comment		= $("#problem_comment").val();
+				    	param.status				= $("#status").val();
+				    	param.comment1				= $("#comment1").val();
+				    	
+				    	param.c_id1					= $("#c_id1").val();
+				    	
+				    	param.priority_id			= $("#priority_id").val();
+				    	param.task_status			= $("#task_status").val();
+				    	param.template_id			= $("#template_id").val();
+				    	param.task_type_id			= $("#task_type_id").val();
+				    	param.task_date				= $("#task_date").val();
+				    	
+				    	param.persons_id			= $("#persons_id").val();
+				    	param.comment				= $("#comment").val();
+				    	param.task_department_id	= $("#task_department_id").val();
+				    	param.task_type_id			= $("#task_type_id").val();
+				    	param.priority_id			= $("#priority_id").val();
+				    	param.problem_id			= $("#problem_id").val();
+				    	param.pay_type_id			= $("#pay_type_id").val();
+				    	param.bank_id				= $("#bank_id").val();
+			 
+		 	    	$.ajax({
+		 		        url: aJaxURL1,
+		 			    data: param,
+		 		        success: function(data) {       
+		 					if(typeof(data.error) != "undefined"){
+		 						if(data.error != ""){
+		 							alert(data.error);
+		 						}else{
+									LoadTable1();
+		 							CloseDialog("add-edit-form1");
+		 						}
+		 					}
+		 		    	}
+		 		   });
+				});
+
+       
          
 		 function GetTable2() {
+			$(document).on("click", "#save-dialog2", function () {
+					param 				= new Object();
+		 			param.act			= "save_outgoing2";
+				    	
+					  //param.id					= $("#id").val();
+				    	param.id					= $("#hidden_task_id1").val();
+				    	param.person_id				= $("#person_id").val();
+				    	param.problem_comment		= $("#problem_comment").val();
+				    	param.status				= $("#status").val();
+				    	param.comment1				= $("#comment1").val();
+				    	
+				    	param.c_id1					= $("#c_id1").val();
+				    	
+				    	param.priority_id			= $("#priority_id").val();
+				    	param.task_status			= $("#task_status").val();
+				    	param.template_id			= $("#template_id").val();
+				    	param.task_type_id			= $("#task_type_id").val();
+				    	param.task_date				= $("#task_date").val();
+				    
+			 
+			 
+		 	    	$.ajax({
+		 			        url: aJaxURL2,
+		 				    data: param,
+		 			        success: function(data) {       
+		 						if(typeof(data.error) != "undefined"){
+		 							if(data.error != ""){
+		 								alert(data.error);
+		 							}else{
+		 								LoadTable2();
+		 								CloseDialog("add-edit-form2");
+		 							}
+								}
+		 				    }
+		 			});
+		 		});
+				$(document).on("click", "#done-dialog2", function () {
+					param 				= new Object();
+		 			param.act			= "done_outgoing";
+				    	
+		 			param.id					= $("#id").val();
+					param.id1					= $("#id1").val();
+			    	param.call_date				= $("#call_date").val();
+			    	param.problem_date			= $("#problem_date").val();
+					param.persons_id			= $("#persons_id").val();
+					param.task_type_id			= $("#task_type_id").val();
+			    	param.priority_id			= $("#priority_id").val();
+					param.planned_end_date		= $("#planned_end_date").val();
+					param.fact_end_date			= $("#fact_end_date").val();
+					param.call_duration			= $("#call_duration").val();
+					param.phone					= $("#phone").val();
+					param.comment				= $("#comment").val();
+					param.problem_comment		= $("#problem_comment").val();
+			 
+		 	    	$.ajax({
+		 			        url: aJaxURL2,
+		 				    data: param,
+		 			        success: function(data) {       
+		 						if(typeof(data.error) != "undefined"){
+		 							if(data.error != ""){
+		 								alert(data.error);
+		 							}else{
+		 								LoadTable2();
+		 								CloseDialog("add-edit-form2");
+		 							}
+								}
+		 				    }
+		 			});
+		 		});
              LoadTable2();
              SetEvents("", "", "", "example2", "add-edit-form2", aJaxURL2);
          }
@@ -142,20 +365,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
             //alert(form);
 			switch(fName){
 				case "add-edit-form":
-					var buttons = {
-						"save": {
-				            text: "შენახვა",
-				            id: "save-dialog"
-				        }, 
-			        	"cancel": {
-				            text: "დახურვა",
-				            id: "cancel-dialog",
-				            click: function () {
-				            	$(this).dialog("close");
-				            }
-				        } 
-				    };
-					GetDialog("add-edit-form", 1184, "auto", buttons);
+					
+					GetDialog("add-edit-form", 1184, "auto");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -239,127 +450,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		}
 		
 	    // Add - Save
-	    $(document).on("click", "#save-dialog", function () {
-		    param 			= new Object();
-
-		    param.act					= "save_incomming";
-		    
-		    param.id					= $("#id").val();
-	    	param.id					= $("#task_id").val();
-	    	param.person_id				= $("#person_id").val();
-	    	param.problem_comment		= $("#problem_comment").val();
-	    	param.status				= $("#status").val();
-	    	param.comment1				= $("#comment1").val();
-	    	
-	    	param.c_id1					= $("#c_id1").val();
-	    	
-	    	param.priority_id			= $("#priority_id").val();
-	    	param.task_status			= $("#task_status").val();
-	    	param.template_id			= $("#template_id").val();
-	    	param.task_type_id			= $("#task_type_id").val();
-	    	param.task_date				= $("#task_date").val();
-	    	
-	    	
-		    $.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {       
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable0();
-							CloseDialog("add-edit-form");
-						}
-					}
-			    }
-		    });
-		});
-
 		
-	    $(document).on("click", "#save-dialog1", function () {
-		   
-	    	 param 			= new Object();
-
-			    param.act					= "save_outgoing1";
-			    
-			    param.id					= $("#id").val();
-		    	param.id					= $("#task_id").val();
-		    	param.person_id				= $("#person_id").val();
-		    	param.problem_comment		= $("#problem_comment").val();
-		    	param.status				= $("#status").val();
-		    	param.comment1				= $("#comment1").val();
-		    	
-		    	param.c_id1					= $("#c_id1").val();
-		    	
-		    	param.priority_id			= $("#priority_id").val();
-		    	param.task_status			= $("#task_status").val();
-		    	param.template_id			= $("#template_id").val();
-		    	param.task_type_id			= $("#task_type_id").val();
-		    	param.task_date				= $("#task_date").val();
-		    	
-		    
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-	    $(document).on("click", "#done-dialog1", function () {
-	    	 param 			= new Object();
-
-			    param.act					= "done_outgoing";
-			    
-			    param.id					= $("#id").val();
-		    	param.id					= $("#task_id").val();
-		    	param.person_id				= $("#person_id").val();
-		    	param.problem_comment		= $("#problem_comment").val();
-		    	param.status				= $("#status").val();
-		    	param.comment1				= $("#comment1").val();
-		    	
-		    	param.c_id1					= $("#c_id1").val();
-		    	
-		    	param.priority_id			= $("#priority_id").val();
-		    	param.task_status			= $("#task_status").val();
-		    	param.template_id			= $("#template_id").val();
-		    	param.task_type_id			= $("#task_type_id").val();
-		    	param.task_date				= $("#task_date").val();
-		    	
-		    	param.persons_id			= $("#persons_id").val();
-		    	param.comment				= $("#comment").val();
-		    	param.task_department_id	= $("#task_department_id").val();
-		    	param.task_type_id			= $("#task_type_id").val();
-		    	param.priority_id			= $("#priority_id").val();
-		    	param.problem_id			= $("#problem_id").val();
-		    	param.pay_type_id			= $("#pay_type_id").val();
-		    	param.bank_id				= $("#bank_id").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-
+	    
+	   
 	    $(document).on("click", ".download", function () {
             var link = ($(this).attr("str")).replace("audio:/var/spool/asterisk/monitor/", "");
       //      alert(link)
@@ -416,43 +509,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    }
 		    });	
 		});
-
-	   $(document).on("click", "#save-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "save_outgoing2";
-		    	
-			  param.id					= $("#id").val();
-		    	param.id					= $("#task_id").val();
-		    	param.person_id				= $("#person_id").val();
-		    	param.problem_comment		= $("#problem_comment").val();
-		    	param.status				= $("#status").val();
-		    	param.comment1				= $("#comment1").val();
-		    	
-		    	param.c_id1					= $("#c_id1").val();
-		    	
-		    	param.priority_id			= $("#priority_id").val();
-		    	param.task_status			= $("#task_status").val();
-		    	param.template_id			= $("#template_id").val();
-		    	param.task_type_id			= $("#task_type_id").val();
-		    	param.task_date				= $("#task_date").val();
-		    
-	 
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
+	  
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
             	param 			= new Object();
@@ -500,39 +557,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
                 event.preventDefault();
             }
         });
-	    $(document).on("click", "#done-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
+	    
 	 function SetPrivateEvents(add,check,formName){
 		$(document).on("click", "#" + add, function () {    
 	        $.ajax({

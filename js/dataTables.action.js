@@ -40,7 +40,7 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
     var oTable = "";
     
     //Defoult Length
-    var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
+    var dLength = [[ 30, 50, -1], [ 30, 50, "ყველა"]];
     
     if (!empty(length))
         dLength = length;
@@ -1119,12 +1119,11 @@ function GetButtons(add, dis, exp, cancel, clear) {
 function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
     if (empty(c_data))
         c_data = "";
-        $("#"+tname+" tbody").off("dblclick");
-        $("#" + add).off("click");
 
+    
     // Add Event
     $("#" + add).on("click", function () {
-    	 $.ajax({
+        $.ajax({
             url: aJaxURL,
             type: "POST",
             data: "act=get_add_page&" + c_data,
@@ -1144,6 +1143,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
             }
         });
     });
+   
 
     /* Edit Event */
     $("#" + tname + " tbody").on("dblclick", "tr", function () {
@@ -1270,6 +1270,7 @@ function GetDialog(fname, width, height, buttons) {
 */
 function CloseDialog(form){
 	$("#" + form).dialog("close");
+	$("#" + form).html("");
 }
 
 /**
