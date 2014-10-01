@@ -18,17 +18,16 @@ $data		= '';
 
 //task
 $id		    		= $_REQUEST['id'];
-$incom_id			= $_REQUEST['id'];
 $person_id			= $_REQUEST['person_id'];
 $problem_comment	= $_REQUEST['problem_comment'];
 $comment 	     	= $_REQUEST['comment1'];
 $priority_id 		= $_REQUEST['priority_id'];
-$task_status 		= $_REQUEST['task_status'];
+//$task_status 		= $_REQUEST['task_status'];
 $template_id		= $_REQUEST['template_id'];
 $person_id			= $_REQUEST['person_id'];
 $task_type_id		= $_REQUEST['task_type_id'];
 $task_date			= $_REQUEST['task_date'];
-$task_status				= $_REQUEST['status'];
+$task_status		= $_REQUEST['status'];
 
 
 
@@ -46,7 +45,7 @@ switch ($action) {
 		break;
 	
 	case 'get_edit_page':
-		$page		= GetPage(Gettask($incom_id));
+		$page		= GetPage(Gettask($id));
 
 		$data		= array('page'	=> $page);
 
@@ -106,14 +105,15 @@ switch ($action) {
 		$id		 	= $_REQUEST['id'];
 		
 		if($id == ''){
-			
+			echo $id;
 			Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status);
 					
-			$task_id = mysql_insert_id();
+			//$task_id = mysql_insert_id();
 			//if($personal_pin != 0){
 			//Addsite_user($task_id, $personal_pin, $name, $personal_phone, $mail, $personal_id);
 			//}
 		}else {
+			echo $id;
 			savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status);	
 		}
 		break;
@@ -163,6 +163,7 @@ function checkgroup($user){
 
 function Addtask($person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status)
 {
+	
 	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
@@ -591,7 +592,7 @@ function get_addition_all_info1($pin_n)
 			</tr>
 			<tr>
 				<td style="width: 180px;">'.$res['Juristic_address'].'</td>
-				<td td style="width: 180px;">'.$res['status'].'</td>
+				<td style="width: 180px;">'.$res['status'].'</td>
 			</tr>
 
 	</table>
@@ -872,7 +873,7 @@ $num = 0;
 				$data .= get_addition_all_info1($res['personal_pin']);
 				$data .=GetRecordingsSection($res);
 			$data .='	
-	  		
+	<input type="hidden" id="h_id" value="'.$res[id].'"/> 		
     </div>';
 
 	return $data;

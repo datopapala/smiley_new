@@ -170,7 +170,7 @@ function checkgroup($user){
       
 function savetask($id, $problem_comment)
 {
-
+//echo $id.'-'.$problem_comment;
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('task', $id);
 	$c_date		= date('Y-m-d H:i:s');
@@ -874,6 +874,11 @@ $num = 0;
 						$data .=GetRecordingsSection($res);
 			$data .='	
 	  		
+    </div>';
+			$data .= '
+    </table>
+		<input type="hidden" id="hidden_task_id1" value="'.$res['id'].'"/>
+		</div>
     </div>';
 	return $data;
 }

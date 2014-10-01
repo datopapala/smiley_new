@@ -129,7 +129,6 @@ if($_REQUEST['act'] =='answear_dialog'){
 							<th>
                                 <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
                             </th>
-                            
                         </tr>
                     </thead>
                 </table>

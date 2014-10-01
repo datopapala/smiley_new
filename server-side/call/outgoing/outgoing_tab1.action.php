@@ -150,8 +150,9 @@ function checkgroup($user){
 function savetask($id, $problem_comment)
 {
 
-	//GLOBAL $log;
-	//$log->setUpdateLogAfter('task', $id);
+	
+	GLOBAL $log;
+	$log->setUpdateLogBefore('task', $id);
 	$c_date		= date('Y-m-d H:i:s');
 	$user  = $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET 
@@ -161,7 +162,7 @@ function savetask($id, $problem_comment)
 								`problem_comment`='$problem_comment', 
 								`status`='2' 
 					WHERE		`id`='$id'");
-	//$log->setInsertLog('task',$id);
+	$log->setUpdateLogAfter('task',$id);
 
 }
 function Savetask1($id, $problem_comment)
@@ -852,7 +853,13 @@ $num = 0;
 			$data .='	
 	  		
     </div>';
+			$data .= '
+    </table>
+		<input type="hidden" id="hidden_task_id" value="'.$res['id'].'"/>
+		</div>
+    </div>';
 	return $data;
+
 }
 function GetRecordingsSection($res)
 {
@@ -890,8 +897,11 @@ function GetRecordingsSection($res)
 
 	$data .= '
             </table>
+			
         </fieldset>';
 
 	return $data;
+	
 }
+
 ?>
