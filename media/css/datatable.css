@@ -22,20 +22,20 @@ span{
 }
 
 label{
-	font-size: 13px;
+	font-size: 11px;
 	font-family: BPG arial;
 	font-weight: normal;
 }
 table{
-	font-size: 13px;
+	font-size: 11px;
 	font-family: BPG arial !important;
 }
 input{
-	font-size: 13px;
+	font-size: 11px;
 	font-family: BPG arial !important;
 }
 .ui-widget-header{
-	font-size: 13px;
+	font-size: 11px;
 	font-family: BPG arial !important;;
 }
 
