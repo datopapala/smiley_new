@@ -266,20 +266,23 @@
 	  });
 
 	     $(document).on("click", "#delete", function () {
-	      var delete_id = $(this).val();
-	      
-	      $.ajax({
-	          url: aJaxURL,
-	       data: {
-	     act: "delete_file",
-	     delete_id: delete_id,
-	     edit_id: $("#action_id").val(),
-	    },
-	          success: function(data) {
-	           $("#file_div").html(data.page);
-	       }
-	      }); 
-	  });
+		    	var delete_id	= $(this).val();
+		    	var r = confirm("გსურთ წაშალოთ?");
+		    	if (r == true) {
+		    		$.ajax({
+				        url: aJaxURL,
+					    data: {
+							act: "delete_file",
+							delete_id: delete_id,
+							edit_id: $("#id").val(),
+						},
+				        success: function(data) {
+					        $("#file_div").html(data.page);
+					    }
+		    		
+				    });
+		    	}	
+			});
 
 	     $(document).on("change", "#choose_file", function () {
 	      var file  = $(this).val();     
@@ -288,7 +291,7 @@
 	      var path  = "../../media/uploads/file/";
 	      
 	      var ext = file.split('.').pop().toLowerCase();
-	         if($.inArray(ext, ['pdf']) == -1) { //echeck file type
+	         if($.inArray(ext, ['pdf','png','xls','xlsx','jpg']) == -1) { //echeck file type
 	          alert('This is not an allowed file type.');
 	                this.value = '';
 	         }else{
