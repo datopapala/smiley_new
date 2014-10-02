@@ -296,10 +296,11 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		 		});
 				$(document).on("click", "#done-dialog2", function () {
 					param 				= new Object();
-		 			param.act			= "done_outgoing";
+		 			param.act			= "done_outgoing2";
 				    	
 		 			param.id					= $("#id").val();
 					param.id1					= $("#id1").val();
+					param.hidden_task_id1		= $("#hidden_task_id1").val();
 			    	param.call_date				= $("#call_date").val();
 			    	param.problem_date			= $("#problem_date").val();
 					param.persons_id			= $("#persons_id").val();

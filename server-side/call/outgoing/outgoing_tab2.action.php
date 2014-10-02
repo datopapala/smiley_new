@@ -66,8 +66,9 @@ switch ($action) {
 		
 			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
 		}
+		mysql_query("SET @i = 0;");
   		$rResult = mysql_query("SELECT		`task`.id,
-											`task`.id,
+											@i := @i + 1 AS `iterator`,
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,
@@ -113,11 +114,11 @@ switch ($action) {
 		
 			Savetask($id, $problem_comment);
 			break;
-		case 'done_outgoing':
+		case 'done_outgoing2':
 		
 			$user_id		= $_SESSION['USERID'];
 		
-			Savetask1($id, $problem_comment);
+			Savetask1($problem_comment);
 			break;
 		case 'get_add_info':
 			 
@@ -179,24 +180,24 @@ function savetask($id, $problem_comment)
 						
 								`user_id`='$user', 
 								`date`='$c_date', 
-								`problem_comment`='$problem_comment', 
-								`status`='3' 
+								`problem_comment`='$problem_comment' 
 					WHERE		`id`='$id'
 					");
 	//$log->setInsertLog('task',$id);
 
 }
-function Savetask1($id, $problem_comment)
+function Savetask1($problem_comment)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('task', $id);
-	$c_date		= date('Y-m-d H:i:s');
-	$user  = $_SESSION['USERID'];
+	$hidden_task_id1	= $_REQUEST['hidden_task_id1'];
+	$c_date				= date('Y-m-d H:i:s');
+	$user  				= $_SESSION['USERID'];
 	mysql_query("UPDATE `task` SET
 								`user_id`			='$user',
 								`problem_comment`	='$problem_comment',
 								`status`	='3'
-								WHERE 	`id`		='$id'
+								WHERE 	`id`		='$hidden_task_id1'
 								");
 	//$log->setInsertLog('task',$id);
 }
@@ -647,11 +648,11 @@ function Gettask($id)
 													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
 													client_sale.date AS sale_date,
-													client.`code` AS personal_pin,
 													IF(task.incomming_call_id=0,client.`code`,cl.`code`) AS personal_pin,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
 													task.priority_id AS priority_id,
+													task.responsible_user_id AS person_id, 
 													task.status AS status,
 													task.`comment` AS `comment1`,
 													task.problem_comment AS problem_comment
@@ -850,7 +851,7 @@ $num = 0;
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 747px; resize: none;" id="comment1" class="idle" name="comment1" cols="300" rows="2">' . $res['comment1'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="comment1" class="idle" name="comment1" cols="300" rows="2"disabled="disabled">' . $res['comment1'] . '</textarea>
 							</td>
 						</tr>
 						<tr>

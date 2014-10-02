@@ -56,9 +56,9 @@ switch ($action) {
 				
 			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
 		}
-		
+		mysql_query("SET @i = 0;");
   		$rResult = mysql_query("SELECT		`task`.id,
-											`task`.id,
+											@i := @i + 1 AS `iterator`,
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,

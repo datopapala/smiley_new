@@ -65,9 +65,9 @@ switch ($action) {
 				
 			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
 		}
-		
+		mysql_query("SET @i = 0;");
   		$rResult = mysql_query("SELECT		`task`.id,
-											`task`.id,
+											@i := @i + 1 AS `iterator`,
   											users.username,
 											`user1`.`name` ,
 											`person2`.`name` ,
@@ -105,7 +105,7 @@ switch ($action) {
 		$id		 	= $_REQUEST['id'];
 		
 		if($id == ''){
-			echo $id;
+			
 			Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status);
 					
 			//$task_id = mysql_insert_id();
@@ -113,7 +113,7 @@ switch ($action) {
 			//Addsite_user($task_id, $personal_pin, $name, $personal_phone, $mail, $personal_id);
 			//}
 		}else {
-			echo $id;
+			
 			savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status);	
 		}
 		break;
