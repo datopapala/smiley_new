@@ -214,17 +214,17 @@ function GetPage($res = '')
 						<input type="text" id="name" class="idle address" onblur="this.className=\'idle address\'" value="' . $res['name'] . '" />
 					</td>
 				</tr>
-								<br>
+								
 				<tr>
 					<td style="width: 170px;"><label for="CallType">კატეგორია</label></td>
 					<td style="width: 170px;"><select id="production_category_id" class="idle address">'. Get_production_category($res['production_category_id']).'</select></td>
 				</tr>
-							<br>
+							
 				<tr>
 					<td style="width: 170px;"><label for="CallType">ბრენდი</label></td>
 					<td style="width: 170px;"><select  id="production_brand_id" class="idle address">'. Get_production_brand($res['brand_id']).'</select></td>
 				</tr>
-							<br>
+							
 				<tr>
 					<td style="width: 170px;"><label for="CallType">ფასი</label></td>
 					<td>
