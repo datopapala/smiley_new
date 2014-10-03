@@ -1,5 +1,13 @@
 <html>
 <head>
+ <style type="text/css">
+table tr td:nth-child(3){
+   text-align: right;
+  }
+table tr td:nth-child(4){
+   text-align: right;
+  }
+    </style>
 	<script type="text/javascript">
 		var aJaxURL	= "server-side/view/client_clasification.action.php";		//server side folder url
 		var tName	= "example";													//table name
