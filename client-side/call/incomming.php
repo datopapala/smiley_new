@@ -61,28 +61,144 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 }
 </style>
 <script type="text/javascript">
-		var aJaxURL	  = "server-side/call/incomming.action.php";		//server side folder url
+		var aJaxURL	  = "server-side/call/incomming.action.php";
+		var aJaxURL1	  = "server-side/call/incomming.action1.php";
+		var aJaxURL2	  = "server-side/call/incomming.action2.php";
+		var aJaxURL3	  = "server-side/call/incomming.action3.php";		//server side folder url
 		var upJaxURL  = "server-side/upload/file.action.php";	
 		var tName	  = "example";										//table name
 		var fName	  = "add-edit-form";									//form name
 		var file_name = '';
 		var rand_file = '';
+		var tbName		= "tabs";
 
 		$(document).ready(function () {
-
+			GetTabs(tbName); 
 			runAjax();
-			LoadTable();
-
-			/* Add Button ID, Delete Button ID */
-			GetButtons("add_button", "","");
-			SetEvents("add_button", "", "", tName, fName, aJaxURL);
-
+			GetTable0();
 		});
-
+		$(document).on("tabsactivate", "#tabs", function() {
+        	var tab = GetSelectedTab(tbName);
+        	if (tab == 0) {
+        		GetTable0();
+        	}else if(tab == 1){
+        		GetTable1();
+            }else if(tab == 2){
+            	GetTable2();
+            }else if(tab == 3){
+            	GetTable3();
+            }
+        });
+		function GetTable0() {
+            LoadTable();
+            GetButtons("add_button", "","");
+			SetEvents("add_button", "", "", tName, fName, aJaxURL);
+        }
+		function GetTable1() {
+			 LoadTable1(0,0);
+  			 GetDate("search_start_my");
+  			 GetDate("search_end_my");
+   			 $("#search_start_my").val('0000-00-00');
+    	     $("#search_end_my").val('0000-00-00');
+  			 SetEvents("", "", "", "example1", fName, aJaxURL);
+   			 var start 	= $("#search_start").val();
+			 var end 	= $("#search_end").val();
+         }
+         
+		function GetTable2() {
+			 var status	= $("input[name='status_n']:checked").val();
+             LoadTable2(status);
+             SetEvents("", "", "", "example2", fName, aJaxURL);
+         }
+         
+		function GetTable3() {
+				LoadTable3(0,0);
+				SetEvents("", "", "", "example3", fName, aJaxURL);
+				GetDate("search_start");
+	  			GetDate("search_end");
+	  			$("#search_start").val('0000-00-00');
+	  	   	    $("#search_end").val('0000-00-00');
+	  	   	    
+				var start 	= $("#search_start").val();
+				var end 	= $("#search_end").val();
+	         }
 		function LoadTable(){
+			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable(tName, aJaxURL, "get_list",9, "", 0, "", 1, "desc");
 		}
+		function LoadTable1(start, end, status){
+			var status = $("input[name='status_my_call']:checked").val();
+			var start	= $("#search_start_my").val();
+	    	var end		= $("#search_end_my").val();
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example1", aJaxURL1, "get_list",9, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
+		}
+		
+		function LoadTable2(status){
+			var status = $("input[name='status_call_now']:checked").val();
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example2", aJaxURL2, "get_list&status="+status, 9, "", 0, "", 1, "desc");
+		}
+		
+		function LoadTable3(start, end, status){
+			var start	= $("#search_start").val();
+			var end		= $("#search_end").val();
+			var status = $("input[name='status_all_call']:checked").val();
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("example3", aJaxURL3, "get_list", 9, "start=" + start + "&end=" + end + "&status="+status, 0, "", 1, "desc");
+		}
+		$(document).on("change", "#search_start", function () {
+	    	var start	= $(this).val();
+	    	var end		= $("#search_end").val();
+	    	var status	= '';
+	    	status = $("input[name='status_all_call']:checked").val();
+	    	LoadTable3(start, end, status);
+	    });
+	    
+	    $(document).on("change", "#search_end", function () {
+	    	var start	= $("#search_start").val();
+	    	var end		= $(this).val();
+	    	var status	= '';
+	    	status = $("input[name='status_all_call']:checked").val();
+	    	LoadTable3(start, end, status);
+	    });
+
+	    $(document).on("change", "#search_start_my", function () {
+	    	var start	= $(this).val();
+	    	var end		= $("#search_end_my").val();
+	    	var status	= '';
+	    	status = $("input[name='status_my_call']:checked").val();
+	    	LoadTable1(start, end, status);
+	    });
+	    
+	    $(document).on("change", "#search_end_my", function () {
+	    	var start	= $("#search_start_my").val();
+	    	var end		= $(this).val();
+	    	var status	= '';
+	    	status = $("input[name='status_my_call']:checked").val();
+	    	LoadTable1(start, end, status);
+	    });
+
+		$(document).on("change", "input[name='status_my_call']", function () {
+			var start	= $("#search_start_my").val();
+			var end		= $("#search_end_my").val();
+	    	var status = $("input[name='status_my_call']:checked").val();
+	    	LoadTable1(start, end, status);
+	    });
+
+		$(document).on("change", "input[name='status_call_now']", function () {
+	    	var status = $("input[name='status_call_now']:checked").val();
+	    	LoadTable2(status);
+	    });
+
+		$(document).on("change", "input[name='status_all_call']", function () {
+			var start	= $("#search_start").val();
+			var end		= $("#search_end").val();
+	    	var status = $("input[name='status_all_call']:checked").val();
+	    	LoadTable3(start, end, status);
+	    });
+		
 
 		function LoadDialog(){
 
@@ -148,6 +264,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 								alert(data.error);
 							}else{
 								LoadTable();
+								LoadTable1();
+					        	LoadTable2();
+					        	LoadTable3();
 				        		CloseDialog();
 				        	
 				        		console.log(data.error);
@@ -157,7 +276,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    });
 			}
 		});
-
+	    
 	    function run(number){
 
 	    	param 			= new Object();
@@ -187,6 +306,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    data: 'sesvar=hideloggedoff&value=true',
 		        success: function(data) {
 							$("#jq").html(data);
+							$("#jq1").html(data);
 			    }
             }).done(function(data) {
                 setTimeout(runAjax, 1000);
@@ -320,7 +440,15 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<table style="width:86%; margin: 1 0 0 100px; padding-top:-18px; display: block; ">
+<div id="tabs"; style="width:99%; height: 580px; margin: 1 0 0 100px; padding-top:-18px; display: block; ">
+		<ul>
+			<li><a href="#tab-0">ჩემი ზარები დღეს</a></li>
+			<li><a href="#tab-1">ჩემი ზარები</a></li>
+			<li><a href="#tab-2">ზარები დღეს</a></li>
+			<li><a href="#tab-3">ყველა ზარი</a></li>
+		</ul>
+<div id="tab-0" >
+		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:10px; display: block;">
 		<tr>
 			<td style="width: 70%;">
 			<div id="container" style="width: 95%;margin-top: -20px;">        	
@@ -373,8 +501,208 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		<td style="width: 30%;margin-top: 30px;">
 		   <div id="jq" style="width: 450px; position: fixed;"></div>
 		</td>
+		
+	</tr>
+	</table>
+</div>
+<div id="tab-1">
+		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:25px; display: block;">
+		<tr>
+			<td style="width: 70%;">
+			<div id="container" style="width: 95%;margin-top: -20px;">        	
+		       <div id="dynamic">
+            	<h2 align="center" >შემომავალი ზარები</h2>
+            	<table style="position: absolute; width: 390px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="3" ><span style="margin-top:5px; display:block;">შეთავაზება</span></td>
+				<td><input style="float: left;" type="radio" name="status_my_call" value="4" ><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
+            	<div id="button_area" style="margin-top: 50px;">
+	            	<div class="left" style="width: 250px;">
+	            		<label for="search_start_my" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start_my" id="search_start_my" class="inpt left"/>
+	            	</div>
+	            	<div class="right" style="">
+	            		<label for="search_end_my" class="left" style="margin: 5px 0 0 9px;">დასასრული</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_end_my" id="search_end_my" class="inpt right" />
+            		</div>	
+            	</div>
+            	<table class="display" id="example1" style="width: 100%;">
+                    <thead>
+                        <tr id="datatable_header">
+                            <th>ID</th>
+                            <th style="width: 80px;" >№</th>
+                            <th style="width: 150px;">თარიღი</th>
+                            <th style="width: 200px;">კატეგორია</th>
+                            <th style="width: 100px;">ტელეფონი</th>
+                            <th style="width: 100%;">შინაარსი</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="search_header">
+                            <th class="colum_hidden">
+                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
+                            </th>
+                            <th>
+                            	<input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style=""></th>
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                            
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                </table>
+	            <div class="spacer">
+	            </div>
+		   </div>
+	         </div>
+	    <td style="width: 0px;">
+		   &nbsp;
+		</td>
+		<td style="width: 30%;margin-top: 30px;">
+		   <div id="jq1" style="width: 450px; position: fixed;"></div>
+		</td>
+		
+	</tr>
+	</table>
+</div>
+<div id="tab-2">
+		<table style="width: 100%;">
+		<tr>
+			<td>
+			<div id="container" style="width: 100%;">        	
+		       <div id="dynamic">
+            	<h2 align="center" >შემომავალი ზარები</h2>
+            	<table style="position: absolute; width: 390px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="3" ><span style="margin-top:5px; display:block;">შეთავაზება</span></td>
+				<td><input style="float: left;" type="radio" name="status_call_now" value="4" ><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
+            	<div id="button_area" style="margin-top: 20;">
+            	</div>
+            	<table class="display" id="example2" style="width: 100%;">
+                    <thead>
+                        <tr id="datatable_header">
+                            <th>ID</th>
+                            <th style="width: 80px;" >№</th>
+                            <th style="width: 150px;">თარიღი</th>
+                            <th style="width: 200px;">კატეგორია</th>
+                            <th style="width: 100px;">ტელეფონი</th>
+                            <th style="width: 100%;">შინაარსი</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="search_header">
+                            <th class="colum_hidden">
+                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
+                            </th>
+                            <th>
+                            	<input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style=""></th>
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                            
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                </table>
+	            <div class="spacer">
+	            </div>
+		   </div>
+	         </div>
 	</tr>
 </table>
+</div>
+<div id="tab-3">
+		<table style="width: 100%;">
+		<tr>
+			<td>
+			<div id="container" style="width: 100%;">        	
+		       <div id="dynamic">
+            	<h2 align="center" >შემომავალი ზარები</h2>
+            	<table style="position: absolute; width: 390px;">
+				<tr>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="1" ><span style="margin-top:5px; display:block;">ინფორმაცია</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="2" ><span style="margin-top:5px; display:block;">პრეტენზია</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="3" ><span style="margin-top:5px; display:block;">შეთავაზება</span></td>
+				<td><input style="float: left;" type="radio" name="status_all_call" value="4" ><span style="margin-top:5px; display:block;">სხვა</span></td>
+				</tr>
+				</table>
+            	<div id="button_area" style="margin-top: 50px;">
+	            	<div class="left" style="width: 250px;">
+	            		<label for="search_start_my" class="left" style="margin: 5px 0 0 9px;">დასაწყისი</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_start" id="search_start" class="inpt left"/>
+	            	</div>
+	            	<div class="right" style="">
+	            		<label for="search_end_my" class="left" style="margin: 5px 0 0 9px;">დასასრული</label>
+	            		<input style="width: 100px; margin-left: 5px; height: 18px;" type="text" name="search_end" id="search_end" class="inpt right" />
+            		</div>	
+            	</div>
+                <table class="display" id="example3" style="width: 100%;">
+                    <thead>
+                        <tr id="datatable_header">
+                            <th>ID</th>
+                            <th style="width: 80px;" >№</th>
+                            <th style="width: 150px;">თარიღი</th>
+                            <th style="width: 200px;">კატეგორია</th>
+                            <th style="width: 100px;">ტელეფონი</th>
+                            <th style="width: 100%;">შინაარსი</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        <tr class="search_header">
+                            <th class="colum_hidden">
+                            	<input type="text" name="search_id" value="ფილტრი" class="search_init" style=""/>
+                            </th>
+                            <th>
+                            	<input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style=""></th>
+                            <th>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 100px;"/>
+                            </th>                            
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 80px;" />
+                            </th>
+                            <th>
+                                <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 90px;"/>
+                            </th>
+                            <th>
+                                <input type="text" name="search_category" value="ფილტრი" class="search_init" style="width: 90px;" />
+                            </th>
+                            
+                        </tr>
+                    </thead>
+                </table>
+	            <div class="spacer">
+	            </div>
+		   </div>
+	    </div>
+	</tr>
+</table>
+</div>
+</div>
 
     <!-- jQuery Dialog -->
     <div  id="add-edit-form" class="form-dialog" title="შემომავალი ზარი">
@@ -383,4 +711,5 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	<!-- jQuery Dialog -->
 	<div id="last_calls" title="ბოლო ზარები">
 	</div>
+	
 </body>

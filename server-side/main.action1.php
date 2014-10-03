@@ -65,6 +65,12 @@ switch ($action) {
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
 		$user		= $_SESSION['USERID'];
+		$start		= $_REQUEST['start'];
+		$end		= $_REQUEST['end'];
+		$status		= $_REQUEST['status'];
+		if($status != 'undefined'){
+			$checker = "AND incomming_call.information_sub_category_id = $status";
+		}
 	  	$rResult = mysql_query("SELECT incomming_call.id,
 										incomming_call.id,
 										incomming_call.date,
@@ -73,7 +79,7 @@ switch ($action) {
 										incomming_call.content
 								FROM 	incomming_call
 								JOIN  	info_category ON incomming_call.information_category_id=info_category.id
-								WHERE 	incomming_call.actived=1 AND DATE(incomming_call.`date`) = CURDATE() AND incomming_call.user_id = '$user'");
+								WHERE 	incomming_call.actived=1 AND incomming_call.user_id = '$user' AND DATE(date)  BETWEEN  date('$start')  And date('$end') $checker");
 	  
 		$data = array(
 				"aaData"	=> array()
@@ -92,23 +98,9 @@ switch ($action) {
 
 		break;
 	case 'save_incomming':
-		$incom_id = $_REQUEST['id'];
-		if($incom_id == ''){
-			
-			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id , $production_category_id, $production_brand_id, $redirect, $connect, $reaction_id, $content);
-			$incomming_call_id = mysql_insert_id();
-		
-			Addtask( $person_id, $incomming_call_id, $template_id, $task_type_id, $priority_id,  $comment);
-
-		
-		}else {
-			
 			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content);
 			
 			 savetask($incom_id, $person_id, $template_id, $task_type_id,  $priority_id,  $comment);			
-
-			
-		}
 		break;
 		case 'sub_category':
 		
@@ -143,32 +135,6 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content){
-	$c_id1		= $_REQUEST['c_id1'];
-	$c_date		= date('Y-m-d H:i:s');
-	$user		= $_SESSION['USERID'];
-	
-	mysql_query("INSERT INTO `incomming_call` 
-				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `redirect`, `connect`, `reaction_id`, `content`, `actived`) 
-				VALUES 
-				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id',  '$redirect', '$connect', '$reaction_id', '$content', '1');");
-	//GLOBAL $log;
-	//$log->setInsertLog('incomming_call');
-	}
-
-function Addtask($person_id, $incomming_call_id,  $template_id, $task_type_id,  $priority_id,  $comment)
-{
-	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO `task` 
-							( `user_id`,`responsible_user_id`, `incomming_call_id`,`template_id`, `task_type_id`, `priority_id`, `comment`, `status`, `actived`) 
-							VALUES 
-							('$user', '$person_id', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id', '$comment', '0', '1');");
-	
-	//GLOBAL $log;
-	//$log->setInsertLog('task');
-}
-				
 function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content)
 {
 	//GLOBAL $log;

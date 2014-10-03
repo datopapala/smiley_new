@@ -64,6 +64,7 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
+		$user		= $_SESSION['USERID'];
 	  	$rResult = mysql_query("SELECT incomming_call.id,
 										incomming_call.id,
 										incomming_call.date,
@@ -72,7 +73,7 @@ switch ($action) {
 										incomming_call.content
 								FROM 	incomming_call
 								JOIN  	info_category ON incomming_call.information_category_id=info_category.id
-								WHERE 	incomming_call.actived=1");
+								WHERE 	incomming_call.actived=1 AND DATE(incomming_call.`date`) = CURDATE() AND incomming_call.user_id = '$user'");
 	  
 		$data = array(
 				"aaData"	=> array()
