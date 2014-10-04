@@ -462,43 +462,6 @@ function Get_template($template)
 
 	return $data;
 }
-function getCalls(){
-	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
-
-	$req = mysql_query("
-
-						SELECT  	DISTINCT
-									IF(SUBSTR(cdr.src, 1, 3) = 995, SUBSTR(cdr.src, 4, 9), cdr.src) AS `src`
-						FROM    	cdr
-						GROUP BY 	cdr.src
-						ORDER BY 	cdr.calldate DESC
-						LIMIT 		12
-
-
-						");
-
-	$data = '<tr class="trClass">
-					<th class="thClass">#</th>
-					<th class="thClass">ნომერი</th>
-					<th class="thClass">ქმედება</th>
-				</tr>
-			';
-	$i	= 1;
-	while( $res3 = mysql_fetch_assoc($req)){
-
-		$data .= '
-	    		<tr class="trClass">
-					<td class="tdClass">' . $i . '</td>
-					<td class="tdClass" style="width: 30px !important;">' . $res3['src'] . '</td>
-					<td class="tdClass" style="font-size: 13px !important;"><button class="insert" number="' . $res3['src'] . '">დამატება</button></td>
-				</tr>';
-		$i++;
-	}
-
-	return $data;
-
-
-}
 function get_addition_all_info1($pin_n)
 {
 	//echo $pin_n; return 0;
@@ -509,21 +472,18 @@ function get_addition_all_info1($pin_n)
 									client.phone,
 									(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
 																							
-									CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>1000 
+									CASE 
+									 	WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000 
 											AND
-												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=3000
-											THEN 'VIP'
-									 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>3000 
-											AND
-												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=5000
-											THEN 'VIP-fold'
-										WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000 
+												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=7000
+											THEN 'VIP-Gold'
+										WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>7000 
 											AND
 												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=10000
-											THEN 'VIP-platinium'
+											THEN 'VIP-Platinium'
 										WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
-											THEN 'VIP-priliant'
-										WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=1000 
+											THEN 'VIP-Briliant'
+										WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=5000 
 											THEN 'ლოიალური'
 									END AS `status`
 																	FROM 	client

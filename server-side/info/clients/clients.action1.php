@@ -45,8 +45,8 @@ switch ($action) {
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
 	  	$rResult = mysql_query("SELECT 	clinet_gift.id,
-										production.`name`,
 										clinet_gift.date,
+	  									production.`name`,
 										clinet_gift.price
 								FROM    clinet_gift
 								JOIN    production ON  clinet_gift.production_id=production.id

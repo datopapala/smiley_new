@@ -26,24 +26,24 @@ switch ($action) {
 											  	(SELECT COUNT(`client_sale`.`client_id`)  FROM client_sale WHERE client.id=client_sale.client_id) AS mtvleli,
 												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
 												
-								CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=3000 
+								CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=5000 
 										AND
-											(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<5000
+											(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<7000
 										THEN 'VIP Gold'
-									 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=5000 
+									 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=7000 
 										AND
 											(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<10000
 										THEN 'VIP Platinium'
 									WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
 										THEN 'VIP Briliant'
-									WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<3000 
+									WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<5000 
 										THEN 'ლოიალური'
 								END AS `status`
 																						
 								FROM 	`client`
 								left JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`
 								left JOIN 	client_sale ON client.id=client_sale.client_id
-								WHERE (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000
+								WHERE (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>7000
 									  	AND 
 									  (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<10000");
 	  
