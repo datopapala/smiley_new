@@ -440,7 +440,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 
 <body>
 
-<div id="tabs"; style="width:99%; height: 580px; margin: 1 0 0 100px; padding-top:-18px; display: block; ">
+<div id="tabs"; style="width:99%; height: 580px;margin-top: 25px; padding-top:-18px; display: block; ">
 		<ul>
 			<li><a href="#tab-0">ჩემი ზარები დღეს</a></li>
 			<li><a href="#tab-1">ჩემი ზარები</a></li>
