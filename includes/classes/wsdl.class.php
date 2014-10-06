@@ -1,6 +1,9 @@
 
 <?php
+
+set_time_limit(0);
 class ws {
+    
     var $client=null;
     function __construct($url) {
         $this->soapUrl = $url;
@@ -38,9 +41,9 @@ class ws {
 
 $web = new ws('http://212.72.152.66/satesto/ws/GetRealizations.1cws?wsdl');
 echo '<pre>';
-print_r($web->GetRealizations('', '2014-06-02', '2014-06-06'));
+print_r($web->GetRealizations('', '2014-06-02', '2014-06-02'));
 
-$client = $web->GetRealizations('', '2014-06-02', '2014-06-06');
+$client = $web->GetRealizations('', '2014-06-02', '2014-06-02');
 
 
 
@@ -61,6 +64,22 @@ for ($i = 0; $i < $count1; $i++) {
     echo $client->return->RealizationsTable[$i]->StoreHouse.'</br>';
     echo $client->return->RealizationsTable[$i]->Subdivision.'</br>';
     echo $client->return->RealizationsTable[$i]->Responsible.'</br></br></br>';
+    
+    echo $client->return->RealizationsTable[$i]->WaybillNum.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillID.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillStatus.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransportation.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransportationType.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillMeanOfTransport.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransporter.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransporterID.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillActivationDate.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransportationPayer.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillTransportationExpence.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillDonor.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillRecivier.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillNote.'</br>';
+    echo $client->return->RealizationsTable[$i]->WaybillRecieveDate.'</br>';
     
     $count = count($client->return->RealizationsTable[$i]->Nomenclature);
     echo '--'.$count.'--</br>';
@@ -95,21 +114,7 @@ for ($i = 0; $i < $count1; $i++) {
         
     }
     
-    echo $client->return->RealizationsTable[$i]->WaybillNum.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillID.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillStatus.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransportation.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransportationType.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillMeanOfTransport.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransporter.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransporterID.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillActivationDate.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransportationPayer.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillTransportationExpence.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillDonor.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillRecivier.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillNote.'</br>';
-    echo $client->return->RealizationsTable[$i]->WaybillRecieveDate.'</br>';
+   
 
 }
 echo '</pre>';
