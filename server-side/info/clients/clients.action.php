@@ -67,32 +67,32 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("SELECT DISTINCT	`client`.`id`,
-												`client`.`id`,
-												`client`.`code`,
-												`legal_status`.`name`,
-												`client`.`name`,
-												`client`.`phone`,
-												`client`.`mail`,
-												(SELECT COUNT(`client_sale`.`client_id`)  FROM client_sale WHERE client.id=client_sale.client_id) AS mtvleli,
-											  	(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
-												CASE WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=3000 
-														AND
-														  (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<5000
-														THEN 'VIP Gold'
-													 WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>=5000 
-														AND
-														  (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<10000
-														THEN 'VIP Platinium'
-													WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
-														THEN 'VIP Briliant'
-													WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<3000 
-														THEN 'ლოიალური'
-												END AS `status`
+	  	$rResult = mysql_query("SELECT DISTINCT `realizations`.`id`,
+												`realizations`.`id`,
+												`realizations`.`CustomerID`,
+	  											`realizations`.`Customer1CCode`,
+												`realizations`.`CustomerName`,
+												`realizations`.`CustomerPhone`,
+												`realizations`.`CustomerAddress`,
+												COUNT(realizations.CustomerName),
+											  	SUM(`nomenclature`.`Sum`) AS jami,
+									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+											AND
+											SUM(`nomenclature`.`Sum`)<7000
+											THEN 'VIP Gold'
+										 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+											AND
+											SUM(`nomenclature`.`Sum`)<10000
+											THEN 'VIP Platinium'
+										WHEN SUM(`nomenclature`.`Sum`)>10000 
+											THEN 'VIP Briliant'
+										WHEN SUM(`nomenclature`.`Sum`)<5000 
+											THEN 'ლოიალური'
+									END AS `status`
 												
-										FROM 	`client`
-										left JOIN 	`legal_status` ON `client`.`legal_status_id` = `legal_status`.`id`
-										left JOIN 	client_sale ON client.id=client_sale.client_id						
+									FROM 	`realizations`
+									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
+	  								GROUP BY realizations.CustomerName				
 											  			");
 	  	
 	  
@@ -364,37 +364,19 @@ function getCalls(){
 function Getincomming()
 {
 	
-$res = mysql_fetch_assoc(mysql_query("	SELECT 	client.id,
-												client.legal_status_id AS legal_status_id ,
-												client.`code` AS client_pin,
-												client.`name` AS client_name,	
-												client.born_date AS born_date,
-												client.mobile1 AS client_mobile1,
-												client.mobile2 AS client_mobile2,
-												client.phone   AS client_phone,
-												client.mail		AS client_mail,
-												client.comment	AS client_comment,
-												client.Juristic_address AS Juristic_address,
-												client.Juristic_city AS Juristic_city,
-												client.Juristic_postal_code AS Juristic_postal_code,
-												client.physical_address AS physical_address,
-												client.physical_city AS physical_city,
-												client.physical_postal_code AS physical_postal_code,
+$res = mysql_fetch_assoc(mysql_query("	SELECT 	
+												realizations.id,
+												realizations.`CustomerID` AS client_name,	
+												realizations.Date AS born_date,
+												realizations.CustomerAddress AS Juristic_address,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
-												task.problem_comment AS problem_comment,
-												object.`name` AS obj_name,
-												production.`name` AS pro_name,
-												client_sale.date as sale_date,
-												client_sale.price
-
-										FROM    client
-										LEFT JOIN client_sale ON client.id=client_sale.client_id
-										LEFT JOIN production 	ON client_sale.production_id=production.id
-										LEFT JOIN object ON client_sale.object_id=object.id
-										left JOIN    task ON client.id = task.incomming_call_id
-										WHERE   client.id=".$_REQUEST['id']."	
+												task.problem_comment AS problem_comment
+										FROM    realizations
+										left JOIN    task ON realizations.id = task.incomming_call_id
+										WHERE   realizations.id=".$_REQUEST['id']."
+										
 			" ));
 	
 	return $res;

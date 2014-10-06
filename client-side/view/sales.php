@@ -37,7 +37,7 @@
 
 		 function LoadTable0(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 7, "", 0, "", 1, "asc", "");
+			GetDataTable("example0", aJaxURL, "get_list", 13, "", 0, "", 1, "asc", "");
 		}
 			
 		function LoadTable1(){			
@@ -158,7 +158,7 @@
 			param.act			= "save_outgoing";
 			
 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
+			param.h_id					= $("#h_id").val();
 	    	param.call_date				= $("#call_date").val();
 	    	param.problem_date			= $("#problem_date").val();
 			param.persons_id			= $("#persons_id").val();
