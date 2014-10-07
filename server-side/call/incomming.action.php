@@ -547,7 +547,7 @@ function get_addition_all_info1($pin_n)
 							LIMIT 1");
 	$req1=mysql_query("		SELECT 	nomenclature.id,
 									realizations.Date,
-									SUM(nomenclature.Sum) as sum	
+									SUM(nomenclature.Sum) as Sum	
 									FROM 	realizations
 									JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 									WHERE realizations.`CustomerID`=	$pin_n
