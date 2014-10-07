@@ -60,12 +60,6 @@ switch ($action) {
 		$data		= array('page'	=> $page);
 
 		break;
-	case 'disable':
-		$incom_id				= $_REQUEST['id'];
-		mysql_query("			UPDATE `incomming_call`
-									    SET `actived`=0
-										WHERE `id`=$incom_id ");
-		break;
 	case 'get_edit_page':
 		$h_id				= $_REQUEST['id'];
 		$page		= GetPage(Getincomming($incom_id));
@@ -118,113 +112,14 @@ switch ($action) {
 			if($task_type_id != 0){
 			Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
 			}
-			Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
-		
 		}else {
 			
 			Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file);
 			
 			Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment);
-			
-			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
-			
 		}
 		break;
 		
-	case 'get_calls':
-	
-		$data		= array('calls' => getCalls());
-	
-		break;
-		
-		case 'delete_file':
-		
-			mysql_query("DELETE FROM file WHERE id = $delete_id");
-		
-			$increm = mysql_query("	SELECT  `name`,
-					`rand_name`,
-					`id`
-					FROM 	`file`
-					WHERE   `incomming_call_id` = $edit_id
-					");
-		
-			$data1 = '';
-		
-			while($increm_row = mysql_fetch_assoc($increm))	{
-			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
- 					  </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-				break;
-		
-				case 'up_now':
-				$user		= $_SESSION['USERID'];
-				if($rand_file != ''){
-				mysql_query("INSERT INTO 	`file`
-				( 	`user_id`,
-				`incomming_call_id`,
-				`name`,
-				`rand_name`
-				)
-				VALUES
-				(	'$user',
-				'$edit_id',
-				'$file',
-				'$rand_file'
-				);");
-				}
-		
-				$increm = mysql_query("	SELECT  `name`,
-				`rand_name`,
-				`id`
-				FROM 	`file`
-				WHERE   `incomming_call_id` = $edit_id
-				");
-		
-				$data1 = '';
-		
-				while($increm_row = mysql_fetch_assoc($increm))	{
-				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
-				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
-				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
-						          </tr>';
-		}
-		
-		$data = array('page' => $data1);
-		
-		break;
-		
-	case 'sub_category':
-		
-		$cat_id	=	$_REQUEST['cat_id'];
-		$data 	= 	array('cat'=>Getcategory1($cat_id));
-		
-		break;	
-	case 'set_task_type':
-	
-		$cat_id	=	$_REQUEST['cat_id'];
-		$data 	= 	array('cat'=>Getbank_object($cat_id));
-	
-		break;
-	
-	case 'get_add_info':
-	
-		$pin	=	$_REQUEST['pin'];
-		$data 	= 	array('info' => get_addition_all_info($pin));
-	
-		break;
-		case 'get_add_info1':
-		
-		$personal_id	=	$_REQUEST['personal_id'];
-		$data 	= 	array('info1' => get_addition_all_info1($personal_id));
-	
-		break;
 	default:
 		$error = 'Action is Null';
 }
@@ -249,20 +144,6 @@ function Addincomming(  $phone,  $call_type_id, $category_id, $category_parent_i
 			 VALUES 
 			( '$user', '$c_date', '$phone', '$call_type_id', '$category_id', '$category_parent_id', '$object_id', '$pay_type_id', '$bank_id', '', '$card_type_id', '$pay_aparat_id', '$problem_date', '$call_content', '1');");
 	
-	if($rand_file != ''){
-		mysql_query("INSERT INTO 	`file`
-		( 	`user_id`,
-		`incomming_call_id`,
-		`name`,
-		`rand_name`
-		)
-		VALUES
-		(	'$user',
-		'$hidden_inc',
-		'$file',
-		'$rand_file'
-		);");
-	}
 }
 
 function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
@@ -293,16 +174,6 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 								     NULL)");
 	
 	
-}
-
-function Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id)
-{
-	
-	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO `site_user` 	(`incomming_call_id`, `site`, `pin`, `friend_pin`, `name`, `phone`, `mail`, `personal_id`, `user`)
-						           		 VALUES 
-											( '$incomming_call_id', '243', '$personal_pin', '$friend_pin', '3414', 12412341, '124124124', '$personal_id', '$user')");
-
 }
 				
 function Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file)
@@ -344,223 +215,6 @@ function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_de
 										  WHERE (`incomming_call_id`='$incom_id');");
 
 }
-function Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id)
-{
-
-	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE 	`site_user` 
-				SET			
-							`site`						='243', 
-							`pin`						='$personal_pin', 
-							`name`						='$name', 
-							`phone`						='$personal_phone', 
-							`mail`						='$mail', 
-							`personal_id`				='$personal_id', 
-							`user`						='$user'
-							 WHERE `incomming_call_id`	='$incom_id'
-							
-					");
-
-}
-
-
-function Getcall_status($status)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	`id`, `call_status`
-						FROM 	`status`
-						WHERE 	actived=1");
-	
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		
-		if($res['id'] == $status){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['call_status'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['call_status'] . '</option>';
-		}
-	}
-	return $data;
-}
-	function Getpay_type($pay_type_id)
-	{
-		$data = '';
-		$req = mysql_query("SELECT 	`id`, `name`
-						FROM 	`pay_type`
-						WHERE 	actived=1");
-	
-	
-		$data .= '<option value="0" selected="selected">----</option>';
-		while( $res = mysql_fetch_assoc($req)){
-			if($res['id'] == $pay_type_id){
-				$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-			} else {
-				$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-			}
-		}
-	
-		return $data;
-	}
-	function Get_bank($bank_id)
-	{
-		$data = '';
-		$req = mysql_query("SELECT 	`id`, `name`
-						FROM 	`bank`
-						WHERE 	actived=1");
-	
-	
-		$data .= '<option value="0" selected="selected">----</option>';
-		while( $res = mysql_fetch_assoc($req)){
-			if($res['id'] == $bank_id){
-				$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-			} else {
-				$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-			}
-		}
-	
-		return $data;
-	}
-	
-function Getcard_type($card_type_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	`id`, `name`
-					FROM 	`card_type`
-					WHERE 	actived=1");
-
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $card_type_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-function Getpay_aparat($pay_aparat_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	`id`, `name`
-					FROM 	`pay_aparat`
-					WHERE 	actived=1");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $pay_aparat_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-function Getobject($object_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	`id`, `name`
-					FROM 	`object`
-					WHERE 	actived=1");
-
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $object_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-function Getcategory($category_id)
-
-{ 			
-
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-						FROM `category`
-						WHERE actived=1 && parent_id=0 ");
-
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $category_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-
-function Getcategory1($category_id)
-{
-
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-						FROM `category`
-						WHERE actived=1 && parent_id=$category_id");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $category_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-	
-}
-
-function Getcategory1_edit($category_id)
-{
-
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-						FROM `category`
-						WHERE actived=1 && id=$category_id");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $category_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-
-}
-
-function Getcall_type($call_type_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-					FROM `call_type`
-					WHERE actived=1");
-	
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $call_type_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
-
 
 function Getdepartment($task_department_id)
 {
@@ -787,7 +441,7 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
 								</td>
 							</tr>
 							<tr>

@@ -8,10 +8,10 @@
 		var file_name = '';
 		var rand_file = '';
 		
-		$(document).ready(function () {     
+		$(document).ready(function () { 
+			     
 			GetTabs(tbName);   	
 			GetTable0();
-			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
 		});
 
@@ -42,7 +42,7 @@
 			
 		function LoadTable1(){			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable("example1", aJaxURL1, "get_list", 13, "", 0, "", 1, "asc", "");
 		}
 
 
@@ -52,6 +52,7 @@
         });
 
         function LoadDialog(fName){
+            
             //alert(form);
 			switch(fName){
 				case "add-edit-form":
@@ -67,20 +68,14 @@
 				            	$(this).dialog("close");
 				            }
 				        } 
+				       
 				    };
 					GetDialog("add-edit-form", 1080, "auto", buttons);
+					GetDateTimes("mont_date");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
-						"done": {
-				            text: "დასრულება",
-				            id: "done-dialog1"
-				        }, 
-						"save": {
-				            text: "შენახვა",
-				            id: "save-dialog1"
-				        }, 
-			        	"cancel": {
+						"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
 				            click: function () {
@@ -92,14 +87,6 @@
 				break;	
 				case "add-edit-form2":
 					var buttons = {
-						"done": {
-				            text: "დასრულება",
-				            id: "done-dialog2"
-				        }, 
-				        "save": {
-				            text: "შენახვა",
-				            id: "save-dialog2"
-				        }, 
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -111,24 +98,6 @@
 					GetDialog("add-edit-form2", 1060, "auto", buttons);
 			    break;
 			}
-			
-			var id = $("#incomming_id").val();
-			var cat_id = $("#category_parent_id").val();
-	
-			if(id != '' && cat_id == 407){
-				$("#additional").removeClass('hidden');
-			}
-	
-			GetDateTimes("planned_end_date");
-			
-			$( ".calls" ).button({
-			      icons: {
-			        primary: " ui-icon-contact"
-			      }
-			});
-			$("#choose_button").button({
-	            
-		    });
 		}
 
 		function LoadDialog1(){
@@ -229,254 +198,7 @@
  		    	}
  		   });
 		});
-	    $(document).on("click", "#done-dialog1", function () {
-			   
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
- 	    	$.ajax({
- 		        url: aJaxURL1,
- 			    data: param,
- 		        success: function(data) {       
- 					if(typeof(data.error) != "undefined"){
- 						if(data.error != ""){
- 							alert(data.error);
- 						}else{
-							LoadTable1();
- 							CloseDialog("add-edit-form1");
- 						}
- 					}
- 		    	}
- 		   });
-		});
-
-	    $(document).on("click", "#save-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "save_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
-	    $(document).on("keydown", "#personal_pin", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 			= new Object();
-    		 	param.act		= "get_add_info";
-    		 	param.pin		= $("#personal_pin").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-//
-	    $(document).on("keydown", "#personal_id", function(event) {
-            if (event.keyCode == $.ui.keyCode.ENTER) {
-
-            	param 					= new Object();
-    		 	param.act				= "get_add_info1";
-    		 	param.personal_id		= $("#personal_id").val();
-
-    	    	$.ajax({
-    		        url: aJaxURL,
-    			    data: param,
-    		        success: function(data) {
-    					if(typeof(data.error) != 'undefined'){
-    						if(data.error != ''){
-    							alert(data.error);
-    						}else{
-    							$("#additional_info").html(data.info1);
-    						}
-    					}
-    			    }
-    		    });
-                
-                event.preventDefault();
-            }
-        });
-	    $(document).on("click", "#done-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "done_outgoing";
-		    	
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	 
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {       
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
-	 function SetPrivateEvents(add,check,formName){
-		$(document).on("click", "#" + add, function () {    
-	        $.ajax({
-	            url: aJaxURL,
-	            type: "POST",
-	            data: "act=get_responsible_person_add_page",
-	            dataType: "json",
-	            success: function (data) {
-	                if (typeof (data.error) != "undefined") {
-	                    if (data.error != "") {
-	                        alert(data.error);
-	                    }else{
-	                        $("#" + formName).html(data.page);
-	                        if ($.isFunction(window.LoadDialog)){
-	                            //execute it
-	                        	LoadDialog1();
-	                        }
-	                    }
-	                }
-	            }
-	        });
-	    });
-		
-	    $(document).on("click", "#" + check, function () {
-	    	$("#" + tName + " INPUT[type='checkbox']").prop("checked", $("#" + check).is(":checked"));
-	    });	
-	}
-
-	function Change_person(formName){
-	    var data = $(".check:checked").map(function () {
-	        return this.value;
-	    }).get();
-	    
-	    var letters = [];
-	    
-	    for (var i = 0; i < data.length; i++) {
-	    	letters.push(data[i]);        
-	    }
-    	param = new Object();
-    	param.act	= "change_responsible_person";
-    	param.lt	= letters;
-	    param.rp	= $("#responsible_person").val();
-
-	    var link	=  GetAjaxData(param);
-	    
-	    if(param.rp == "0"){
-		    alert("აირჩიეთ პასუხისმგებელი პირი!");
-		}else if(param.ci == "0"){
-		    alert("აირჩიეთ ავტომობილი");		
-		}else{	    
-	        $.ajax({
-	            url: aJaxURL,
-	            type: "POST",
-	            data: link,
-	            dataType: "json", 
-	            success: function (data) {
-	                if (typeof (data.error) != "undefined") {
-	                    if (data.error != "") {
-	                        alert(data.error);
-	                    }else{
-	                        $("#add-responsible-person").dialog("close");
-	                        LoadTable0();
-	                    }
-	                }
-	            }
-	        });
-		}	    		
-	}
-	$(document).on("change", "#category_parent_id",function(){
- 	 	param 			= new Object();
-		 	param.act		= "sub_category";
-		 	param.cat_id   	= this.value;
-	    	$.ajax({
-		        url: aJaxURL,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != 'undefined'){
-						if(data.error != ''){
-							alert(data.error);
-						}else{
-							$("#category_id").html(data.cat);
-						}
-					}
-			    }
-		    });
-
-		if(this.value == 407){
-			$("#additional").removeClass('hidden');
-		}else{
-			$("#additional").addClass('hidden');
-		}
-    });
-    
-	
-	    $(document).on("keyup", "#req_time1, #req_time2", function() {
+	 $(document).on("keyup", "#req_time1, #req_time2", function() {
 	        var val = $(this).val();
 	        if(isNaN(val) || (val>60)){
 		        
