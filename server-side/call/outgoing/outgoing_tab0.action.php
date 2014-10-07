@@ -487,55 +487,52 @@ function Get_template($template)
 function get_addition_all_info1($pin_n)
 {
 	//echo $pin_n; return 0;
-	$req=mysql_query("SELECT 	client.id as c_id,	
-									client.Juristic_address,
-									client.`name` AS client_name,
-									client.mail,
-									client.phone,
-									(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id) AS jami,
+	$req=mysql_query("		SELECT 	realizations.id as c_id,	
+									realizations.CustomerAddress,
+									realizations.`CustomerName` AS client_name,
+									realizations.CustomerAddress,
+									realizations.CustomerPhone,
+									SUM(`nomenclature`.`Sum`)AS jami,
 																							
-									CASE 
-									 	WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>5000 
+									CASE
+									 	WHEN  SUM(`nomenclature`.`Sum`)>5000 
 											AND
-												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=7000
+												 SUM(`nomenclature`.`Sum`)<=7000
 											THEN 'VIP-Gold'
-										WHEN (SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>7000 
+										WHEN  SUM(`nomenclature`.`Sum`)  >7000 
 											AND
-												(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=10000
+												SUM(`nomenclature`.`Sum`)<=10000
 											THEN 'VIP-Platinium'
-										WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)>10000 
+										WHEN SUM(`nomenclature`.`Sum`) >10000 
 											THEN 'VIP-Briliant'
-										WHEN(SELECT SUM(`client_sale`.`price`)  FROM client_sale WHERE client.id=client_sale.client_id)<=5000 
+										WHEN SUM(`nomenclature`.`Sum`)<=5000 
 											THEN 'ლოიალური'
 									END AS `status`
-																	FROM 	client
-							JOIN client_sale ON client.id=client_sale.client_id
+																	FROM 	realizations
+							JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 																					
-							WHERE client.`code`=$pin_n
+							WHERE realizations.CustomerID=$pin_n
 							LIMIT 1");
-	$req1=mysql_query("		SELECT 	client_sale.id,
-			client_sale.date,
-			production.`name` AS prod_name,
-			object.`name` AS obj_name,
-			client_sale.price
-			FROM 	client
-			left JOIN client_sale ON client.id=client_sale.client_id
-			left JOIN object ON client_sale.object_id=object.id
-			left JOIN production ON client_sale.production_id=production.id
-			WHERE client.`code`=$pin_n");
-
-	$res = mysql_fetch_assoc($req);
+	$req1=mysql_query("		SELECT 	nomenclature.id,
+									realizations.Date,
+									SUM(nomenclature.Sum) as Sum	
+									FROM 	realizations
+									JOIN nomenclature ON realizations.id=nomenclature.realizations_id
+									WHERE realizations.`CustomerID`=	$pin_n
+									GROUP BY realizations.Date");
+	
+	$res = mysql_fetch_assoc($req);													
 	$data .= '<fieldset >
 	<legend>ძირითადი ინფორმაცია</legend>
-		<table style="height: 243px;">
+		<table style="height: 243px;">			
 			<tr>
 				<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
 				<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
 			</tr>
 			<tr>
-				<td>'.$res['phone'].'</td>
+				<td>'.$res['CustomerPhone'].'</td>
 				<td style="width: 180px;">
-				<input type="text" id="personal_pin" class="idle" onblur="this.className=\'idle\'" value="' . $pin_n . '"  />
+				<input type="text" id="personal_pin" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $pin_n . '" />
 				</td>
 			</tr>
 			<tr>
@@ -544,21 +541,21 @@ function get_addition_all_info1($pin_n)
 			</tr>
 			<tr >
 				<td style="width: 180px;">'.$res['client_name'].'</td>
-				<td style="width: 180px;">'.$res['mail'].'</td>
+				<td style="width: 180px;">'.$res['CustomerAddress'].'</td>
 			</tr>
 			<tr>
 				<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
 				<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
 			</tr>
 			<tr>
-				<td style="width: 180px;">'.$res['Juristic_address'].'</td>
-				<td style="width: 180px;">'.$res['status'].'</td>
+				<td style="width: 180px;">'.$res['CustomerAddress'].'</td>
+				<td td style="width: 180px;">'.$res['status'].'</td>
 			</tr>
-
-	</table>
-	</fieldset>
+		
+	</table>				
+	</fieldset>	
 				<fieldset>
-					<legend>შენაძენი</legend>
+					<legend>შენაძენი</legend> 
 					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
@@ -567,29 +564,28 @@ function get_addition_all_info1($pin_n)
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
 						</tr>
-						';
-	while( $res1 = mysql_fetch_assoc($req1)){
-		$data .='
+						';						 
+						while( $res1 = mysql_fetch_assoc($req1)){
+						$data .='
 						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res1['id'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res1['obj_name'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res1['date'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res1['prod_name'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res1['price'].'</td>
+							<td style="border-right: 1px solid #85b1de; padding: -2px 22px; word-break:break-all">'.$res1['id'].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Date'].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Sum'].'</td>
 	  					</tr>			';
-	};
-	$data .='
-
-
+						};						
+						$data .='	
+						
+						
 					<table/>
-				</fieldset>
+				</fieldset>	
 								<!-- ID -->
-		 		<input type="hidden" id="c_id1" value="' . $res['c_id'] . '" />
+		 		<input type="hidden" id="c_id1" value="' . $res['c_id'] . '" />	
 												';
-
+	
 	return $data;
 }
-
 function Gettask($id)
 {
 	$res = mysql_fetch_assoc(mysql_query("SELECT 	task.id,
