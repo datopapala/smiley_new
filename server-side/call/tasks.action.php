@@ -687,7 +687,7 @@ $num = 0;
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 800px;">
+			<div style="float: left; width: 800px; height: 456px">
 				<fieldset '.$hide.' >
 			    	<legend>ძირითადი ინფორმაცია</legend>
 
@@ -845,8 +845,9 @@ $num = 0;
 			</div>
 			<div id="info_c" style="float: right;  width: 355px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
+				$data .= '</div>';
 				$data .=GetRecordingsSection($res);
-			$data .= '</div>';
+			
 				
 			$data .='	
 	  		

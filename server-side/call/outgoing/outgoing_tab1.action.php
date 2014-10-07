@@ -648,7 +648,7 @@ $num = 0;
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 800px;">
+			<div style="float: left; width: 800px; height: 456px">
 				<fieldset '.$hide.' >
 			    	<legend>ძირითადი ინფორმაცია</legend>
 
@@ -806,6 +806,7 @@ $num = 0;
 			</div>
 			<div id="info_c" style="float: right;  width: 355px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
+				$data .= '</div>';
 				$data .=GetRecordingsSection($res);
 			$data .='	
 	  		
@@ -821,7 +822,7 @@ $num = 0;
 function GetRecordingsSection($res)
 {
 	if ($res[incom_phone]==''){
-		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+		//$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
 	}else{
 		$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 				`userfield`
