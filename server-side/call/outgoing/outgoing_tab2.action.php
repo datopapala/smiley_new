@@ -523,7 +523,7 @@ function get_addition_all_info1($pin_n)
 	$res = mysql_fetch_assoc($req);													
 	$data .= '<fieldset >
 	<legend>ძირითადი ინფორმაცია</legend>
-		<table style="height: 243px;">			
+		<table style="height: 376px;">			
 			<tr>
 				<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
 				<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
