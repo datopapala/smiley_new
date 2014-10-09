@@ -687,7 +687,7 @@ $num = 0;
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 800px; height: 456px">
+			<div style="float: left; width: 797px; height: 456px">
 				<fieldset '.$hide.' >
 			    	<legend>ძირითადი ინფორმაცია</legend>
 
