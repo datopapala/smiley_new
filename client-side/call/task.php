@@ -50,7 +50,7 @@
 		function LoadDialog(){
 			
 			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 1190, "auto", "");
+			GetDialog(fName, 1200, "auto", "");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 
