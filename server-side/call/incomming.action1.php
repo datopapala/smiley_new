@@ -814,7 +814,7 @@ function GetPage($res='', $number, $pin)
 function GetRecordingsSection($res)
 {
 	if ($res[incom_phone]==''){
-		$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
+		//$data .= '<td colspan="2" style="height: 20px; text-align: center;">ჩანაწერები ვერ მოიძებნა</td>';
 	}else{
 		$req = mysql_query("SELECT  TIME(`calldate`) AS 'time',
 				`userfield`
