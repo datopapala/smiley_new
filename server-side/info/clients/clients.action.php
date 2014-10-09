@@ -60,7 +60,7 @@ switch ($action) {
 		break;
 	case 'get_edit_page':
 		$page		= GetPage(Getincomming());
-
+		Get_sale();
 		$data		= array('page'	=> $page);
 
 		break;
@@ -92,7 +92,7 @@ switch ($action) {
 												
 									FROM 	`realizations`
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-	  								GROUP BY realizations.CustomerName				
+									GROUP BY nomenclature.realizations_id			
 											  			");
 	  	
 	  
@@ -359,21 +359,78 @@ function getCalls(){
 
 
 }
+function Get_sale()
+{
 
+	$req = mysql_query("			SELECT			nomenclature.id as nom,
+													realizations.Date as date,
+													realizations.Subdivision,
+													nomenclature.Sum
+									from			realizations
+									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
+									WHERE 			nomenclature.realizations_id =".$_REQUEST['id']."
+			" );
+
+	$data.='<fieldset style="width: 440px;">
+					<legend>შენაძენი</legend> 
+					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
+						<tr style="border-bottom: 1px solid #85b1de;">
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
+						</tr>';
+	while( $res1 = mysql_fetch_assoc($req)){
+		$data .='
+						<tr style="border-bottom: 1px solid #85b1de; ">
+							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nom']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Subdivision']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['date']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
+						</tr>
+							';
+	};
+	$data .='
+
+
+					<table/>
+				</fieldset>
+								';
+	return $data;
+}
 
 function Getincomming()
 {
 	
 $res = mysql_fetch_assoc(mysql_query("	SELECT 	
 												realizations.id,
-												realizations.`CustomerID` AS client_name,	
+												realizations.CustomerName AS client_name,
+												realizations.`CustomerID`,	
 												realizations.Date AS born_date,
 												realizations.CustomerAddress AS Juristic_address,
+												realizations.CustomerPhone,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
-												task.problem_comment AS problem_comment
-										FROM    realizations
+												task.problem_comment AS problem_comment,
+										CASE
+										 	WHEN  SUM(`nomenclature`.`Sum`)>5000 
+												AND
+													 SUM(`nomenclature`.`Sum`)<=7000
+												THEN 'VIP-Gold'
+											WHEN  SUM(`nomenclature`.`Sum`)  >7000 
+												AND
+													SUM(`nomenclature`.`Sum`)<=10000
+												THEN 'VIP-Platinium'
+											WHEN SUM(`nomenclature`.`Sum`) >10000 
+												THEN 'VIP-Briliant'
+											WHEN SUM(`nomenclature`.`Sum`)<=5000 
+												THEN 'ლოიალური'
+									END AS `status`
+								FROM 	realizations
+										JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 										left JOIN    task ON realizations.id = task.incomming_call_id
 										WHERE   realizations.id=".$_REQUEST['id']."
 										
@@ -409,7 +466,7 @@ function GetPage($res='', $number)
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 								<td>სტატუსი</td>
-								<td>VIP-კლიენტი</td>
+								<td>'.$res['status'].'</td>
 								<td></td>
 								<td></td>								
 							</tr>
@@ -420,7 +477,7 @@ function GetPage($res='', $number)
 								</td>
 								<td>მობილური 1</td>
 								<td>
-									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mobile1']. '"  />
+									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>
 											
 							</tr>
@@ -431,18 +488,18 @@ function GetPage($res='', $number)
 								</td>
 								<td>მობილური 2</td>
 								<td>
-									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mobile2']. '"  />
+									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>
 										
 							</tr>	
 							<tr>
 								<td>პირადი ნომერი</td>
 								<td>
-									<input type="text" id="client_pin" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_pin']. '"  />
+									<input type="text" id="client_pin" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerID']. '"  />
 								</td>
 								<td>ტელეფონი</td>
 								<td>
-									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_phone']. '"  />
+									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>		
 							</tr>
 							<tr>
@@ -484,17 +541,17 @@ function GetPage($res='', $number)
 								</td>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_address']. '"  />
+									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
 								</td>			
 							</tr>
 							<tr>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_city']. '"  />
+									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
 								</td>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_city']. '"  />
+									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
 								</td>			
 							</tr>	
 							<tr>
@@ -596,54 +653,12 @@ function GetPage($res='', $number)
 		        </div>
 				</fieldset>
 				<div id="additional_info">
-				<fieldset style="width: 440px;">
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>';
+				';
 		
+		$data.=	Get_sale($res['id']);
+						$data .='	<table/>
 		
-		$qvr = mysql_query("	SELECT 	client_sale.id,
-												
-										object.`name` AS obj_name,
-										production.`name` AS pro_name,
-										client_sale.date as sale_date,
-										client_sale.price
-								FROM    client
-								LEFT JOIN client_sale ON client.id=client_sale.client_id
-								LEFT JOIN production 	ON client_sale.production_id=production.id
-								LEFT JOIN object ON client_sale.object_id=object.id
-								WHERE   client.id=".$_REQUEST['id']."
-			" );
-						while($res_sale = mysql_fetch_assoc($qvr)){
-						$data .= '<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['id'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['obj_name'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['sale_date'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['pro_name'].'</td>	
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">'.$res_sale['price'].'</td>		
-						</tr>';
-	  					}						
-					$data .= '<table/>
-				</fieldset>
-	  			<fieldset style="width: 440px;">
-					<legend>საუბრის ჩანაწერი</legend> 
-	  				<table style="float: left; border: 1px solid #85b1de; width: 250px; text-align: center; margin-left:100px;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">დრო</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; width:200px; color: #3C7FB1;">ჩანაწერი</td>
-						</tr>
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">10:05:12 AM</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">მოსმენა</td>
-	  					</tr>
-					<table/>
-				</fieldset>
+				
 						<input type="hidden" id="id" value="'.$_REQUEST['id'].'"/>		
 			</div>
     </div>';

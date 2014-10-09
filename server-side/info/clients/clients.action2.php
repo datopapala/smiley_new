@@ -85,11 +85,11 @@ switch ($action) {
 											  	SUM(`nomenclature`.`Sum`) AS jami,
 									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
 											AND
-										SUM(`nomenclature`.`Sum`)<7000
+											SUM(`nomenclature`.`Sum`)<7000
 											THEN 'VIP Gold'
-										WHEN SUM(`nomenclature`.`Sum`)>=7000 
+										 WHEN SUM(`nomenclature`.`Sum`)>=7000 
 											AND
-										SUM(`nomenclature`.`Sum`)<10000
+											SUM(`nomenclature`.`Sum`)<10000
 											THEN 'VIP Platinium'
 										WHEN SUM(`nomenclature`.`Sum`)>10000 
 											THEN 'VIP Briliant'
@@ -98,9 +98,10 @@ switch ($action) {
 									END AS `status`
 												
 									FROM 	`realizations`
-								JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-	  							HAVING SUM(`nomenclature`.`Sum`)<5000
-	  							GROUP BY realizations.CustomerName	
+									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
+								HAVING SUM(`nomenclature`.`Sum`)<5000
+	  							GROUP BY nomenclature.realizations_id
+	  								
 	  							
 												
 	  										");

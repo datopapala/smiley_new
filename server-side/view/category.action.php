@@ -6,9 +6,9 @@
 
 include('../../includes/classes/core.php');
 include('../../includes/classes/category.tree.class.php');
-include('../../includes/classes/log.class.php');
+//include('../../includes/classes/log.class.php');
 
-$log 		= new log();
+//$log 		= new log();
 
 $action	= $_REQUEST['act'];
 $error	= '';
@@ -104,14 +104,14 @@ function AddCategory($cat_name, $par_id)
 					(`user_id`,`name`, `parent_id`) 
 				 VALUES
 					('$user_id','$cat_name', $par_id)");
-	GLOBAL $log;
-	$log->setInsertLog('category');
+	//GLOBAL $log;
+	//$log->setInsertLog('category');
 }
 
 function SaveCategory($cat_id, $cat_name, $par_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('category', $cat_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('category', $cat_id);
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("UPDATE
 	    			`category`
@@ -120,17 +120,17 @@ function SaveCategory($cat_id, $cat_name, $par_id)
 				    `parent_id`	= $par_id
 				 WHERE
 					`id` = $cat_id");
-	$log->setInsertLog('category',$cat_id);
+	//$log->setInsertLog('category',$cat_id);
 }
 
 function DisableCategory($cat_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('category', $cat_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('category', $cat_id);
     mysql_query("UPDATE `category`
 				 SET    `actived` = 0
 				 WHERE	`id` = $cat_id");
-    $log->setInsertLog('category',$cat_id);
+   // $log->setInsertLog('category',$cat_id);
 }
 
 function CheckCategoryExist($cat_name, $par_id) 

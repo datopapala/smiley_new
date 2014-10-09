@@ -96,14 +96,14 @@ function AddCategory($cat_name, $par_id)
 					(`name`, `parent_id`) 
 				 VALUES
 					('$cat_name', $par_id)");
-	GLOBAL $log;
-	$log->setInsertLog('info_category');
+	//GLOBAL $log;
+	//$log->setInsertLog('info_category');
 }
 
 function SaveCategory($cat_id, $cat_name, $par_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('call_status', $cat_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('call_status', $cat_id);
 	mysql_query("UPDATE
 	    			`info_category`
 				 SET
@@ -111,17 +111,17 @@ function SaveCategory($cat_id, $cat_name, $par_id)
 				    `parent_id`	= $par_id
 				 WHERE
 					`id` = $cat_id");
-	$log->setInsertLog('call_status',$cat_id);
+	//$log->setInsertLog('call_status',$cat_id);
 }
 
 function DisableCategory($cat_id)
 {
-	GLOBAL $log;
-	$log->setUpdateLogAfter('call_status', $cat_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('call_status', $cat_id);
     mysql_query("UPDATE `info_category`
 				 SET    `actived` = 0
 				 WHERE	`id` = $cat_id");
-    $log->setInsertLog('call_status',$cat_id);
+    //$log->setInsertLog('call_status',$cat_id);
 }
 
 function CheckCategoryExist($cat_name, $par_id) 
