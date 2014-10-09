@@ -686,8 +686,8 @@ $num = 0;
 			    	<legend>მომართვის ავტორი</legend>
 					<table id="additional" class="dialog-form-table" width="300px">
 						<tr>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' disabled="disabled"><span style="margin-top:5px; display:block;">ფიზიკური</span></td>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' disabled="disabled"><span style="margin-top:5px; display:block;">იურიდიული</span></td>
+							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' disabled="disabled"><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
+							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' disabled="disabled"><span style="margin-top:9px; display:block;">იურიდიული</span></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -704,8 +704,8 @@ $num = 0;
 			    	<legend>პროდუქტი</legend>
 					<table id="additional" class="dialog-form-table" width="230px">
 						<tr>
-							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.' disabled="disabled"><span style="margin-top:5px; display:block;">შეძენილი</span></td>
-							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" name = "10" value="2"'.$production_type1.' disabled="disabled"><span style="margin-top:5px; display:block;"">საინტერესო</span></td>
+							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.' disabled="disabled"><span style="margin-top:9px; display:block;">შეძენილი</span></td>
+							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" name = "10" value="2"'.$production_type1.' disabled="disabled"><span style="margin-top:9px; display:block;"">საინტერესო</span></td>
 							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
 							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
 						</tr>
