@@ -503,7 +503,7 @@ function get_addition_all_info1($pin_n)
 											THEN 'VIP-Platinium'
 										WHEN SUM(`nomenclature`.`Sum`) >10000 
 											THEN 'VIP-Briliant'
-										WHEN SUM(`nomenclature`.`Sum`)<=5000 
+										WHEN SUM(`nomenclature`.`Sum`)<=5000 and COUNT(realizations.CustomerName)>5
 											THEN 'ლოიალური'
 									END AS `status`
 																	FROM 	realizations
