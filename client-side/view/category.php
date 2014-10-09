@@ -90,8 +90,8 @@
                     <thead>
                         <tr id="datatable_header">
                             <th>ID</th>
-                            <th style="width: 100%">ქვე კატეგორია</th>
                             <th style="width: 100%">კატეგორია</th>
+                            <th style="width: 100%">ქვე-კატეგორია</th>
                             <th class="check">#</th>
                         </tr>
                     </thead>
