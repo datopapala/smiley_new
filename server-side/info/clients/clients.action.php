@@ -171,8 +171,8 @@ function Addclient(  $client_name,  $client_status, $client_pin, $client_phone, 
  						VALUES 
 							( '$client_name', '$client_status', '$client_pin', '$client_phone', '$client_mail',' $born_date', '$client_mobile1', '$client_mobile2', '$Juristic_address', '$Juristic_city', '$Juristic_postal_code', '$physical_address', '$physical_city','$physical_postal_code','$client_comment');");
 	
-	GLOBAL $log;
-	$log->setInsertLog('client');
+	//GLOBAL $log;
+	//$log->setInsertLog('client');
 }
 
 function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment)
@@ -184,8 +184,8 @@ function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id,
 							VALUES 
 								( '$user', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id',  '$problem_comment', '0', '1');");
 	
-	GLOBAL $log;
-	$log->setInsertLog('task');
+	//GLOBAL $log;
+	///$log->setInsertLog('task');
 }
 
 
@@ -195,8 +195,8 @@ function Saveclient($client_name, $client_status, $client_pin, $born_date, $clie
 	
 	$client_id				= $_REQUEST['id'];
 	$user		= $_SESSION['USERID'];
-	GLOBAL $log;
-	$log->setUpdateLogAfter('client', $client_id);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('client', $client_id);
 	mysql_query("	UPDATE `client` SET 
 									`name`='$client_name', 
 									`legal_status_id`='$client_status', 
@@ -215,7 +215,7 @@ function Saveclient($client_name, $client_status, $client_pin, $born_date, $clie
 									`comment` = '$client_comment'
 					WHERE			`id`='$client_id'
 			");
-	$log->setInsertLog('client',$client_id);
+	///$log->setInsertLog('client',$client_id);
 
 }       
 function Savetask()
@@ -224,8 +224,8 @@ function Savetask()
 	$template_id			= $_REQUEST['template_id'];
 	$priority_id			= $_REQUEST['priority_id'];
 	$problem_comment		= $_REQUEST['problem_comment'];
-	GLOBAL $log;
-	$log->setUpdateLogAfter('task', $id);
+	//GLOBAL $log;
+	//$/log->setUpdateLogAfter('task', $id);
 	
 	$user  = $_SESSION['USERID'];
 	mysql_query(" UPDATE `task` SET 
@@ -242,7 +242,7 @@ function Savetask()
 				 WHERE 			`incomming_call_id`='$id'
 			");
 				
-	$log->setInsertLog('task',$id);
+	//$log->setInsertLog('task',$id);
 }
 
 function Getpriority($priority_id)
@@ -322,49 +322,13 @@ function Get_legal_status($client_status)
 	return $data;
 }
 
-function getCalls(){
-	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
-
-	$req = mysql_query("
-
-						SELECT  	DISTINCT
-									IF(SUBSTR(cdr.src, 1, 3) = 995, SUBSTR(cdr.src, 4, 9), cdr.src) AS `src`
-						FROM    	cdr
-						GROUP BY 	cdr.src
-						ORDER BY 	cdr.calldate DESC
-						LIMIT 		12
-
-
-						");
-
-	$data = '<tr class="trClass">
-					<th class="thClass">#</th>
-					<th class="thClass">ნომერი</th>
-					<th class="thClass">ქმედება</th>
-				</tr>
-			';
-	$i	= 1;
-	while( $res3 = mysql_fetch_assoc($req)){
-
-		$data .= '
-	    		<tr class="trClass">
-					<td class="tdClass">' . $i . '</td>
-					<td class="tdClass" style="width: 30px !important;">' . $res3['src'] . '</td>
-					<td class="tdClass" style="font-size: 13px !important;"><button class="insert" number="' . $res3['src'] . '">დამატება</button></td>
-				</tr>';
-		$i++;
-	}
-
-	return $data;
-
-
-}
 function Get_sale()
 {
 
 	$req = mysql_query("			SELECT			nomenclature.id as nom,
 													realizations.Date as date,
 													realizations.Subdivision,
+													nomenclature.NomenclatureName,
 													nomenclature.Sum
 									from			realizations
 									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
@@ -387,7 +351,7 @@ function Get_sale()
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nom']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Subdivision']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['date']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['NomenclatureName']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
 						</tr>
 							';

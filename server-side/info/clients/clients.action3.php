@@ -78,12 +78,90 @@ $data['error'] = $error;
 
 echo json_encode($data);
 
+function Getpriority($priority_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `priority`
+						WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $priority_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+function Gettask_type($task_type_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+					    FROM `task_type`
+					    WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $task_type_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
+
+function Get_template($template_id)
+{
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+							FROM `template`
+							WHERE actived=1 ");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $template_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+function Get_legal_status($client_status)
+{
+	$data = '';
+	$req = mysql_query("SELECT 	legal_status.id,
+								legal_status.`name` AS `name`
+						FROM 	legal_status
+							");
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $client_status){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+
 function Get_sale()
 {
 
 	$req = mysql_query("			SELECT			nomenclature.id as nom,
 													realizations.Date as date,
 													realizations.Subdivision,
+													nomenclature.NomenclatureName,
 													nomenclature.Sum
 									from			realizations
 									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
@@ -91,7 +169,7 @@ function Get_sale()
 			" );
 
 	$data.='<fieldset style="width: 440px;">
-					<legend>შენაძენი</legend>
+					<legend>შენაძენი</legend> 
 					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
@@ -106,7 +184,7 @@ function Get_sale()
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nom']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Subdivision']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['date']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['']. '</td>
+	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['NomenclatureName']. '</td>
 	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
 						</tr>
 							';
@@ -178,7 +256,7 @@ function GetPage($res='', $number)
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 500px;">
+			<div style="float: left; width: 500px;" >
 				<fieldset >
 			    	<legend>საკონტაკტო ინფო</legend>
 					<fieldset style="width:665px; float:left;">
@@ -192,43 +270,43 @@ function GetPage($res='', $number)
 							<tr>
 								<td>კონტრაგენტი</td>
 								<td>
-									<input type="text" id="client_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_name']. '"  />
+									<input type="text" id="client_name" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_name']. '"  disabled="disabled" />
 								</td>
 								<td>მობილური 1</td>
 								<td>
-									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  disabled="disabled" />
 								</td>
 						
 							</tr>
 							<tr>
 								<td>იურ. სტატუსი</td>
 								<td>
-									<select id="legal_status_id" class="idls object">'.Get_legal_status($res['legal_status_id']).'</select>
+									<select id="legal_status_id" class="idls object" disabled="disabled">'.Get_legal_status($res['legal_status_id']).'</select>
 								</td>
 								<td>მობილური 2</td>
 								<td>
-									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  disabled="disabled" />
 								</td>
 
 							</tr>
 							<tr>
 								<td>პირადი ნომერი</td>
 								<td>
-									<input type="text" id="client_pin" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerID']. '"  />
+									<input type="text" id="client_pin" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerID']. '" disabled="disabled"  />
 								</td>
 								<td>ტელეფონი</td>
 								<td>
-									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
 								<td>დაბ. თარიღი</td>
 								<td>
-									<input type="text" id="born_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['born_date']. '"  />
+									<input type="text" id="born_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['born_date']. '" disabled="disabled" />
 								</td>
 								<td>ელ-ფოსტა</td>
 								<td>
-									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"  />
+									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"disabled="disabled"  />
 								</td>
 							</tr>
 				
@@ -240,7 +318,7 @@ function GetPage($res='', $number)
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2">' . $res['client_comment'] . '</textarea>
+								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2"disabled="disabled">' . $res['client_comment'] . '</textarea>
 							</td>
 						</table>
 						</fieldset>
@@ -256,31 +334,31 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="Juristic_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="Juristic_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"disabled="disabled"  />
 								</td>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"disabled="disabled"  />
 								</td>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="Juristic_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_postal_code']. '"  />
+									<input type="text" id="Juristic_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_postal_code']. '" disabled="disabled" />
 								</td>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '"  />
+									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '" disabled="disabled" />
 								</td>
 							</tr>
 							<tr>
@@ -307,9 +385,9 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="template_id" class="idls object">'. Get_template($res['template_id']).'</select></td>
-							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object"disabled="disabled">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object"disabled="disabled">'. Get_template($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object"disabled="disabled">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -318,7 +396,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 45px; resize: none;" id="problem_comment" class="idle" name="content" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
+								<textarea  style="width: 627px; height: 45px; resize: none;" id="problem_comment" class="idle" name="content" cols="300" rows="2"disabled="disabled">' . $res['problem_comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
@@ -334,9 +412,9 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		<button id="add_button_p">დამატება</button>
+		            		
 	        			</div>
-		                <table class="" id="examplee" style="width: 100%;">
+		                <table class="" id="examplee4" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
 

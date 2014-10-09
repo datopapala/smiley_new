@@ -16,8 +16,6 @@
 		$(document).ready(function () {     
 			GetTabs(tbName);   	
 			GetTable0();
-			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
-			GetButtons("add_button","add_responsible_person");
 		});
 
 		$(document).on("tabsactivate", "#tabs", function() {
@@ -32,9 +30,9 @@
             		GetTable3();
             	}else if(subtab == 1){
             		GetTable4();
-                }else if(subtab == 2){
+            	 }else if(subtab == 2){
             		GetTable5();
-                }
+            	 }
             }else if(tab == 2){
         		GetTable2();
             }
@@ -44,7 +42,7 @@
 		function GetTable0() {
             LoadTable0();
             SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-           
+            
         }
         
 		 function GetTable1() {
@@ -53,19 +51,31 @@
 
 		 function GetTable2() {
              LoadTable2();
-            // SetEvents("", "", "", "example2", "add-edit-form2", aJaxURL3);
+            SetEvents("", "", "", "example2", "add-edit-form5", aJaxURL3);
+        	SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL3);
+			GetDateTimes("gift_date");	
          }
 
 		function GetTable3() {
 	    	LoadTable4();
+	    	SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
+	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL4);
+			GetDateTimes("gift_date");	
+	    	
 	    }
 	        
 		function GetTable4() {
 	    	LoadTable5();
+	    	SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
+	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL5);
+			GetDateTimes("gift_date");	
 	    }
 
 		function GetTable5() {
 	    	LoadTable6();
+	    	SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
+	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL6);
+			GetDateTimes("gift_date");	
 	    }
          
 		function LoadTable0(){		
@@ -81,29 +91,40 @@
 		function LoadTable2(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
+			SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL4);
+			GetDateTimes("gift_date5");	
 		}
 
 		function LoadTable4(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
+			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
+			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL4);
+			GetDateTimes("gift_date");	
 		}
 			
 		function LoadTable5(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example5", aJaxURL5, "get_list", 10, "", 0, "", 1, "asc", "");
+			SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
+			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL5);
+			GetDateTimes("gift_date");	
 		}
 		
 		function LoadTable6(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example6", aJaxURL6, "get_list", 10, "", 0, "", 1, "asc", "");
+			SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
+			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL6);
+			GetDateTimes("gift_date");	
 		}
 
 		function LoadTable3(){			
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-			//(add, dis, check, tname, fname, aJaxURL, c_data)
-			SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1);
+			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
 			GetDateTimes("gift_date");	
 		}
 		
@@ -132,8 +153,10 @@
 				    };
 					GetDialog("add-edit-form", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					LoadTable3();
 					GetButtons("add_button_p","");
+					GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1, "tb=1");
+					GetDateTimes("gift_date");
 					
 				break;	
 				case "add-edit-form1":
@@ -151,16 +174,19 @@
 				            }
 				        }
 				    };
+				    
 					GetDialog("add-edit-form1", 400, "auto", buttons);
-					LoadTable3();
+					
+					$( "#gift_price" ).focus();
+					GetDateTimes("gift_date");
+					GetDateTimes("gift_date1");
+					GetDateTimes("gift_date2");
+					GetDateTimes("gift_date3");
+					GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
 					
 				break;	
 				case "add-edit-form2":
 					var buttons = {
-						"done": {
-				            text: "დასრულება",
-				            id: "done-dialog2"
-				        }, 
 				        "save": {
 				            text: "შენახვა",
 				            id: "save-dialog2"
@@ -173,7 +199,75 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1060, "auto", buttons);
+					GetDialog("add-edit-form2", 1195, "auto", buttons);
+					GetDateTimes("born_date");
+					GetDataTable("examplee1", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					GetButtons("add_button_p1","");
+					SetEvents("add_button_p1", "", "", "examplee1", "add-edit-form1", aJaxURL1, "tb=2");
+					GetDateTimes("gift_date1");
+			    break;
+				case "add-edit-form3":
+					var buttons = {
+				        "save": {
+				            text: "შენახვა",
+				            id: "save-dialog2"
+				        }, 
+			        	"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				            	$(this).dialog("close");
+				            }
+				        }
+				    };
+					GetDialog("add-edit-form3", 1195, "auto", buttons);
+					GetDateTimes("born_date");
+					GetDataTable("examplee2", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					GetButtons("add_button_p2","");
+					SetEvents("add_button_p2", "", "", "examplee2", "add-edit-form1", aJaxURL1, "tb=3");
+					GetDateTimes("gift_date2");
+			    break;
+				case "add-edit-form4":
+					var buttons = {
+				        "save": {
+				            text: "შენახვა",
+				            id: "save-dialog2"
+				        }, 
+			        	"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				            	$(this).dialog("close");
+				            }
+				        }
+				    };
+					GetDialog("add-edit-form4", 1195, "auto", buttons);
+					GetDateTimes("born_date");
+					GetDataTable("examplee3", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					GetButtons("add_button_p3","");
+					SetEvents("add_button_p3", "", "", "examplee3", "add-edit-form1", aJaxURL1, "tb=4");
+					GetDateTimes("gift_date3");
+			    break;
+				case "add-edit-form5":
+					var buttons = {
+				        "save": {
+				            text: "შენახვა",
+				            id: "save-dialog2"
+				        }, 
+			        	"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				            	$(this).dialog("close");
+				            }
+				        }
+				    };
+					GetDialog("add-edit-form5", 1195, "auto", buttons);
+					GetDateTimes("born_date");
+					GetDataTable("examplee4", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					GetButtons("add_button_p4","");
+					SetEvents("add_button_p4", "", "", "examplee4", "add-edit-form1", aJaxURL1, "tb=5");
+					GetDateTimes("gift_date4");
 			    break;
 			}
 			
@@ -254,6 +348,50 @@
 						if(data.error != ""){
 							alert(data.error);
 						}else{
+							LoadTable2();
+							CloseDialog("add-edit-form");
+						}
+					}
+			    }
+		    });
+		});
+	    $(document).on("click", "#save-dialog", function () {
+
+			param 			= new Object();
+			param.act			= "save_client";
+			
+			param.id					= $("#id").val();
+	    	param.legal_status_id		= $("#legal_status_id").val();
+	    	param.client_pin			= $("#client_pin").val();
+	    	param.client_name			= $("#client_name").val();
+			param.born_date				= $("#born_date").val();
+			param.client_mobile1		= $("#client_mobile1").val();
+	    	param.client_mobile2		= $("#client_mobile2").val();
+			param.client_phone			= $("#client_phone").val();
+			param.client_mail			= $("#client_mail").val();
+			param.Juristic_address		= $("#Juristic_address").val();
+			param.Juristic_city			= $("#Juristic_city").val();
+			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
+			param.physical_address		= $("#physical_address").val();
+			param.physical_city			= $("#physical_city").val();
+			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.priority_id			= $("#priority_id").val();
+			param.problem_comment		= $("#problem_comment").val();
+			param.client_comment		= $("#client_comment").val();
+	    	param.rand_file				= rand_file;
+	    	param.file_name				= file_name;
+	    	param.hidden_inc			= $("#hidden_inc").val();
+	 
+		    $.ajax({
+		        url: aJaxURL3,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
 							LoadTable0();
 							CloseDialog("add-edit-form");
 						}
@@ -261,8 +399,139 @@
 			    }
 		    });
 		});
+	    $(document).on("click", "#save-dialog2", function () {
 
-		
+			param 			= new Object();
+			param.act			= "save_client2";
+			
+			param.id					= $("#id").val();
+	    	param.legal_status_id		= $("#legal_status_id").val();
+	    	param.client_pin			= $("#client_pin").val();
+	    	param.client_name			= $("#client_name").val();
+			param.born_date				= $("#born_date").val();
+			param.client_mobile1		= $("#client_mobile1").val();
+	    	param.client_mobile2		= $("#client_mobile2").val();
+			param.client_phone			= $("#client_phone").val();
+			param.client_mail			= $("#client_mail").val();
+			param.Juristic_address		= $("#Juristic_address").val();
+			param.Juristic_city			= $("#Juristic_city").val();
+			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
+			param.physical_address		= $("#physical_address").val();
+			param.physical_city			= $("#physical_city").val();
+			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.priority_id			= $("#priority_id").val();
+			param.problem_comment		= $("#problem_comment").val();
+			param.client_comment		= $("#client_comment").val();
+	    	param.rand_file				= rand_file;
+	    	param.file_name				= file_name;
+	    	param.hidden_inc			= $("#hidden_inc").val();
+	 
+		    $.ajax({
+		        url: aJaxURL4,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
+							LoadTable4();
+							CloseDialog("add-edit-form2");
+						}
+					}
+			    }
+		    });
+		});
+
+	    $(document).on("click", "#save-dialog3", function () {
+
+			param 			= new Object();
+			param.act			= "save_client3";
+			
+			param.id					= $("#id").val();
+	    	param.legal_status_id		= $("#legal_status_id").val();
+	    	param.client_pin			= $("#client_pin").val();
+	    	param.client_name			= $("#client_name").val();
+			param.born_date				= $("#born_date").val();
+			param.client_mobile1		= $("#client_mobile1").val();
+	    	param.client_mobile2		= $("#client_mobile2").val();
+			param.client_phone			= $("#client_phone").val();
+			param.client_mail			= $("#client_mail").val();
+			param.Juristic_address		= $("#Juristic_address").val();
+			param.Juristic_city			= $("#Juristic_city").val();
+			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
+			param.physical_address		= $("#physical_address").val();
+			param.physical_city			= $("#physical_city").val();
+			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.priority_id			= $("#priority_id").val();
+			param.problem_comment		= $("#problem_comment").val();
+			param.client_comment		= $("#client_comment").val();
+	    	param.rand_file				= rand_file;
+	    	param.file_name				= file_name;
+	    	param.hidden_inc			= $("#hidden_inc").val();
+	 
+		    $.ajax({
+		        url: aJaxURL5,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
+							LoadTable5();
+							CloseDialog("add-edit-form3");
+						}
+					}
+			    }
+		    });
+		});
+	    $(document).on("click", "#save-dialog4", function () {
+
+			param 			= new Object();
+			param.act			= "save_client4";
+			
+			param.id					= $("#id").val();
+	    	param.legal_status_id		= $("#legal_status_id").val();
+	    	param.client_pin			= $("#client_pin").val();
+	    	param.client_name			= $("#client_name").val();
+			param.born_date				= $("#born_date").val();
+			param.client_mobile1		= $("#client_mobile1").val();
+	    	param.client_mobile2		= $("#client_mobile2").val();
+			param.client_phone			= $("#client_phone").val();
+			param.client_mail			= $("#client_mail").val();
+			param.Juristic_address		= $("#Juristic_address").val();
+			param.Juristic_city			= $("#Juristic_city").val();
+			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
+			param.physical_address		= $("#physical_address").val();
+			param.physical_city			= $("#physical_city").val();
+			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.priority_id			= $("#priority_id").val();
+			param.problem_comment		= $("#problem_comment").val();
+			param.client_comment		= $("#client_comment").val();
+	    	param.rand_file				= rand_file;
+	    	param.file_name				= file_name;
+	    	param.hidden_inc			= $("#hidden_inc").val();
+	 
+		    $.ajax({
+		        url: aJaxURL6,
+			    data: param,
+		        success: function(data) {       
+					if(typeof(data.error) != "undefined"){
+						if(data.error != ""){
+							alert(data.error);
+						}else{
+							LoadTable6();
+							CloseDialog("add-edit-form4");
+						}
+					}
+			    }
+		    });
+		});
 	    $(document).on("click", "#save-dialog1", function () {
 		   
 			param 				= new Object();
@@ -271,8 +540,13 @@
  			param.id1					= $("#id").val();
  			param.id_g					= $("#id_g").val();
 			param.gift_date				= $("#gift_date").val();
-	    	param.gift_production_id	= $("#gift_production_id").val();
+			param.gift_date1			= $("#gift_date1").val();
+			param.gift_date2			= $("#gift_date2").val();
+			param.gift_date3			= $("#gift_date3").val();
+			param.gift_date4			= $("#gift_date4").val();
+			param.gift_production_id	= $("#gift_production_id").val();
 	    	param.gift_price			= $("#gift_price").val();
+	    
 		
 	 
  	    	$.ajax({
@@ -537,9 +811,6 @@
 		        <div id="container" style="width: 100%;">        	
 		            <div id="dynamic">
 		            	<h2 align="center">კლიენტები</h2>
-		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
-	        			</div>
 		                <table class="display" id="example0" style="width: 100%;">
 		                    <thead>
 								<tr id="datatable_header">
@@ -865,6 +1136,24 @@
 <div id="add-edit-form" class="form-dialog" title="კლიენტები">
 <!-- aJax -->
 </div>
+
+<!-- jQuery Dialog -->
+<div id="add-edit-form2" class="form-dialog" title="VIP briliant">
+<!-- aJax -->
+</div>
+<!-- jQuery Dialog -->
+<div id="add-edit-form3" class="form-dialog" title="VIP Platinim">
+<!-- aJax -->
+</div>
+<!-- jQuery Dialog -->
+<div id="add-edit-form4" class="form-dialog" title="VIP Gold">
+<!-- aJax -->
+</div>
+<!-- jQuery Dialog -->
+<div id="add-edit-form5" class="form-dialog" title="ლოიალური">
+<!-- aJax -->
+</div>
+
 
 <!-- jQuery Dialog -->
 <div id="add-edit-form1" class="form-dialog" title="საჩუქარი">

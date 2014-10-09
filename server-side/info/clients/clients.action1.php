@@ -16,8 +16,12 @@ $data		= '';
 //incomming
 $client_id				= $_REQUEST['id'];
 $id_g					= $_REQUEST['id_g'];
-$client_gift			= $_REQUEST['id1'];
 $gift_date				= $_REQUEST['gift_date'];
+$gift_date1				= $_REQUEST['gift_date1'];
+$gift_date2				= $_REQUEST['gift_date2'];
+$gift_date3				= $_REQUEST['gift_date3'];
+$gift_date4				= $_REQUEST['gift_date4'];
+$client_gift			= $_REQUEST['id1'];
 $gift_production_id		= $_REQUEST['gift_production_id'];
 $gift_price				= $_REQUEST['gift_price'];
 
@@ -69,14 +73,32 @@ switch ($action) {
 
 		break;
 	case 'save_client_gift':
+		$gift_date				= $_REQUEST['gift_date'];
+		$gift_date1				= $_REQUEST['gift_date1'];
+		$gift_date2				= $_REQUEST['gift_date2'];
+		$gift_date3				= $_REQUEST['gift_date3'];
+		$gift_date4				= $_REQUEST['gift_date4'];
+		$date='';
+		if($gift_date!=''){
+			$date=$gift_date;
+		}elseif ($gift_date1!=''){
+			$date=$gift_date1;
+		}elseif ($gift_date2!=''){
+			$date=$gift_date2;
+		}
+		elseif($gift_date3!=''){
+			$date=$gift_date3;
+		}elseif($gift_date4!=''){
+			$date=$gift_date4;
+		}
 		
 	$client_gift			= $_REQUEST['id1'];
 		if($id_g == ''){			
-			Addclient_gift($client_gift, $gift_date, $gift_production_id, $gift_price);
+			Addclient_gift($client_gift, $date, $gift_production_id, $gift_price);
 			$incomming_call_id = mysql_insert_id();
 		}else {
 			
-			Saveclient_gift($gift_date, $gift_production_id, $gift_price);
+			Saveclient_gift($date, $gift_production_id, $gift_price);
 		}
 		break;
 	default:
@@ -93,7 +115,7 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addclient_gift($client_gift, $gift_date, $gift_production_id, $gift_price){
+function Addclient_gift($client_gift, $date, $gift_production_id, $gift_price){
 	
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
@@ -102,31 +124,31 @@ function Addclient_gift($client_gift, $gift_date, $gift_production_id, $gift_pri
 	mysql_query("INSERT INTO `clinet_gift`
 									(`user_id`, `client_id`, `date`, `production_id`, `price`, `actived`) 
 									VALUES 
-									('$user', '$client_gift', '$gift_date', '$gift_production_id', '$gift_price', '1');");
-	GLOBAL $log;
-	$log->setInsertLog('clinet_gift');
+									('$user', '$client_gift', '$date', '$gift_production_id', '$gift_price', '1');");
+	//GLOBAL $log;
+	//$log->setInsertLog('clinet_gift');
 }
 
 
 				
-function Saveclient_gift($gift_date, $gift_production_id, $gift_price)
+function Saveclient_gift($date, $gift_production_id, $gift_price)
 {
 	
 	$user		= $_SESSION['USERID'];
 	$c_date		= date('Y-m-d H:i:s');
 	
-	GLOBAL $log;
-	$log->setUpdateLogAfter('clinet_gift', $_REQUEST['id_g']);
+	//GLOBAL $log;
+	//$log->setUpdateLogAfter('clinet_gift', $_REQUEST['id_g']);
 	mysql_query("	UPDATE `clinet_gift` SET 
 											`user_id`		='$user', 
-											`date`			='$gift_date', 
+											`date`			='$date', 
 											`production_id`	='$gift_production_id', 
 											`price`			='$gift_price', 
 											`actived`='1' 
 					WHERE					`id`			='".$_REQUEST['id_g']."'
 			");
 	
-	$log->setInsertLog('clinet_gift',$_REQUEST['id_g']);
+	//$log->setInsertLog('clinet_gift',$_REQUEST['id_g']);
 }       
 
 
@@ -150,46 +172,6 @@ function Get_production($gift_production_id)
 	}
 	return $data;
 }
-
-
-function getCalls(){
-	$db1 = new sql_db ( "212.72.155.176", "root", "Gl-1114", "asteriskcdrdb" );
-
-	$req = mysql_query("
-
-						SELECT  	DISTINCT
-									IF(SUBSTR(cdr.src, 1, 3) = 995, SUBSTR(cdr.src, 4, 9), cdr.src) AS `src`
-						FROM    	cdr
-						GROUP BY 	cdr.src
-						ORDER BY 	cdr.calldate DESC
-						LIMIT 		12
-
-
-						");
-
-	$data = '<tr class="trClass">
-					<th class="thClass">#</th>
-					<th class="thClass">ნომერი</th>
-					<th class="thClass">ქმედება</th>
-				</tr>
-			';
-	$i	= 1;
-	while( $res3 = mysql_fetch_assoc($req)){
-
-		$data .= '
-	    		<tr class="trClass">
-					<td class="tdClass">' . $i . '</td>
-					<td class="tdClass" style="width: 30px !important;">' . $res3['src'] . '</td>
-					<td class="tdClass" style="font-size: 13px !important;"><button class="insert" number="' . $res3['src'] . '">დამატება</button></td>
-				</tr>';
-		$i++;
-	}
-
-	return $data;
-
-
-}
-
 
 function Getclient_gift($client_id)
 {
@@ -224,6 +206,21 @@ function GetPage($res='', $number)
 							WHERE   `incomming_call_id` = $res[id]
 			");
 	
+	$tb				= $_REQUEST['tb'];
+	$gift_d = '';
+	if($tb == 1){
+		$gift_d = "gift_date";
+	}elseif ($tb == 2){
+		$gift_d = "gift_date1";
+	}elseif ($tb == 3){
+		$gift_d = "gift_date2";
+	}elseif ($tb == 4){
+		$gift_d = "gift_date3";
+	}elseif ($tb == 5){
+		$gift_d = "gift_date4";
+	}
+	
+	
 	$data  .= '
 	<!-- jQuery Dialog -->
     <div id="add-edit-goods-form" title="საქონელი">
@@ -237,7 +234,7 @@ function GetPage($res='', $number)
 			    	<table width="100%" class="dialog-form-table">		
 							<td style="width: 180px;"><label for="">თარიღი</label></td>
 							<td style="width: 180px;">
-								<input type="text" id="gift_date" class="idle" onblur="this.className=\'idle\'" value="' .  $res['gift_date']. '" />
+								<input type="text" id="'.$gift_d.'" class="idle" onblur="this.className=\'idle\'" value="' .  $res['gift_date']. '" />
 							</td>
 						</tr>
 						<tr>
