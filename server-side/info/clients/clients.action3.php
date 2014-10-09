@@ -50,7 +50,7 @@ switch ($action) {
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
 								
 	  							GROUP BY nomenclature.realizations_id
-	  							HAVING SUM(`nomenclature`.`Sum`)<5000		");
+	  							HAVING COUNT(realizations.CustomerName)>5 and SUM(`nomenclature`.`Sum`)<5000");
   
 		$data = array(
 				"aaData"	=> array()
