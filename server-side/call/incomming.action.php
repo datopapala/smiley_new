@@ -741,25 +741,25 @@ function GetPage($res='', $number, $pin)
 					</table>
 				</fieldset>
 				<fieldset style="width:755px; float:left;">
-			    	<legend>პროდუქტი</legend>
+			    	<legend>კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">		
 						<tr>
 							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.'><span style="margin-top:5px; display:block;">შეძენილი</span></td>
 							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" name = "10" value="2"'.$production_type1.'><span style="margin-top:5px; display:block;"">საინტერესო</span></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							<td style="width: 250px;"></td>
 							<td style="width: 250px;"></td>
 						</tr>
 						<tr>
-							<td style="width: 300px;"><label for="d_number">პროდუქტი</label></td>
+							<td style="width: 300px;"><label for="d_number">კატეგორია</label></td>
 							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">პროდუქტი</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
 						</tr>				
 						<tr>
-							<td style="width: 300px;"><select id="production_id" class="idls object">'.Get_production($res['production_id']).'</select></td>
+							<td style="width: 300px;"><select id="production_id" class="idls object">'.Get_production_category($res['production_category_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object">'. Get_production_brand($res['production_brand_id']).'</select></td>
-							<td style="width: 300px;"></td>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_category_id" class="idls object">'. Get_production_category($res['production_category_id']).'</select>
+							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_category_id" class="idls object">'. Get_production($res['production_id']).'</select>
+							<td style="width: 300px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
 						</tr>
 					</table>
 				</fieldset>
