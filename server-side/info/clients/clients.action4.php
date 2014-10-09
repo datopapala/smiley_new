@@ -42,8 +42,8 @@ $file					= $_REQUEST['file_name'];
 
 switch ($action) {
 	case 'get_edit_page':
-		$page		= GetPage(Getincomming());
-		Get_sale();
+		$page		= GetPage(Getincomming($client_id));
+		
 		$data		= array('page'	=> $page);
 		break;
 	case 'get_list' :
@@ -282,54 +282,12 @@ function Get_template($template_id)
 
 	return $data;
 }
-function Get_sale()
-{
 
-	$req = mysql_query("			SELECT			nomenclature.id as nom,
-													realizations.Date as date,
-													realizations.Subdivision,
-													nomenclature.NomenclatureName,
-													nomenclature.Sum
-									from			realizations
-									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
-									WHERE 			nomenclature.realizations_id =".$_REQUEST['id']."
-			" );
-
-	$data.='<fieldset style="width: 440px;">
-					<legend>შენაძენი</legend>
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>';
-	while( $res1 = mysql_fetch_assoc($req)){
-		$data .='
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nom']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Subdivision']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['date']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['NomenclatureName']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
-						</tr>
-							';
-	};
-	$data .='
-
-
-					<table/>
-				</fieldset>
-								';
-	return $data;
-}
-
-function Getincomming()
+function Getincomming($client_id)
 {
 
 	$res = mysql_fetch_assoc(mysql_query("	SELECT
-												realizations.id,
+												realizations.id as v_id,
 												realizations.CustomerName AS client_name,
 												realizations.`CustomerID`,
 												realizations.Date AS born_date,
@@ -356,7 +314,7 @@ function Getincomming()
 								FROM 	realizations
 										JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 										left JOIN    task ON realizations.id = task.incomming_call_id
-										WHERE   realizations.id=".$_REQUEST['id']."
+										WHERE   realizations.id=$client_id
 
 			" ));
 
@@ -488,14 +446,6 @@ function GetPage($res='', $number)
 									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '" disabled="disabled" />
 								</td>
 							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>კოპირება</td>
-								<td>
-									<input type="checkbox" value="">
-								</td>
-							</tr>
 						</table>
 						</fieldset>
 					';
@@ -577,13 +527,50 @@ function GetPage($res='', $number)
 		        </div>
 				</fieldset>
 				<div id="additional_info">
-				';
+				<fieldset>
+				<legend>საჩუქრები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:440px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_3" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" word-break:break-all;">საწყობი</th>
+									<th style=" word-break:break-all;">პროდუქტი</th>
+									<th style=" word-break:break-all;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 50px"/>
+                            		</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
 
-	$data.=	Get_sale($res['id']);
-	$data .='	<table/>
-
-
-						<input type="hidden" id="id" value="'.$_REQUEST['id'].'"/>
+						<input type="hidden" id="v_id" value="'.$res['v_id'].'"/>
 			</div>
     </div>';
 

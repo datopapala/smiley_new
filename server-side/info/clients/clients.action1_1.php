@@ -16,11 +16,6 @@ $data		= '';
 //incomming
 $client_id				= $_REQUEST['cl_id'];
 $id_g					= $_REQUEST['id_g'];
-$gift_date				= $_REQUEST['gift_date'];
-$gift_date1				= $_REQUEST['gift_date1'];
-$gift_date2				= $_REQUEST['gift_date2'];
-$gift_date3				= $_REQUEST['gift_date3'];
-$gift_date4				= $_REQUEST['gift_date4'];
 $client_gift			= $_REQUEST['id1'];
 $gift_production_id		= $_REQUEST['gift_production_id'];
 $gift_price				= $_REQUEST['gift_price'];
@@ -48,13 +43,13 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
-	  	$rResult = mysql_query("SELECT 	clinet_gift.id,
-										clinet_gift.date,
-	  									production.`name`,
-										clinet_gift.price
-								FROM    clinet_gift
-								JOIN    production ON  clinet_gift.production_id=production.id
-								WHERE	clinet_gift.actived=1 AND clinet_gift.client_id=$client_id");
+	  	$rResult = mysql_query("SELECT				realizations.Date as date,
+													realizations.Subdivision,
+													nomenclature.NomenclatureName,
+													nomenclature.Sum
+									from			realizations
+									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
+									WHERE 			nomenclature.realizations_id=$client_id");
 							  
 		$data = array(
 				"aaData"	=> array()
@@ -73,24 +68,6 @@ switch ($action) {
 
 		break;
 	case 'save_client_gift':
-		$gift_date				= $_REQUEST['gift_date'];
-		$gift_date1				= $_REQUEST['gift_date1'];
-		$gift_date2				= $_REQUEST['gift_date2'];
-		$gift_date3				= $_REQUEST['gift_date3'];
-		$gift_date4				= $_REQUEST['gift_date4'];
-		$date='';
-		if($gift_date!=''){
-			$date=$gift_date;
-		}elseif ($gift_date1!=''){
-			$date=$gift_date1;
-		}elseif ($gift_date2!=''){
-			$date=$gift_date2;
-		}
-		elseif($gift_date3!=''){
-			$date=$gift_date3;
-		}elseif($gift_date4!=''){
-			$date=$gift_date4;
-		}
 		
 	$client_gift			= $_REQUEST['id1'];
 		if($id_g == ''){			
@@ -206,22 +183,7 @@ function GetPage($res='', $number)
 							WHERE   `incomming_call_id` = $res[id]
 			");
 	
-	$tb				= $_REQUEST['tb'];
-	$gift_d = '';
-	if($tb == 1){
-		$gift_d = "gift_date";
-	}elseif ($tb == 2){
-		$gift_d = "gift_date1";
-	}elseif ($tb == 3){
-		$gift_d = "gift_date2";
-	}elseif ($tb == 4){
-		$gift_d = "gift_date3";
-	}elseif ($tb == 5){
-		$gift_d = "gift_date4";
-	}
-	
-	
-	$data  .= '
+$data  .= '
 	<!-- jQuery Dialog -->
     <div id="add-edit-goods-form" title="საქონელი">
     	<!-- aJax -->

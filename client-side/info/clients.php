@@ -6,7 +6,8 @@
 		var aJaxURL3	= "server-side/info/clients/clients.action3.php";		//server side folder url
 		var aJaxURL4	= "server-side/info/clients/clients.action4.php";		//server side folder url
 		var aJaxURL5	= "server-side/info/clients/clients.action5.php";
-		var aJaxURL6	= "server-side/info/clients/clients.action6.php";		//server side folder url
+		var aJaxURL6	= "server-side/info/clients/clients.action6.php";
+		var aJaxURL1_1	= "server-side/info/clients/clients.action1_1.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -28,10 +29,16 @@
         		var subtab = GetSelectedTab("subtabs");
             	if (subtab == 0) {
             		GetTable3();
+            		LoadTable4();
+        	    	SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
             	}else if(subtab == 1){
             		GetTable4();
+            		LoadTable5();
+        	    	SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
             	 }else if(subtab == 2){
             		GetTable5();
+            		LoadTable6();
+        	    	SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
             	 }
             }else if(tab == 2){
         		GetTable2();
@@ -52,31 +59,23 @@
 		 function GetTable2() {
              LoadTable2();
             SetEvents("", "", "", "example2", "add-edit-form5", aJaxURL3);
-        	SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL3);
-			GetDateTimes("gift_date");	
+        	GetDateTimes("gift_date");	
          }
 
 		function GetTable3() {
 	    	LoadTable4();
 	    	SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
-	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL4);
-			GetDateTimes("gift_date");	
-	    	
-	    }
+	   }
 	        
 		function GetTable4() {
 	    	LoadTable5();
 	    	SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
-	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL5);
-			GetDateTimes("gift_date");	
-	    }
+	     }
 
 		function GetTable5() {
 	    	LoadTable6();
 	    	SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
-	    	SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL6);
-			GetDateTimes("gift_date");	
-	    }
+	   }
          
 		function LoadTable0(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -92,32 +91,27 @@
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
 			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
-			SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL4);
-			GetDateTimes("gift_date5");	
 		}
 
 		function LoadTable4(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
 			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
-			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL4);
-			GetDateTimes("gift_date");	
+			
 		}
 			
 		function LoadTable5(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example5", aJaxURL5, "get_list", 10, "", 0, "", 1, "asc", "");
 			SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
-			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL5);
-			GetDateTimes("gift_date");	
+			
 		}
 		
 		function LoadTable6(){		
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("example6", aJaxURL6, "get_list", 10, "", 0, "", 1, "asc", "");
 			SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
-			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL6);
-			GetDateTimes("gift_date");	
+			
 		}
 
 		function LoadTable3(){			
@@ -127,9 +121,13 @@
 			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
 			GetDateTimes("gift_date");	
 		}
-		
-
-		//SeoYyy
+	function LoadTable3_1(){			
+			
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("examplee_", aJaxURL1_1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+			
+		}
+	//SeoYyy
 		$(document.body).click(function (e) {
         	$("#send_to").autocomplete("close");
         });
@@ -154,9 +152,11 @@
 					GetDialog("add-edit-form", 1195, "auto", buttons);
 					GetDateTimes("born_date");
 					GetButtons("add_button_p","");
-					GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+					GetDataTable("examplee", aJaxURL1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
 					SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1, "tb=1");
 					GetDateTimes("gift_date");
+					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
+					
 					
 				break;	
 				case "add-edit-form1":
@@ -201,10 +201,11 @@
 				    };
 					GetDialog("add-edit-form2", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					GetDataTable("examplee1", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-					GetButtons("add_button_p1","");
-					SetEvents("add_button_p1", "", "", "examplee1", "add-edit-form1", aJaxURL1, "tb=2");
-					GetDateTimes("gift_date1");
+					GetDataTable("examplee1", aJaxURL1, "get_list", 10,"cl_id="+$("#v_id").val(), 0, "", 1, "asc", "");
+					SetEvents("", "", "", "examplee1", "add-edit-form1", aJaxURL1, "tb=2");
+					GetDataTable("examplee_3", aJaxURL1_1, "get_list", 10,"cl_id="+$("#v_id").val(), 0, "", 1, "asc", "");
+					
+				
 			    break;
 				case "add-edit-form3":
 					var buttons = {
@@ -222,11 +223,11 @@
 				    };
 					GetDialog("add-edit-form3", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					GetDataTable("examplee2", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-					GetButtons("add_button_p2","");
-					SetEvents("add_button_p2", "", "", "examplee2", "add-edit-form1", aJaxURL1, "tb=3");
-					GetDateTimes("gift_date2");
-			    break;
+					GetDataTable("examplee2", aJaxURL1, "get_list", 10,"cl_id="+$("#P_id").val(), 0, "", 1, "asc", "");
+					SetEvents("", "", "", "examplee2", "add-edit-form1", aJaxURL1, "tb=3");
+					GetDataTable("examplee_4", aJaxURL1_1, "get_list", 10,"cl_id="+$("#P_id").val(), 0, "", 1, "asc", "");
+					
+				break;
 				case "add-edit-form4":
 					var buttons = {
 				        "save": {
@@ -243,10 +244,11 @@
 				    };
 					GetDialog("add-edit-form4", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					GetDataTable("examplee3", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-					GetButtons("add_button_p3","");
-					SetEvents("add_button_p3", "", "", "examplee3", "add-edit-form1", aJaxURL1, "tb=4");
-					GetDateTimes("gift_date3");
+					GetDataTable("examplee3", aJaxURL1, "get_list", 10,"cl_id="+$("#G_id").val(), 0, "", 1, "asc", "");
+					SetEvents("", "", "", "examplee3", "add-edit-form1", aJaxURL1, "tb=4");
+					GetDataTable("examplee_5", aJaxURL1_1, "get_list", 10,"cl_id="+$("#G_id").val(), 0, "", 1, "asc", "");
+					
+				
 			    break;
 				case "add-edit-form5":
 					var buttons = {
@@ -264,10 +266,11 @@
 				    };
 					GetDialog("add-edit-form5", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					GetDataTable("examplee4", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-					GetButtons("add_button_p4","");
-					SetEvents("add_button_p4", "", "", "examplee4", "add-edit-form1", aJaxURL1, "tb=5");
-					GetDateTimes("gift_date4");
+					GetDataTable("examplee4", aJaxURL1, "get_list", 10,"cl_id="+$("#l_id").val(), 0, "", 1, "asc", "");
+					SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL1, "tb=5");
+					GetDataTable("examplee_2", aJaxURL1_1, "get_list", 10,"cl_id="+$("#l_id").val(), 0, "", 1, "asc", "");
+					
+					
 			    break;
 			}
 			

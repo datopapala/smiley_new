@@ -45,7 +45,7 @@ $file					= $_REQUEST['file_name'];
 
 switch ($action) {
 	case 'get_edit_page':
-		$page		= GetPage(Getincomming());
+		$page		= GetPage(Getincomming($client_id));
 		Get_sale();
 		$data		= array('page'	=> $page);
 		break;
@@ -329,7 +329,7 @@ function Get_sale()
 	return $data;
 }
 
-function Getincomming()
+function Getincomming($client_id)
 {
 
 	$res = mysql_fetch_assoc(mysql_query("	SELECT
@@ -360,7 +360,7 @@ function Getincomming()
 								FROM 	realizations
 										JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 										left JOIN    task ON realizations.id = task.incomming_call_id
-										WHERE   realizations.id=".$_REQUEST['id']."
+										WHERE   realizations.id=$client_id
 
 			" ));
 
@@ -492,14 +492,6 @@ function GetPage($res='', $number)
 									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '"disabled="disabled"  />
 								</td>
 							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td>კოპირება</td>
-								<td>
-									<input type="checkbox" value="">
-								</td>
-							</tr>
 						</table>
 						</fieldset>
 					';
@@ -580,13 +572,51 @@ function GetPage($res='', $number)
 		        </div>
 				</fieldset>
 				<div id="additional_info">
-				';
+				<fieldset>
+				<legend>საჩუქრები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:440px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_5" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" word-break:break-all;">საწყობი</th>
+									<th style=" word-break:break-all;">პროდუქტი</th>
+									<th style=" word-break:break-all;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 50px"/>
+                            		</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
 
-	$data.=	Get_sale($res['id']);
-	$data .='	<table/>
 
-
-						<input type="hidden" id="id" value="'.$_REQUEST['id'].'"/>
+						<input type="hidden" id="G_id" value="'.$res['id'].'"/>
 			</div>
     </div>';
 
