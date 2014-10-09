@@ -831,7 +831,7 @@ function GetRecordingsSection($res)
 				OR      (`dst` LIKE '%$res[incom_phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[record_date]');");
 	}
 	$data .= '
-        <fieldset style="margin-top: 10px; width: 376px; float: right;">
+        <fieldset style="margin-top: 10px; width: 353px; float: right;">
             <legend>ჩანაწერები</legend>
 
             <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">
