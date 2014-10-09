@@ -367,7 +367,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			switch(fName){
 				case "add-edit-form":
 					
-					GetDialog("add-edit-form", 1184, "auto");
+					GetDialog("add-edit-form", 1200, "auto");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -387,7 +387,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1184, "auto", buttons);
+					GetDialog("add-edit-form1", 1200, "auto", buttons);
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -407,7 +407,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1184, "auto", buttons);
+					GetDialog("add-edit-form2", 1200, "auto", buttons);
 			    break;
 			}
 			
