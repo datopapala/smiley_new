@@ -198,8 +198,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.task_date				= $("#task_date").val();
 				    	
 				    	param.question1				= $("input[name='question1']:checked").val();
-				    	param.question1_comment		= $("#question1_comment").val();
-				    	param.question2_comment		= $("#question2_comment").val();
+				    	param.question1_comment		= $("#question1_comment1").val();
+				    	param.question2_comment		= $("#question2_comment1").val();
 			 
 		 	    	$.ajax({
 		 		        url: aJaxURL1,
@@ -247,8 +247,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.bank_id				= $("#bank_id").val();
 
 				    	param.question1				= $("input[name='question1']:checked").val();
-				    	param.question1_comment		= $("#question1_comment").val();
-				    	param.question2_comment		= $("#question2_comment").val();
+				    	param.question1_comment		= $("#question1_comment1").val();
+				    	param.question2_comment		= $("#question2_comment1").val();
 			 
 		 	    	$.ajax({
 		 		        url: aJaxURL1,
@@ -289,8 +289,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.task_date				= $("#task_date").val();
 
 				    	param.question1				= $("input[name='question1']:checked").val();
-				    	param.question1_comment		= $("#question1_comment").val();
-				    	param.question2_comment		= $("#question2_comment").val();
+				    	param.question1_comment		= $("#question1_comment2").val();
+				    	param.question2_comment		= $("#question2_comment2").val();
 				    
 			 
 			 
@@ -329,8 +329,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					param.problem_comment		= $("#problem_comment").val();
 
 					param.question1				= $("input[name='question1']:checked").val();
-			    	param.question1_comment		= $("#question1_comment").val();
-			    	param.question2_comment		= $("#question2_comment").val();
+			    	param.question1_comment		= $("#question1_comment2").val();
+			    	param.question2_comment		= $("#question2_comment2").val();
 			 
 		 	    	$.ajax({
 		 			        url: aJaxURL2,
