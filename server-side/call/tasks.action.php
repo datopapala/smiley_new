@@ -540,7 +540,7 @@ function get_addition_all_info1($pin_n)
 	$res = mysql_fetch_assoc($req);													
 	$data .= '<fieldset >
 	<legend>ძირითადი ინფორმაცია</legend>
-		<table style="height: 243px;">			
+		<table style="height: 130px;">			
 			<tr>
 				<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
 				<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
@@ -569,33 +569,51 @@ function get_addition_all_info1($pin_n)
 			</tr>
 		
 	</table>				
-	</fieldset>	
+	</fieldset>	';	
+			$data .=GetRecordingsSection($res);
+			$data .='
 				<fieldset>
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>
-						';						 
-						while( $res1 = mysql_fetch_assoc($req1)){
-						$data .='
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: -2px 22px; word-break:break-all">'.$res1['id'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Date'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Sum'].'</td>
-	  					</tr>			';
-						};						
-						$data .='	
-						
-						
-					<table/>
-				</fieldset>	
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table" style="min-height: 200px !important;">
+		        <div style="width:356px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_1" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
 								<!-- ID -->
 		 		<input type="hidden" id="c_id1" value="' . $res['c_id'] . '" />	
 												';
@@ -621,8 +639,7 @@ function Gettask($id)
 													incomming_call.production_type AS production_type,
 													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
-													IF(task.incomming_call_id=0,client.`code`,cl.`code`) AS personal_pin,													
-													client_sale.date AS sale_date,
+													IF(task.incomming_call_id=0,realizations.`CustomerID`,cl.`CustomerID`) AS personal_pin,													
 													task.responsible_user_id AS person_id,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
@@ -633,10 +650,10 @@ function Gettask($id)
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
-											LEFT JOIN 	client ON task.client_id = client.id
-											LEFT JOIN client AS cl ON cl.id=incomming_call.client_id
+											LEFT JOIN 	realizations ON task.client_id = realizations.id
+											LEFT JOIN realizations AS cl ON cl.id=incomming_call.client_id
 											
-											LEFT JOIN 	client_sale ON client.id=client_sale.client_id
+											LEFT JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
 											WHERE 	task.id=$id
 LIMIT 1
 			" ));
@@ -843,12 +860,9 @@ $num = 0;
 			<div>
 				  </fieldset>
 			</div>
-			<div id="info_c" style="float: right;  width: 355px;">';
+			<div id="info_c" style="float: right;  width: 375px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
 				$data .= '</div>';
-				$data .=GetRecordingsSection($res);
-			
-				
 			$data .='	
 	  		
     </div>';
@@ -867,7 +881,7 @@ function GetRecordingsSection($res)
 				OR      (`dst` LIKE '%$res[incom_phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[record_date]');");
 	}
 	$data .= '
-        <fieldset style="margin-top: 10px; width: 333px; float: right;">
+        <fieldset style="margin-top: 10px; width: 353px; float: right;">
             <legend>ჩანაწერები</legend>
 
             <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">

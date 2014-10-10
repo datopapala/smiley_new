@@ -553,31 +553,47 @@ function get_addition_all_info1($pin_n)
 	</table>				
 	</fieldset>	
 				<fieldset>
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 153px; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px;"></td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>
-						';						 
-						while( $res1 = mysql_fetch_assoc($req1)){
-						$data .='
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: -2px 22px; word-break:break-all">'.$res1['id'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Date'].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1[''].'</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: -2px 9px; word-break:break-all">'.$res1['Sum'].'</td>
-	  					</tr>			';
-						};						
-						$data .='	
-						
-						
-					<table/>
-				</fieldset>	
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:349px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_1" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
 								<!-- ID -->
 		 		<input type="hidden" id="c_id1" value="' . $res['c_id'] . '" />	
 												';

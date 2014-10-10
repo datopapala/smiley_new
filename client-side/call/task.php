@@ -24,6 +24,7 @@
 <script type="text/javascript">
 		var aJaxURL		= "server-side/call/tasks.action.php";		//server side folder url
 		var upJaxURL	= "server-side/upload/file.action.php";	
+		var aJaxURL1_3	 = "server-side/call/clients.action1_3.php";
 		var tName		= "example";										//table name
 		var fName		= "add-edit-form";									//form name
 		var file_name 	= '';
@@ -51,6 +52,7 @@
 			
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 1200, "auto", "");
+			GetDataTable("examplee_1", aJaxURL1_3, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 
@@ -230,6 +232,7 @@
     							alert(data.error);
     						}else{
     							$("#info_c").html(data.info1);
+    							GetDataTable("examplee_1", aJaxURL1_3, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
     						}
     					}
     			    }

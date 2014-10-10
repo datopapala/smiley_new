@@ -63,7 +63,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		var aJaxURL		= "server-side/call/outgoing/outgoing_tab0.action.php";		//server side folder url
 		var aJaxURL1	= "server-side/call/outgoing/outgoing_tab1.action.php";		//server side folder url
 		var aJaxURL2	= "server-side/call/outgoing/outgoing_tab2.action.php";		//server side folder url
-		var aJaxURL3	= "server-side/call/outgoing/outgoing_tab3.action.php";		//server side folder url
+		var aJaxURL3	= "server-side/call/outgoing/outgoing_tab3.action.php";
+		var aJaxURL1_4	 = "server-side/call/outgoing/clients.action1_4.php";		//server side folder url
         var seoyURL		= "server-side/seoy/seoy.action.php";					//server side folder url
 		var upJaxURL		= "server-side/upload/file.action.php";	
 		var tName		= "example0";											//table name
@@ -366,8 +367,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
             //alert(form);
 			switch(fName){
 				case "add-edit-form":
-					
 					GetDialog("add-edit-form", 1200, "auto");
+					GetDataTable("examplee_1", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -388,6 +389,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				        }
 				    };
 					GetDialog("add-edit-form1", 1200, "auto", buttons);
+					GetDataTable("examplee_2", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id2").val(), 0, "", 1, "asc", "");
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -408,6 +410,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				        }
 				    };
 					GetDialog("add-edit-form2", 1200, "auto", buttons);
+					GetDataTable("examplee_3", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id3").val(), 0, "", 1, "asc", "");
 			    break;
 			}
 			
@@ -525,6 +528,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     							alert(data.error);
     						}else{
     							$("#info_c").html(data.info1);
+    							GetDataTable("examplee_1", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
     						}
     					}
     			    }

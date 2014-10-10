@@ -60,7 +60,6 @@ switch ($action) {
 		break;
 	case 'get_edit_page':
 		$page		= GetPage(Getincomming($client_id));
-		Get_sale();
 		$data		= array('page'	=> $page);
 
 		break;
@@ -321,50 +320,6 @@ function Get_legal_status($client_status)
 
 	return $data;
 }
-
-function Get_sale()
-{
-
-	$req = mysql_query("			SELECT			nomenclature.id as nom,
-													realizations.Date as date,
-													realizations.Subdivision,
-													nomenclature.NomenclatureName,
-													nomenclature.Sum
-									from			realizations
-									JOIN nomenclature ON realizations.id= nomenclature.realizations_id
-									WHERE 			nomenclature.realizations_id =".$_REQUEST['id']."
-			" );
-
-	$data.='<fieldset style="width: 440px;">
-					<legend>შენაძენი</legend> 
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფილიალი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თარიღი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">პროდუქტი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">თანხა</td>
-						</tr>';
-	while( $res1 = mysql_fetch_assoc($req)){
-		$data .='
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nom']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Subdivision']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['date']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['NomenclatureName']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
-						</tr>
-							';
-	};
-	$data .='
-
-
-					<table/>
-				</fieldset>
-								';
-	return $data;
-}
-
 function Getincomming($client_id)
 {
 	
@@ -613,7 +568,7 @@ function GetPage($res='', $number)
 			</div>
 			<div style="float: right; width: 450px;">
 				<fieldset>
-				<legend>საჩუქრები</legend>
+				<legend>შენაძენები</legend>
 				<div id="dt_example" class="inner-table">
 		        <div style="width:440px;" id="container" >        	
 		            <div id="dynamic">

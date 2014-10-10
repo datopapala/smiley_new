@@ -62,6 +62,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </style>
 <script type="text/javascript">
 		var aJaxURL	  = "server-side/call/incomming.action.php";
+		var aJaxURL1_2	  = "server-side/call/clients.action1_2.php";
 		var aJaxURL1	  = "server-side/call/incomming.action1.php";
 		var aJaxURL2	  = "server-side/call/incomming.action2.php";
 		var aJaxURL3	  = "server-side/call/incomming.action3.php";		//server side folder url
@@ -214,6 +215,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			      }
 			});
 			GetDateTimes("sale_date");
+			GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 		}
 
 		function CloseDialog(){
@@ -401,8 +403,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
             	param 			= new Object();
+            	param.pin_n		= $(this).val();
     		 	param.act		= "get_add_info1";
-    		 	param.pin_n		= $(this).val();
+    		 	
+    		 	
     	    	$.ajax({
     		        url: aJaxURL,
     			    data: param,
@@ -412,6 +416,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     							alert(data.error);
     						}else{
     							$("#info_c").html(data.info1);
+    							GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
     						}
     					}
     			    }
