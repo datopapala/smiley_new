@@ -149,6 +149,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    	param.task_type_id			= $("#task_type_id").val();
 		    	param.task_date				= $("#task_date").val();
 		    	
+		    	param.question1				= $("input[name='question1']:checked").val();
+		    	param.question1_comment		= $("#question1_comment").val();
+		    	param.question2_comment		= $("#question2_comment").val();
+		    	
 		    	
 			    $.ajax({
 			        url: aJaxURL,
@@ -193,7 +197,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.task_type_id			= $("#task_type_id").val();
 				    	param.task_date				= $("#task_date").val();
 				    	
-				    
+				    	param.question1				= $("input[name='question1']:checked").val();
+				    	param.question1_comment		= $("#question1_comment").val();
+				    	param.question2_comment		= $("#question2_comment").val();
 			 
 		 	    	$.ajax({
 		 		        url: aJaxURL1,
@@ -239,6 +245,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.problem_id			= $("#problem_id").val();
 				    	param.pay_type_id			= $("#pay_type_id").val();
 				    	param.bank_id				= $("#bank_id").val();
+
+				    	param.question1				= $("input[name='question1']:checked").val();
+				    	param.question1_comment		= $("#question1_comment").val();
+				    	param.question2_comment		= $("#question2_comment").val();
 			 
 		 	    	$.ajax({
 		 		        url: aJaxURL1,
@@ -277,6 +287,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				    	param.template_id			= $("#template_id").val();
 				    	param.task_type_id			= $("#task_type_id").val();
 				    	param.task_date				= $("#task_date").val();
+
+				    	param.question1				= $("input[name='question1']:checked").val();
+				    	param.question1_comment		= $("#question1_comment").val();
+				    	param.question2_comment		= $("#question2_comment").val();
 				    
 			 
 			 
@@ -313,6 +327,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					param.phone					= $("#phone").val();
 					param.comment				= $("#comment").val();
 					param.problem_comment		= $("#problem_comment").val();
+
+					param.question1				= $("input[name='question1']:checked").val();
+			    	param.question1_comment		= $("#question1_comment").val();
+			    	param.question2_comment		= $("#question2_comment").val();
 			 
 		 	    	$.ajax({
 		 			        url: aJaxURL2,
