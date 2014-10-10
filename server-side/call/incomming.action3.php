@@ -112,6 +112,19 @@ switch ($action) {
 			$data  =  array('cat'=>Getcategory1($cat_id));
 		
 			break;
+			case 'sub_produqtion':
+					
+				$brand_id = $_REQUEST['brand_id'];
+				$data  =  array('cat'=> Get_production_brand($brand_id, ''));
+			
+				break;
+			case 'sub_produqtion1':
+					
+				$prod_id = $_REQUEST['prod_id'];
+				$categ_id = $_REQUEST['categ_id'];
+				$data  =  array('cat'=>  Get_production($prod_id, $categ_id, ''));
+			
+				break;
 	case 'get_calls':
 	
 		$data		= array('calls' => getCalls());
@@ -597,25 +610,27 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 												incomming_call.first_name AS first_name,
 												incomming_call.information_category_id AS category_id,
 												incomming_call.information_sub_category_id AS category_parent_id,
-												incomming_call.production_id AS production_id,	
+												incomming_call.production_id AS production_brand_id,	
 												incomming_call.production_category_id AS production_category_id,
 												incomming_call.redirect AS redirect,
 												incomming_call.reaction_id AS reaction_id,
 												incomming_call.connect AS connect,
 												incomming_call.content AS content,
 												incomming_call.production_type AS production_type,
-												incomming_call.production_brand_id AS production_brand_id,
+												incomming_call.production_type AS production_type,
+												incomming_call.production_brand_id AS produqtion_id,
 												incomming_call.requester AS requester,
-												client.`code` AS personal_pin,
+												realizations.`CustomerID` AS personal_pin,
 												task.responsible_user_id AS person_id,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
-												task.`comment` AS `comment`
+												task.`comment` AS `comment`,
+												'რედაქტირება' AS `edit`
 										FROM 	incomming_call
 										
 										LEFT JOIN 	task 		ON incomming_call.id=task.incomming_call_id
-										LEFT JOIN 	client 		ON incomming_call.client_id=client.id
+										LEFT JOIN 	realizations 		ON incomming_call.client_id=realizations.id
 						 				
 										WHERE 	incomming_call.id=$incom_id
 													" ));
@@ -710,25 +725,25 @@ function GetPage($res='', $number, $pin)
 					</table>
 				</fieldset>
 				<fieldset style="width:755px; float:left;">
-			    	<legend>პროდუქტი</legend>
+			    	<legend>კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">		
 						<tr>
 							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.'><span style="margin-top:9px; display:block;">შეძენილი</span></td>
 							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" name = "10" value="2"'.$production_type1.'><span style="margin-top:9px; display:block;"">საინტერესო</span></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							<td style="width: 250px;"></td>
 							<td style="width: 250px;"></td>
 						</tr>
 						<tr>
-							<td style="width: 300px;"><label for="d_number">პროდუქტი</label></td>
+							<td style="width: 300px;"><label for="d_number">კატეგორია</label></td>
 							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">პროდუქტი</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
 						</tr>				
 						<tr>
-							<td style="width: 300px;"><select id="production_id" class="idls object">'.Get_production($res['production_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object">'. Get_production_brand($res['production_brand_id']).'</select></td>
-							<td style="width: 300px;"></td>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_category_id" class="idls object">'. Get_production_category($res['production_category_id']).'</select>
+							<td style="width: 300px;"><select id="production_category_id" class="idls object">'.Get_production_category($res['production_category_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_id" class="idls object">'. Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_brand_id" class="idls object">'. Get_production($res['produqtion_id'], '', $res['edit']).'</select>
+							<td style="width: 300px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
 						</tr>
 					</table>
 				</fieldset>

@@ -51,7 +51,7 @@
 		function LoadDialog(){
 			
 			/* Dialog Form Selector Name, Buttons Array */
-			GetDialog(fName, 1200, "auto", "");
+			GetDialog(fName, 1219, "auto", "");
 			GetDataTable("examplee_1", aJaxURL1_3, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
