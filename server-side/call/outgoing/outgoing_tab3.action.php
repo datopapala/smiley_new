@@ -858,7 +858,7 @@ $num = 0;
 							<td>კომენტარი</td>
 						</tr>
 						<tr>
-							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle">'.$res[question1_comment].'</textarea></td>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle question1_comment">'.$res['question1_comment'].'</textarea></td>
 						</tr>
 				</table>
 				<hr>
@@ -875,7 +875,7 @@ $num = 0;
 							<td>კომენტარი</td>
 						</tr>
 						<tr>
-							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle">'.$res[question2_comment].'</textarea></td>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle question2_comment">'.$res['question2_comment'].'</textarea></td>
 						</tr>
 				</table>
 				</fieldset>
