@@ -5,7 +5,7 @@
 }
 .download {
 
-	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	     background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
 	background-color:#599bb3;
 	-moz-border-radius:8px;
