@@ -616,6 +616,9 @@ function Gettask($id)
 													task.priority_id AS priority_id,
 													task.status AS status,
 													task.`comment` AS `comment1`,
+													task.question1,
+													task.question1_comment,
+													task.question2_comment,
 													task.problem_comment AS problem_comment
 													FROM 	task
 										
