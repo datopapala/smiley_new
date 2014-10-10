@@ -531,7 +531,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			    }
 		    });	
 		});
-	  
+
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
             	param 			= new Object();

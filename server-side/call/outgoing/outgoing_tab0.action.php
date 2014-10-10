@@ -141,6 +141,19 @@ switch ($action) {
 			//get_addition_all_info1
 		
 			break;
+			case 'sub_produqtion':
+					
+				$brand_id = $_REQUEST['brand_id'];
+				$data  =  array('cat'=> Get_production_brand($brand_id, ''));
+					
+				break;
+			case 'sub_produqtion1':
+					
+				$prod_id = $_REQUEST['prod_id'];
+				$categ_id = $_REQUEST['categ_id'];
+				$data  =  array('cat'=>  Get_production($prod_id, $categ_id, ''));
+					
+				break;
 	default:
 		$error = 'Action is Null';
 }
@@ -210,27 +223,6 @@ function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $c
 
 }
 
-
-function Getproduction($production_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT 	production.id,
-								production.`name`
-						FROM  	production
-						WHERE 	actived=1");
-
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-
-		if($res['id'] == $production_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-	return $data;
-}
 
 function Getobject($object_id)
 {
@@ -314,17 +306,23 @@ function Getcategory1_edit($category_id)
 
 }
 
-function Get_production($production_id)
+function Get_production($prod_id, $categ_id, $edit)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	production.id,
-								production.`name`
-						FROM    production
-						WHERE   actived = 1		");
-
+	if($edit == ''){
+		$req = mysql_query("SELECT DISTINCT production.`name` as id,
+				production.`name`
+				FROM    production
+				WHERE   actived = 1 AND production.production_category='$categ_id' AND production.brand='$prod_id'");
+	}else {
+		$req = mysql_query("SELECT DISTINCT production.`name` as id,
+				production.`name`
+				FROM    production
+				WHERE   actived = 1 AND production.`name`='$prod_id' ");
+	}
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $production_id){
+		if($res['id'] == $prod_id){
 			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
 			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
@@ -338,38 +336,45 @@ function Get_production($production_id)
 function Get_production_category($production_category_id)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	production_category.id,
-								production_category.`name`
-						FROM    production_category
+	$req = mysql_query("SELECT DISTINCT production.production_category as id,
+								production.`production_category`
+						FROM    production
 						WHERE   actived = 1 ");
 
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $production_category_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['production_category'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['production_category'] . '</option>';
 		}
 	}
 
 	return $data;
 }
-function Get_production_brand($production_brand_id)
+
+function Get_production_brand($brand_id, $edit)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	brand.id,
-								brand.`name`
-						FROM    brand
-						WHERE   actived = 1 ");
-
+	if($edit == ''){
+		$req = mysql_query("SELECT DISTINCT production.brand as id,
+				production.`brand`
+				FROM    production
+				WHERE   actived = 1 AND production.production_category='$brand_id' ");
+	}else {
+		$req = mysql_query("SELECT DISTINCT production.brand as id,
+				production.`brand`
+				FROM    production
+				WHERE   actived = 1 AND production.brand='$brand_id' ");
+	}
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $production_brand_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		if($res['id'] == $brand_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['brand'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['brand'] . '</option>';
 		}
 	}
 
@@ -620,14 +625,14 @@ function Gettask($id)
 													incomming_call.first_name AS first_name,
 													incomming_call.information_category_id AS category_id,
 													incomming_call.information_sub_category_id AS category_parent_id,
-													incomming_call.production_id AS production_id,
+													incomming_call.production_id AS production_brand_id,	
 													incomming_call.production_category_id AS production_category_id,
+													incomming_call.production_brand_id AS production_id,
 													incomming_call.redirect AS redirect,
 													incomming_call.reaction_id AS reaction_id,
 													incomming_call.connect AS connect,
 													incomming_call.content AS content,
 													incomming_call.production_type AS production_type,
-													incomming_call.production_brand_id AS production_brand_id,
 													incomming_call.requester AS requester,
 													IF(task.incomming_call_id=0,realizations.`CustomerID`,cl.`CustomerID`) AS personal_pin,
 													task.responsible_user_id AS person_id,
@@ -639,7 +644,8 @@ function Gettask($id)
 													task.question1,
 													task.question1_comment,
 													task.question2_comment,
-													task.problem_comment AS problem_comment
+													task.problem_comment AS problem_comment,
+													'რედაქტირება' AS `edit`
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
@@ -755,19 +761,22 @@ $num = 0;
 						<tr>
 							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.' disabled="disabled"><span style="margin-top:9px; display:block;">შეძენილი</span></td>
 							<td style="width: 250px;"><input style="float:left; margin-left: 20px;" type="radio" name = "10" value="2"'.$production_type1.' disabled="disabled"><span style="margin-top:9px; display:block;"">საინტერესო</span></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">კატეგორია</label></td>
+							<td style="width: 250px;"></td>
+							<td style="width: 250px;"></td>
 						</tr>
 						<tr>
-							<td style="width: 300px;"><label for="d_number">პროდუქტი</label></td>
+							<td style="width: 300px;"><label for="d_number">კატეგორია</label></td>
 							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
-							<td style="width: 250px;"><select style="margin-left: 25px;" id="production_category_id" class="idls object" disabled="disabled">'. Get_production_category($res['production_category_id']).'</select></td>
-							</tr>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">პროდუქტი</label></td>
+							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							
+						</tr>
 						<tr>
-		<td style="width: 300px;"><select id="production_id" class="idls object" disabled="disabled">'.Get_production($res['production_id']).'</select></td>
-		<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object" disabled="disabled">'. Get_production_brand($res['production_brand_id']).'</select></td>
-		</tr>
+							<td style="width: 300px;"><select id="production_category_id" class="idls object" disabled="disabled">'.Get_production_category($res['production_category_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object" disabled="disabled">'.Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
+							<td style="width: 250px;"><select style="margin-left: 25px;" id="production_id" class="idls object" disabled="disabled">'.Get_production($res['production_id'], '', $res['edit']).'</select></td>
+							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
+						</tr>
 		</table>
 				</fieldset>
 				<fieldset '.$hide.' style="width:755px; float:left;">
