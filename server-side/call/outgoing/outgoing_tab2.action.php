@@ -29,7 +29,9 @@ $task_type_id		= $_REQUEST['task_type_id'];
 $task_date			= $_REQUEST['task_date'];
 $task_status		= $_REQUEST['status'];
 
-
+$question1			= $_REQUEST['question1'];
+$question1_comment	= $_REQUEST['question1_comment'];
+$question2_comment	= $_REQUEST['question2_comment'];
 
 // file
 $rand_file			= $_REQUEST['rand_file'];
@@ -105,20 +107,20 @@ switch ($action) {
 	case 'save_outgoing2':
 		
 	
-			savetask($id, $problem_comment);	
+			savetask($id, $problem_comment, $question1, $question1_comment, $question2_comment);	
 		
 		break;
 		case 'save_outgoing':
 		
 			$user_id		= $_SESSION['USERID'];
 		
-			Savetask($id, $problem_comment);
+			Savetask($id, $problem_comment, $question1, $question1_comment, $question2_comment);
 			break;
 		case 'done_outgoing2':
 		
 			$user_id		= $_SESSION['USERID'];
 		
-			Savetask1($problem_comment);
+			Savetask1($problem_comment, $question1, $question1_comment, $question2_comment);
 			break;
 		case 'get_add_info':
 			 
@@ -169,7 +171,7 @@ function checkgroup($user){
 
 }
       
-function savetask($id, $problem_comment)
+function savetask($id, $problem_comment, $question1, $question1_comment, $question2_comment)
 {
 //echo $id.'-'.$problem_comment;
 	//GLOBAL $log;
@@ -180,13 +182,16 @@ function savetask($id, $problem_comment)
 						
 								`user_id`='$user', 
 								`date`='$c_date', 
-								`problem_comment`='$problem_comment' 
+								`problem_comment`='$problem_comment',
+								`question1`='$question1',
+								`question1_comment`='$question1_comment',
+								`question2_comment`='$question2_comment' 
 					WHERE		`id`='$id'
 					");
 	//$log->setInsertLog('task',$id);
 
 }
-function Savetask1($problem_comment)
+function Savetask1($problem_comment, $question1, $question1_comment, $question2_comment)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('task', $id);
@@ -196,7 +201,10 @@ function Savetask1($problem_comment)
 	mysql_query("UPDATE `task` SET
 								`user_id`			='$user',
 								`problem_comment`	='$problem_comment',
-								`status`	='3'
+								`status`	='3',
+								`question1`='$question1',
+								`question1_comment`='$question1_comment',
+								`question2_comment`='$question2_comment'
 								WHERE 	`id`		='$hidden_task_id1'
 								");
 	//$log->setInsertLog('task',$id);
@@ -840,6 +848,48 @@ $num = 0;
 						</tr>
 					</table>
 					</fieldset>
+					<fieldset style="width: 754px;">
+			    	<legend>კვლევა</legend>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">1.</td>
+							<td style="font-weight:bold;">კმაყოფილი ხართ თუ არა ჩვენი სერვისით?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="1" '.(($res['question1']=='1')?"checked":"").'><span style="position:absolute; margin-top:9px;">კმაყოფილია</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="2" '.(($res['question1']=='2')?"checked":"").'><span style="position:absolute; margin-top:9px;">უკმაყოფილოა</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="3" '.(($res['question1']=='3')?"checked":"").'><span style="position:absolute; margin-top:9px;">ნეიტრალური</span></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle">'.$res[question1_comment].'</textarea></td>
+						</tr>
+				</table>
+				<hr>
+
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">2.</td>
+							<td style="font-weight:bold;">რას ურჩევდით სმაილს?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle">'.$res[question2_comment].'</textarea></td>
+						</tr>
+				</table>
+				</fieldset>
 							</div>
 			<div>
 				  </fieldset>

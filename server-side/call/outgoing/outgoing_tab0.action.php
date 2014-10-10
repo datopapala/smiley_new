@@ -29,6 +29,9 @@ $task_type_id		= $_REQUEST['task_type_id'];
 $task_date			= $_REQUEST['task_date'];
 $task_status		= $_REQUEST['status'];
 
+$question1			= $_REQUEST['question1'];
+$question1_comment	= $_REQUEST['question1_comment'];
+$question2_comment	= $_REQUEST['question2_comment'];
 
 
 // file
@@ -106,7 +109,7 @@ switch ($action) {
 		
 		if($id == ''){
 			
-			Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status);
+			Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status, $question1, $question1_comment, $question2_comment);
 					
 			//$task_id = mysql_insert_id();
 			//if($personal_pin != 0){
@@ -114,7 +117,7 @@ switch ($action) {
 			//}
 		}else {
 			
-			savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status);	
+			savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status, $question1, $question1_comment, $question2_comment);	
 		}
 		break;
 		case 'get_responsible_person_add_page':
@@ -161,23 +164,23 @@ function checkgroup($user){
 
 }
 
-function Addtask($person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status)
+function Addtask($person_id,  $template_id, $task_type_id, $priority_id, $comment, $problem_comment, $task_status, $question1, $question1_comment, $question2_comment)
 {
 	
 	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `task` 
-							(`user_id`, `client_id`, `responsible_user_id`, `incomming_call_id`, `date`, `template_id`, `task_type_id`, `priority_id`, `comment`, `problem_comment`, `status`, `actived`) 
+							(`user_id`, `client_id`, `responsible_user_id`, `incomming_call_id`, `date`, `template_id`, `task_type_id`, `priority_id`, `comment`, `problem_comment`, `status`, `actived`, `question1`, `question1_comment`, `question2_comment`) 
 						VALUES 
-							( '$user', '$c_id1', '$person_id', '', '$c_date', '$template_id', '$task_type_id', '$priority_id', '$comment', '$problem_comment', '$task_status', '1');");
+							( '$user', '$c_id1', '$person_id', '', '$c_date', '$template_id', '$task_type_id', '$priority_id', '$comment', '$problem_comment', '$task_status', '1', '$question1', '$question1_comment', '$question2_comment');");
 	
 	//GLOBAL $log;
 	//$log->setInsertLog('task');
 	
 }
       
-function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status)
+function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status, $question1, $question1_comment, $question2_comment)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('task', $id);
@@ -196,7 +199,10 @@ function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $c
 								`comment`='$comment', 
 								`problem_comment`='$problem_comment', 
 								`status`='$task_status', 
-								`actived`='1' 
+								`actived`='1',
+								`question1`='$question1',
+								`question1_comment`='$question1_comment',
+								`question2_comment`='$question2_comment' 
 					WHERE		`id`='$id'");
 	
 	//$log->setInsertLog('task',$id);
@@ -630,6 +636,9 @@ function Gettask($id)
 													task.priority_id AS priority_id,
 													task.status AS status,
 													task.`comment` AS `comment1`,
+													task.question1,
+													task.question1_comment,
+													task.question2_comment,
 													task.problem_comment AS problem_comment
 													FROM 	task
 										
@@ -717,6 +726,7 @@ $num = 0;
 								</td>
 						</tr>
 					</table>
+										
 		</fieldset>								';
 
 		$data  .= '
@@ -793,7 +803,7 @@ $num = 0;
 
 		$data  .= '
 		 
-				<fieldset style="width: 770px;">
+		<fieldset style="width: 754px;">
 		<legend>დავალების ფორმირება</legend>
 
 			    	<table class="dialog-form-table">
@@ -839,6 +849,48 @@ $num = 0;
 						</tr>
 					</table>
 					</fieldset>
+					<fieldset style="width: 754px;">
+			    	<legend>კვლევა</legend>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">1.</td>
+							<td style="font-weight:bold;">კმაყოფილი ხართ თუ არა ჩვენი სერვისით?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="1" '.(($res['question1']=='1')?"checked":"").'><span style="position:absolute; margin-top:9px;">კმაყოფილია</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="2" '.(($res['question1']=='2')?"checked":"").'><span style="position:absolute; margin-top:9px;">უკმაყოფილოა</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="3" '.(($res['question1']=='3')?"checked":"").'><span style="position:absolute; margin-top:9px;">ნეიტრალური</span></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle">'.$res[question1_comment].'</textarea></td>
+						</tr>
+				</table>
+				<hr>
+
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">2.</td>
+							<td style="font-weight:bold;">რას ურჩევდით სმაილს?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle">'.$res[question2_comment].'</textarea></td>
+						</tr>
+				</table>
+				</fieldset>
 							</div>
 			<div>
 				  </fieldset>
