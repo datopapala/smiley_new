@@ -369,6 +369,27 @@ function Getcategory1_edit($category_id)
 
 	return $data;
 }
+function Get_source($source_id)
+
+{
+
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `surce`
+						WHERE actived=1 ");
+
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $source_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
 
 function Get_reaction($reaction_id)
 {
@@ -646,6 +667,8 @@ function Gettask($id)
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
 													task.priority_id AS priority_id,
+													incomming_call.sale_date,
+													incomming_call.source_id,
 													task.`status` AS `status`,
 													task.`comment` AS `comment1`,
 													task.problem_comment AS problem_comment,
@@ -657,6 +680,7 @@ function Gettask($id)
 											LEFT JOIN realizations AS cl ON cl.id=incomming_call.client_id
 											
 											LEFT JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
+											left JOIN 	surce 		ON incomming_call.source_id=surce.id
 											WHERE 	task.id=$id
 LIMIT 1
 			" ));
@@ -741,21 +765,31 @@ $num = 0;
 
 		$data  .= '
 
-		<fieldset '.$hide.' style="width:338px; float:left;">
+		<fieldset '.$hide.'  style="width:142px; float:left;height: 59px;">
 			    	<legend>მომართვის ავტორი</legend>
-					<table id="additional" class="dialog-form-table" width="300px">
+					<table id="additional" class="dialog-form-table" width="100px">						
 						<tr>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' disabled="disabled"><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' disabled="disabled"><span style="margin-top:9px; display:block;">იურიდიული</span></td>
+							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' ><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
+						</tr>
+						<tr>
+							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' ><span style="margin-top:9px; display:block;">იურიდიული</span></td>
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset '.$hide.' style="width:400px; float:left; margin-left: 15px;">
-			    	<legend>ინფორმაციის კატეგორია</legend>
-					<table id="additional" class="dialog-form-table" width="230px">
+				<fieldset '.$hide.'  style="width:142px; float:left;margin-left: 2px;">
+			    	<legend>ინფ. წყარო</legend>
+					<table id="additional" class="dialog-form-table" width="100px">						
 						<tr>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="category_parent_id" class="idls object" disabled="disabled">'.   Getcategory($res['category_parent_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="category_id" class="idls object" disabled="disabled">'. Getcategory1_edit($res['category_id']).'</select></td>
+							<td style="width: 300px;"><select id="source_id" class="idls object">'.Get_source($res['source_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+			<fieldset '.$hide.'  style="width:399px; float:left; margin-left: 4px;">
+			    	<legend>ინფორმაციის კატეგორია</legend>
+					<table id="additional" class="dialog-form-table" width="230px">						
+						<tr>
+							<td style="width: 300px;"><select style="margin-left: 25px;" id="category_parent_id" class="idls object">'.   Getcategory($res['category_parent_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="category_id" class="idls object">'. Getcategory1_edit($res['category_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>
