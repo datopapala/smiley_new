@@ -200,7 +200,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	LoadTable3(start, end, status);
 	    });
 		
-
 		function  LoadDialog(){
 			GetDialog(fName, 1200, "auto", "");
 	    	 
@@ -256,7 +255,16 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  			    }
  		    });
         });
-
+	    $(document).on("change", "input[name='10']", function () {
+	    	var status = $("input[name='10']:checked").val();
+	    	if(status!=1){
+	    	$( "#sale_date_label" ).addClass( "hidden" );
+	    	$( "#sale_date_div" ).addClass( "hidden" );
+	    	}else{
+	    	$( "#sale_date_div" ).removeClass( "hidden" );
+	    	$( "#sale_date_label" ).removeClass( "hidden" );
+	    	}
+		});
 		function CloseDialog(){
 			$("#" + fName).dialog("close");
 		}
@@ -274,7 +282,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.first_name					= $("#first_name").val();
 			param.category_id					= $("#category_id").val();
 	    	param.category_parent_id			= $("#category_parent_id").val();
-	    	param.sale_date						= $("#sale_date").val();
 	    	param.production_category_id		= $("#production_category_id").val();
 	    	param.production_brand_id			= $("#production_brand_id").val();
 	    	param.production_id					= $("#production_id").val();
@@ -285,6 +292,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.template_id					= $("#template_id").val();
 	    	param.priority_id					= $("#priority_id").val();
 	    	param.comment						= $("#comment").val();
+	    	param.sale_date						= $("#sale_date").val();
 	    	param.person_id						= $("#person_id").val();
 	    	param.requester_type				= $('input[name=5]:checked').val();
 	    	param.prod_status					= $('input[name=10]:checked').val();

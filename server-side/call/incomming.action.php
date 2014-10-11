@@ -30,6 +30,7 @@ $reaction_id					= $_REQUEST['reaction_id'];
 $content						= $_REQUEST['content'];
 $person_id						= $_REQUEST['person_id'];
 $connect						= $_REQUEST['connect'];
+$sale_date						= $_REQUEST['sale_date'];
 
 //task
 $task_type_id		= $_REQUEST['task_type_id'];
@@ -95,7 +96,7 @@ switch ($action) {
 		$incom_id = $_REQUEST['id'];
 		if($incom_id == ''){
 			
-			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id , $production_category_id, $production_brand_id, $redirect, $connect, $reaction_id, $content);
+			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content);
 			$incomming_call_id = mysql_insert_id();
 		
 			Addtask( $person_id, $incomming_call_id, $template_id, $task_type_id, $priority_id,  $comment);
@@ -103,7 +104,7 @@ switch ($action) {
 		
 		}else {
 			
-			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content);
+			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content);
 			
 			 savetask($incom_id, $person_id, $template_id, $task_type_id,  $priority_id,  $comment);			
 
@@ -156,15 +157,15 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content){
+function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content){
 	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `incomming_call` 
-				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `redirect`, `connect`, `reaction_id`, `content`, `actived`) 
+				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `sale_date`, `redirect`, `connect`, `reaction_id`, `content`, `actived`) 
 				VALUES 
-				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id',  '$redirect', '$connect', '$reaction_id', '$content', '1');");
+				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id', '$sale_date', '$redirect', '$connect', '$reaction_id', '$content', '1');");
 	//GLOBAL $log;
 	//$log->setInsertLog('incomming_call');
 	}
@@ -182,7 +183,7 @@ function Addtask($person_id, $incomming_call_id,  $template_id, $task_type_id,  
 	//$log->setInsertLog('task');
 }
 				
-function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $redirect, $connect, $reaction_id, $content)
+function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('incomming_call', $incom_id);
@@ -202,6 +203,7 @@ function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $ca
 											`production_id`='$production_id', 
 											`production_category_id`='$production_category_id',
 											`production_brand_id` = '$production_brand_id',
+											`sale_date`='$sale_date',
 											`redirect`='$redirect', 
 											`connect` = '$connect',
 											`reaction_id`='$reaction_id', 
@@ -680,6 +682,7 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 												incomming_call.production_type AS production_type,
 												incomming_call.production_type AS production_type,
 												incomming_call.production_brand_id AS produqtion_id,
+												incomming_call.sale_date,
 												incomming_call.requester AS requester,
 												realizations.`CustomerID` AS personal_pin,
 												task.responsible_user_id AS person_id,
@@ -782,7 +785,7 @@ function GetPage($res='', $number, $pin)
 					</table>
 				</fieldset>
 				<fieldset style="width:755px; float:left;">
-			    	<legend>კატეგორია</legend>
+			    	<legend>პროდუქტი</legend>
 					<table id="additional" class="dialog-form-table" width="230px">		
 						<tr>
 							<td style="width: 250px;"><input style="float:left;" name = "10" type="radio" value="1" '.$production_type0.'><span style="margin-top:9px; display:block;">შეძენილი</span></td>
@@ -794,13 +797,13 @@ function GetPage($res='', $number, $pin)
 							<td style="width: 300px;"><label for="d_number">კატეგორია</label></td>
 							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
 							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">პროდუქტი</label></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							<td style="width: 250px;"><label id="sale_date_label" class="hidden" style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
 						</tr>				
 						<tr>
 							<td style="width: 300px;"><select id="production_category_id" class="idls object">'.Get_production_category($res['production_category_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_id" class="idls object">'. Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_brand_id" class="idls object">'. Get_production($res['produqtion_id'], '', $res['edit']).'</select>
-							<td style="width: 300px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
+							<td style="width: 300px;"><div id="sale_date_div" class="hidden"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idls object hidden" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sale_date'] . '" /></div></td>
 						</tr>
 					</table>
 				</fieldset>
