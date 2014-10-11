@@ -763,7 +763,7 @@ $num = 0;
 			    	<legend>ინფ. წყარო</legend>
 					<table id="additional" class="dialog-form-table" width="100px">						
 						<tr>
-							<td style="width: 300px;"><select id="source_id" class="idls object">'.Get_source($res['source_id']).'</select></td>
+							<td style="width: 300px;"><select id="source_id" class="idls object"disabled="disabled">'.Get_source($res['source_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -771,8 +771,8 @@ $num = 0;
 			    	<legend>ინფორმაციის კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">						
 						<tr>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="category_parent_id" class="idls object">'.   Getcategory($res['category_parent_id']).'</select></td>
-							<td style="width: 300px;"><select style="margin-left: 15px;" id="category_id" class="idls object">'. Getcategory1_edit($res['category_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 25px;" id="category_parent_id" class="idls object"disabled="disabled">'.   Getcategory($res['category_parent_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 15px;" id="category_id" class="idls object"disabled="disabled">'. Getcategory1_edit($res['category_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>
@@ -796,7 +796,7 @@ $num = 0;
 							<td style="width: 300px;"><select id="production_category_id" class="idls object" disabled="disabled">'.Get_production_category($res['production_category_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object" disabled="disabled">'.Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
 							<td style="width: 250px;"><select style="margin-left: 25px;" id="production_id" class="idls object" disabled="disabled">'.Get_production($res['production_id'], '', $res['edit']).'</select></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
+							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sale_date'] . '"disabled="disabled" /></td>
 						</tr>
 		</table>
 				</fieldset>
