@@ -91,12 +91,6 @@ switch ($action) {
 
 									FROM 	`realizations`
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-												where  (LENGTH(CustomerID)=11 OR CustomerID='') AND
-												SUBSTRING(CustomerName,1,3)!='ი/მ' AND SUBSTRING(CustomerName,1,3)!='შპს' AND
-												SUBSTRING(CustomerName,1,3)!='იმ.' AND SUBSTRING(CustomerName,1,3)!='ი.მ' AND
-												SUBSTRING(CustomerName,1,3)!='ს/ს' AND SUBSTRING(CustomerName,1,3)!='სს ' AND
-												SUBSTRING(CustomerName,1,3)!='ს.ს' AND SUBSTRING(CustomerName,1,3)!='შ.პ' AND
-												SUBSTRING(CustomerName,1,3)!='იმ '
 	  								GROUP BY nomenclature.realizations_id
 	  			");
 
