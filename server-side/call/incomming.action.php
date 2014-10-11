@@ -14,6 +14,7 @@ $data		= '';
 
 //incomming
 $incom_id						= $_REQUEST['id'];
+$source_id						= $_REQUEST['source_id'];
 $incom_date						= $_REQUEST['incom_date'];
 $incom_phone					= $_REQUEST['incom_phone'];
 $requester_type					= $_REQUEST['requester_type'];
@@ -96,7 +97,7 @@ switch ($action) {
 		$incom_id = $_REQUEST['id'];
 		if($incom_id == ''){
 			
-			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content);
+			Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $source_id, $content);
 			$incomming_call_id = mysql_insert_id();
 		
 			Addtask( $person_id, $incomming_call_id, $template_id, $task_type_id, $priority_id,  $comment);
@@ -104,7 +105,7 @@ switch ($action) {
 		
 		}else {
 			
-			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content);
+			saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $source_id, $content);
 			
 			 savetask($incom_id, $person_id, $template_id, $task_type_id,  $priority_id,  $comment);			
 
@@ -157,15 +158,15 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content){
+function Addincomming( $incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $source_id, $content){
 	$c_id1		= $_REQUEST['c_id1'];
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
 	
 	mysql_query("INSERT INTO `incomming_call` 
-				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `sale_date`, `redirect`, `connect`, `reaction_id`, `content`, `actived`) 
+				(`user_id`, `client_id`, `date`, `phone`, `first_name`, `requester`, `information_category_id`, `information_sub_category_id`, `production_type`, `production_id`, `production_category_id`, `production_brand_id`, `sale_date`, `redirect`, `connect`, `reaction_id`, `source_id`,`content`, `actived`) 
 				VALUES 
-				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id', '$sale_date', '$redirect', '$connect', '$reaction_id', '$content', '1');");
+				('$user', '$c_id1', '$c_date', '$incom_phone', '$first_name', '$requester_type', '$category_id', '$information_sub_category_id', '$prod_status', '$production_id', '$production_category_id', '$production_brand_id', '$sale_date', '$redirect', '$connect', '$reaction_id','$source_id', '$content', '1');");
 	//GLOBAL $log;
 	//$log->setInsertLog('incomming_call');
 	}
@@ -183,7 +184,7 @@ function Addtask($person_id, $incomming_call_id,  $template_id, $task_type_id,  
 	//$log->setInsertLog('task');
 }
 				
-function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id, $content)
+function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $category_id, $information_sub_category_id, $prod_status, $production_id, $production_category_id,$production_brand_id, $sale_date, $redirect, $connect, $reaction_id,$source_id, $content)
 {
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('incomming_call', $incom_id);
@@ -207,7 +208,8 @@ function saveincomming($incom_id,$incom_phone, $first_name, $requester_type, $ca
 											`redirect`='$redirect', 
 											`connect` = '$connect',
 											`reaction_id`='$reaction_id', 
-											`content`='$content', 
+											`content`='$content',
+											`source_id`='$source_id', 
 											`actived`='1' 
 					WHERE					`id`='$incom_id'
 					");
@@ -284,6 +286,27 @@ function Getcategory($category_id)
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $category_id){
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+		} else {
+			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+		}
+	}
+
+	return $data;
+}
+function Get_source($source_id)
+
+{
+
+	$data = '';
+	$req = mysql_query("SELECT `id`, `name`
+						FROM `surce`
+						WHERE actived=1 ");
+
+
+	$data .= '<option value="0" selected="selected">----</option>';
+	while( $res = mysql_fetch_assoc($req)){
+		if($res['id'] == $source_id){
 			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
 		} else {
 			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
@@ -683,6 +706,7 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 												incomming_call.production_type AS production_type,
 												incomming_call.production_brand_id AS produqtion_id,
 												incomming_call.sale_date,
+												incomming_call.source_id,
 												incomming_call.requester AS requester,
 												realizations.`CustomerID` AS personal_pin,
 												task.responsible_user_id AS person_id,
@@ -695,6 +719,7 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	incomming_call.id,
 										
 										LEFT JOIN 	task 		ON incomming_call.id=task.incomming_call_id
 										LEFT JOIN 	realizations 		ON incomming_call.client_id=realizations.id
+										left JOIN 	surce 		ON incomming_call.source_id=surce.id
 						 				
 										WHERE 	incomming_call.id=$incom_id
 													" ));
@@ -766,16 +791,26 @@ function GetPage($res='', $number, $pin)
 										
 		$data  .= '
 				
-				<fieldset style="width:318px; float:left;">
+				<fieldset style="width:142px; float:left;height: 59px;">
 			    	<legend>მომართვის ავტორი</legend>
-					<table id="additional" class="dialog-form-table" width="300px">						
+					<table id="additional" class="dialog-form-table" width="100px">						
 						<tr>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' ><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
-							<td style="width: 250px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' ><span style="margin-top:9px; display:block;">იურიდიული</span></td>
+							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' ><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
+						</tr>
+						<tr>
+							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' ><span style="margin-top:9px; display:block;">იურიდიული</span></td>
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:399px; float:left; margin-left: 15px;">
+				<fieldset style="width:142px; float:left;margin-left: 2px;">
+			    	<legend>ინფ. წყარო</legend>
+					<table id="additional" class="dialog-form-table" width="100px">						
+						<tr>
+							<td style="width: 300px;"><select id="source_id" class="idls object">'.Get_source($res['source_id']).'</select></td>
+						</tr>
+					</table>
+				</fieldset>
+				<fieldset style="width:399px; float:left; margin-left: 4px;">
 			    	<legend>ინფორმაციის კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">						
 						<tr>

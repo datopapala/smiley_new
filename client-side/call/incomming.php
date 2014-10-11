@@ -293,6 +293,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    	param.priority_id					= $("#priority_id").val();
 	    	param.comment						= $("#comment").val();
 	    	param.sale_date						= $("#sale_date").val();
+	    	param.source_id						= $("#source_id").val();
 	    	param.person_id						= $("#person_id").val();
 	    	param.requester_type				= $('input[name=5]:checked').val();
 	    	param.prod_status					= $('input[name=10]:checked').val();
