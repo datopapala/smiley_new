@@ -76,8 +76,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		$(document).ready(function () {
 			GetTabs(tbName); 
 			runAjax();
-			GetTable0();
-			
+			GetTable0();			
 		});
 		$(document).on("tabsactivate", "#tabs", function() {
         	var tab = GetSelectedTab(tbName);
@@ -94,7 +93,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		function GetTable0() {
             LoadTable();
             GetButtons("add_button", "","");
-			SetEvents("add_button", "", "", tName, "add-edit-form", aJaxURL);
+			SetEvents("add_button", "", "", tName, fName, aJaxURL);
         }
 		function GetTable1() {
 			 LoadTable1(0,0);
@@ -202,10 +201,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    });
 		
 
-		function LoadDialog(){
-
+		function  LoadDialog(){
 			GetDialog(fName, 1200, "auto", "");
-			
+	    	 
 			 $(document).on("click", "#button_calls", function () {
 			LoadDialogCalls();
 			$('#refresh-dialog').click(); })
@@ -219,6 +217,45 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 			
 		}
+
+		$(document).on("change", "#production_category_id",function(){
+     	 	param 			= new Object();
+ 		 	param.act		= "sub_produqtion";
+ 		 	param.brand_id   	= this.value;
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_id").html(data.cat);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
+        
+	    $(document).on("change", "#production_id",function(){
+     	 	param 			= new Object();
+ 		 	param.act		= "sub_produqtion1";
+ 		 	param.prod_id   = this.value;
+ 		 	param.categ_id = $("#production_category_id").val();
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_brand_id").html(data.cat);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
 
 		function CloseDialog(){
 			$("#" + fName).dialog("close");
@@ -368,44 +405,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  		    });
         });
 
-    	 $(document).on("change", "#production_category_id",function(){
-	     	 	param 			= new Object();
-	 		 	param.act		= "sub_produqtion";
-	 		 	param.brand_id   	= this.value;
-	 	    	$.ajax({
-	 		        url: aJaxURL,
-	 			    data: param,
-	 		        success: function(data) {
-	 					if(typeof(data.error) != 'undefined'){
-	 						if(data.error != ''){
-	 							alert(data.error);
-	 						}else{
-	 							$("#production_id").html(data.cat);
-	 						}
-	 					}
-	 			    }
-	 		    });
-	        });
-	        
-		    $(document).on("change", "#production_id",function(){
-	     	 	param 			= new Object();
-	 		 	param.act		= "sub_produqtion1";
-	 		 	param.prod_id   = this.value;
-	 		 	param.categ_id = $("#production_category_id").val();
-	 	    	$.ajax({
-	 		        url: aJaxURL,
-	 			    data: param,
-	 		        success: function(data) {
-	 					if(typeof(data.error) != 'undefined'){
-	 						if(data.error != ''){
-	 							alert(data.error);
-	 						}else{
-	 							$("#production_brand_id").html(data.cat);
-	 						}
-	 					}
-	 			    }
-	 		    });
-	        });
+
 	    
     	$(document).on("change", "#category_id",function(){
 			if(this.value == 423){
@@ -484,7 +484,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </head>
 
 <body>
-
 <div id="tabs"; style="width:99%; height: 580px; margin-top: 25px; padding-top:-18px; display: block; ">
 		<ul>
 			<li><a href="#tab-0">ჩემი ზარები დღეს</a></li>

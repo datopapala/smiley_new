@@ -62,6 +62,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </style>
 <script type="text/javascript">
 		var aJaxURL	  = "server-side/call/incomming.action.php";
+		var aJaxURL1_2	  = "server-side/call/clients.action1_2.php";
 		var aJaxURL1	  = "server-side/call/incomming.action1.php";
 		var aJaxURL2	  = "server-side/call/incomming.action2.php";
 		var aJaxURL3	  = "server-side/call/incomming.action3.php";		//server side folder url
@@ -75,7 +76,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		$(document).ready(function () {
 			GetTabs(tbName); 
 			runAjax();
-			GetTable0();
+			GetTable0();			
 		});
 		$(document).on("tabsactivate", "#tabs", function() {
         	var tab = GetSelectedTab(tbName);
@@ -200,10 +201,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    });
 		
 
-		function LoadDialog(){
-
+		function  LoadDialog(){
 			GetDialog(fName, 1200, "auto", "");
-			
+	    	 
 			 $(document).on("click", "#button_calls", function () {
 			LoadDialogCalls();
 			$('#refresh-dialog').click(); })
@@ -214,7 +214,48 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			      }
 			});
 			GetDateTimes("sale_date");
+			GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
+			
 		}
+
+		$(document).on("change", "#production_category_id",function(){
+     	 	param 			= new Object();
+ 		 	param.act		= "sub_produqtion";
+ 		 	param.brand_id   	= this.value;
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_id").html(data.cat);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
+        
+	    $(document).on("change", "#production_id",function(){
+     	 	param 			= new Object();
+ 		 	param.act		= "sub_produqtion1";
+ 		 	param.prod_id   = this.value;
+ 		 	param.categ_id = $("#production_category_id").val();
+ 	    	$.ajax({
+ 		        url: aJaxURL,
+ 			    data: param,
+ 		        success: function(data) {
+ 					if(typeof(data.error) != 'undefined'){
+ 						if(data.error != ''){
+ 							alert(data.error);
+ 						}else{
+ 							$("#production_brand_id").html(data.cat);
+ 						}
+ 					}
+ 			    }
+ 		    });
+        });
 
 		function CloseDialog(){
 			$("#" + fName).dialog("close");
@@ -268,7 +309,6 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					        	LoadTable2();
 					        	LoadTable3();
 				        		CloseDialog();
-				        	
 				        		console.log(data.error);
 							}
 						}
@@ -346,7 +386,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    
 	    });
 
-    	$(document).on("change", "#category_parent_id",function(){
+    	 $(document).on("change", "#category_parent_id",function(){
      	 	param 			= new Object();
  		 	param.act		= "sub_category";
  		 	param.cat_id   	= this.value;
@@ -365,6 +405,8 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
  		    });
         });
 
+
+	    
     	$(document).on("change", "#category_id",function(){
 			if(this.value == 423){
 				$(".friend").removeClass('hidden');
@@ -401,8 +443,10 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	    $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
             	param 			= new Object();
+            	param.pin_n		= $(this).val();
     		 	param.act		= "get_add_info1";
-    		 	param.pin_n		= $(this).val();
+    		 	
+    		 	
     	    	$.ajax({
     		        url: aJaxURL,
     			    data: param,
@@ -412,6 +456,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
     							alert(data.error);
     						}else{
     							$("#info_c").html(data.info1);
+    							GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
     						}
     					}
     			    }
@@ -439,8 +484,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </head>
 
 <body>
-
-<div id="tabs"; style="width:99%; height: 580px;margin-top: 25px; padding-top:-18px; display: block; ">
+<div id="tabs"; style="width:99%; height: 580px; margin-top: 25px; padding-top:-18px; display: block; ">
 		<ul>
 			<li><a href="#tab-0">ჩემი ზარები დღეს</a></li>
 			<li><a href="#tab-1">ჩემი ზარები</a></li>
@@ -506,7 +550,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	</table>
 </div>
 <div id="tab-1">
-		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:10px; display: block;">
+		<table style="width: 1100px; margin: 0 0 0 30px; padding-top:25px; display: block;">
 		<tr>
 			<td style="width: 70%;">
 			<div id="container" style="width: 95%;margin-top: -20px;">        	
@@ -579,7 +623,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 	</table>
 </div>
 <div id="tab-2">
-		<table style="width: 100%; padding-top:10px;">
+		<table style="width: 100%;">
 		<tr>
 			<td>
 			<div id="container" style="width: 100%;">        	
@@ -637,7 +681,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 </table>
 </div>
 <div id="tab-3">
-		<table style="width: 100%; padding-top:10px;">
+		<table style="width: 100%;">
 		<tr>
 			<td>
 			<div id="container" style="width: 100%;">        	
