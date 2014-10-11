@@ -1,7 +1,7 @@
 /**
 * @summary     DataTables Function, jQtransform Plugin Function
 * @version     2.3.6
-* @contact     
+* @contact
 *
 * @copyright Copyright 2012-2013 Levani Ramazashvili, all rights reserved.
 */
@@ -23,28 +23,28 @@ Sort Method
 function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
     if (empty(data))
         data = "";
-    
+
     if (empty(tname))
         tname = "example";
-    
+
     var asInitVals = new Array();
-    
+
     if (empty(sorting)) {
         sorting = hidden;
     }
-    
+
     //"asc" or "desc"
     if (empty(sortMeth))
         sortMeth = "asc";
-    
+
     var oTable = "";
-    
+
     //Defoult Length
     var dLength = [[ 30, 50, -1], [ 30, 50, "ყველა"]];
-    
+
     if (!empty(length))
         dLength = length;
-    
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -54,7 +54,7 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
 		              },
 		              "print" ]
 	};
-    
+
     oTable = $("#" + tname).dataTable({
         "bDestroy": true, 																				//Reinicialization table
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
@@ -76,18 +76,18 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
 	            	for ( var j = 0 ; j < total.length ; j++ )
 	                {
 		                iTotal[j] += aaData[i][total[j]]*1;
-	                }            	
+	                }
 	            }
-	            
+
 	            var iPage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				for ( var i = iStart ; i < iEnd ; i++ )
 				{
 					for ( var j = 0 ; j < total.length ; j++ )
 	                {
 						iPage[j] += aaData[ aiDisplay[i] ][total[j]]*1;
-	                }     
+	                }
 				}
-	            
+
 	            var nCells = nRow.getElementsByTagName('th');
 	            for ( var k = 0 ; k < total.length ; k++ )
 	            {
@@ -135,14 +135,14 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
             }
         }
     });
-    
+
     $("#" + tname + " thead input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
-    
+
     /*
-    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
     $("#" + tname + " thead input").each(function (i) {
@@ -162,7 +162,7 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
         }
     });
-        
+
     $(".DTTT_button").hover(
 		  function () {
 		    $(this).addClass("ui-state-hover");
@@ -170,34 +170,34 @@ function GetDataTable(tname, aJaxURL, action, count, data, hidden, length, sorti
 		  function () {
 		    $(this).removeClass("ui-state-hover");
 		  }
-    );    
+    );
 }
 
 function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
     if (empty(data))
         data = "";
-    
+
     if (empty(tname))
         tname = "example";
-    
+
     var asInitVals = new Array();
-    
+
     if (empty(sorting)) {
         sorting = hidden;
     }
-    
+
     //"asc" or "desc"
     if (empty(sortMeth))
         sortMeth = "asc";
-    
+
     var oTable = "";
-    
+
     //Defoult Length
     var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
-    
+
     if (!empty(length))
         dLength = length;
-    
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -207,7 +207,7 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
 		              },
 		              "print" ]
 	};
-    
+
     oTable = $("#" + tname).dataTable({
         "bDestroy": true, 																				//Reinicialization table
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
@@ -227,11 +227,11 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
         		//total sum
 	        	var iTotal 	= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	        	var iPage 	= [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	        	var tTime	= 0; 
+	        	var tTime	= 0;
 	        	var pTime	= 0;
 
 	            for ( var i = 0 ; i < total.length ; i++ )
-		        {	       
+		        {
 	            	var t1		= 0;
 		        	var t2		= 0;
 		        	var t3		= 0;
@@ -242,22 +242,22 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
 	            	for ( var j = 0 ; j < aaData.length ; j++ )
 	                {
 		                tTime = aaData[j][total[i]];
-						
+
 						if(tTime!=0){
 							t1 = parseInt(tTime.substring(0,2));
 							t2 = parseInt(tTime.substring(3,5));
 							t3 = parseInt(tTime.substring(6,8));
-							
+
 							s 	+= parseInt(t1*60*60 + t2*60 + t3);
-			            	m 	+=	Math.floor(s/60); 
+			            	m 	+=	Math.floor(s/60);
 			            	s	=	s%60;
-			            	h 	+=	Math.floor(m/60); 
+			            	h 	+=	Math.floor(m/60);
 			            	m	=	m%60;
 						}
-						
+
 						iTotal[i] = (h+':'+m+':'+s);
 			            console.log(iTotal);
-	                } 
+	                }
 	            }
 
 			for ( var i = 0 ; i < total.length; i++ )
@@ -268,26 +268,26 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
 		        	var s		= 0;
 		        	var m		= 0;
 		        	var h		= 0;
-		        	
+
 					for ( var j = iStart; j < iEnd; j++ )
 	                {
 						pTime = aaData[ aiDisplay[j]][total[i]];
-						
+
 						if(pTime!=0){
 							t1 = parseInt(pTime.substring(0,2));
 							t2 = parseInt(pTime.substring(3,5));
 							t3 = parseInt(pTime.substring(6,8));
-							
+
 							s 	+= 	parseInt(t1*60*60 + t2*60 + t3);
-			            	m 	+=	Math.floor(s/60); 
+			            	m 	+=	Math.floor(s/60);
 			            	s	=	s%60;
-			            	h 	+=	Math.floor(m/60); 
+			            	h 	+=	Math.floor(m/60);
 			            	m	=	m%60;
 						}
 						iPage[i] = (h+':'+m+':'+s);
-	                }     						
+	                }
 				}
-			
+
 	            var nCells = nRow.getElementsByTagName('th');
 	            for ( var k = 0 ; k < total.length ; k++ )
 	            {
@@ -335,14 +335,14 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
             }
         }
     });
-    
+
     $("#" + tname + " thead input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
-    
+
     /*
-    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
     $("#" + tname + " thead input").each(function (i) {
@@ -362,7 +362,7 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
         }
     });
-        
+
     $(".DTTT_button").hover(
 		  function () {
 		    $(this).addClass("ui-state-hover");
@@ -370,35 +370,35 @@ function GetDataTable3(tname, aJaxURL, action, count, data, hidden, length, sort
 		  function () {
 		    $(this).removeClass("ui-state-hover");
 		  }
-    );    
+    );
 }
 
 
 function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
     if (empty(data))
         data = "";
-    
+
     if (empty(tname))
         tname = "example";
-    
+
     var asInitVals = new Array();
-    
+
     if (empty(sorting)) {
         sorting = hidden;
     }
-    
+
     //"asc" or "desc"
     if (empty(sortMeth))
         sortMeth = "asc";
-    
+
     var oTable = "";
-    
+
     //Defoult Length
     var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
-    
+
     if (!empty(length))
         dLength = length;
-    
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -408,7 +408,7 @@ function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sor
 		              },
 		              "print" ]
 	};
-    
+
     oTable = $("#" + tname).dataTable({
         "bDestroy": true, 																				//Reinicialization table
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
@@ -430,18 +430,18 @@ function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sor
 	            	for ( var j = 0 ; j < total.length ; j++ )
 	                {
 		                iTotal[j] += aaData[i][total[j]]*1;
-	                }            	
+	                }
 	            }
-	            
+
 	            var iPage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				for ( var i = iStart ; i < iEnd ; i++ )
 				{
 					for ( var j = 0 ; j < total.length ; j++ )
 	                {
 						iPage[j] += aaData[ aiDisplay[i] ][total[j]]*1;
-	                }     
+	                }
 				}
-	            
+
 	            var nCells = nRow.getElementsByTagName('th');
 	            for ( var k = 0 ; k < total.length ; k++ )
 	            {
@@ -493,14 +493,14 @@ function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sor
             }
         }
     });
-    
+
     $("#" + tname + " thead input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
-    
+
     /*
-    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
     $("#" + tname + " thead input").each(function (i) {
@@ -520,7 +520,7 @@ function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sor
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
         }
     });
-        
+
     $(".DTTT_button").hover(
 		  function () {
 		    $(this).addClass("ui-state-hover");
@@ -528,34 +528,34 @@ function GetDataTableee(tname, aJaxURL, action, count, data, hidden, length, sor
 		  function () {
 		    $(this).removeClass("ui-state-hover");
 		  }
-    );    
+    );
 }
 
 function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total) {
     if (empty(data))
         data = "";
-    
+
     if (empty(tname))
         tname = "example";
-    
+
     var asInitVals = new Array();
-    
+
     if (empty(sorting)) {
         sorting = hidden;
     }
-    
+
     //"asc" or "desc"
     if (empty(sortMeth))
         sortMeth = "asc";
-    
+
     var oTable = "";
-    
+
     //Defoult Length
     var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
-    
+
     if (!empty(length))
         dLength = length;
-    
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -565,7 +565,7 @@ function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sort
 		              },
 		              "print" ]
 	};
-    
+
     oTable = $("#" + tname).dataTable({
         "bDestroy": true, 																				//Reinicialization table
         "bJQueryUI": true, 																				//Add jQuery ThemeRoller
@@ -587,22 +587,24 @@ function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sort
 	            	for ( var j = 0 ; j < total.length ; j++ )
 	                {
 		                iTotal[j] += aaData[i][total[j]]*1;
-	                }            	
+	                }
 	            }
-	            
+
 	            var iPage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				for ( var i = iStart ; i < iEnd ; i++ )
 				{
 					for ( var j = 0 ; j < total.length ; j++ )
 	                {
 						iPage[j] += aaData[ aiDisplay[i] ][total[j]]*1;
-	                }     
+	                }
 				}
-	            
+
 	            var nCells = nRow.getElementsByTagName('th');
 	            for ( var k = 0 ; k < total.length ; k++ )
 	            {
-	            	nCells[total[k]].innerHTML = parseInt(iPage[k] * 100) / 100 + ' ლარი<br />' + parseInt(iTotal[k] * 100) / 100 + ' ლარი';
+	          //  	(s)
+	            	//
+	            	nCells[total[k]].innerHTML = (parseInt(iPage[k] * 100) / 100).toFixed(2) + ' ლარი<br />' + (parseInt(iTotal[k] * 100) / 100).toFixed(2) + ' ლარი';
 	            }
         	}
 		},
@@ -646,14 +648,14 @@ function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sort
             }
         }
     });
-    
+
     $("#" + tname + " thead input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
-    
+
     /*
-    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
     $("#" + tname + " thead input").each(function (i) {
@@ -673,7 +675,7 @@ function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sort
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
         }
     });
-        
+
     $(".DTTT_button").hover(
 		  function () {
 		    $(this).addClass("ui-state-hover");
@@ -681,15 +683,15 @@ function GetDataTable2(tname, aJaxURL, action, count, data, hidden, length, sort
 		  function () {
 		    $(this).removeClass("ui-state-hover");
 		  }
-    );    
+    );
 }
 
 function GetReportTable(tName, aJaxURL, count, hidden, sorting, sortMeth, total) {
 	var oTable = "";
-	
-	
-	
-	
+
+
+
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -699,9 +701,9 @@ function GetReportTable(tName, aJaxURL, count, hidden, sorting, sortMeth, total)
 		              },
 		              "print" ]
 	};
-    
+
     var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
-    
+
     oTable = $("#" + tName).dataTable({
 		"sDom": "<'dataTable_buttons'T><'H'Rlrf>t<'F'ip>",
         "bDestroy":			true,													//Reinicialization table
@@ -741,18 +743,18 @@ function GetReportTable(tName, aJaxURL, count, hidden, sorting, sortMeth, total)
 	            	for ( var j = 0 ; j < total.length ; j++ )
 	                {
 		                iTotal[j] += aaData[i][total[j]]*1;
-	                }            	
+	                }
 	            }
-	            
+
 	            var iPage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 				for ( var i = iStart ; i < iEnd ; i++ )
 				{
 					for ( var j = 0 ; j < total.length ; j++ )
 	                {
 						iPage[j] += aaData[ aiDisplay[i] ][total[j]]*1;
-	                }     
+	                }
 				}
-	            
+
 	            var nCells = nRow.getElementsByTagName('th');
 	            for ( var k = 0 ; k < total.length ; k++ )
 	            {
@@ -785,10 +787,10 @@ function GetReportTable(tName, aJaxURL, count, hidden, sorting, sortMeth, total)
             }
         }
     });
-    
+
 	$.datepicker.regional[""].dateFormat = 'yy-mm-dd';
     $.datepicker.setDefaults($.datepicker.regional['']);
-    
+
     oTable.columnFilter({ sPlaceHolder: "head:after",
 		aoColumns: [ 	{ type: "null" },
                         { type: "select" },
@@ -804,25 +806,25 @@ function ftCallBack(data,tname){
 	var idnex;
 	if(tname == "example-1"){
 		idnex = 2;
-		
+
 		$('#example-1 tbody tr').each(function() {
 			var nTds = $("td", this);
-			$(this).on("click", "td:eq(2)", function () {				
+			$(this).on("click", "td:eq(2)", function () {
 				var id = $(nTds[0]).text();
 				var amount = $(nTds[2]).text();
 				LoadDialog("",id,amount);
-			
+
 			});
-			
-			$(this).on("click", "td:eq(1)", function () {				
+
+			$(this).on("click", "td:eq(1)", function () {
 				var rID = $(nTds[0]).text();
 	            var menuLength = [[30], [30]];
 	            GetDataTable1('example-2', aJaxURL, 'signed', 4, "id="+rID, 0, menuLength);
 	            GetDataTable1('example-3', aJaxURL, 'unsigned', 4, "id="+rID, 0, menuLength);
 			});
-    
+
 		});
-		
+
 	}else{
 		idnex = 3;
 	}
@@ -835,7 +837,7 @@ function ftCallBack(data,tname){
 			sum += parseFloat(data[i][idnex]);
 		}
 	}
-	
+
 	sum = String(sum);
 	if( sum != 0 ){
 		var myarray = sum.split(".");
@@ -848,42 +850,42 @@ function ftCallBack(data,tname){
 		sum = sum1;
 	}else{
 		sum = "0.00";
-	}	
-	
+	}
+
 	$("#"+ tname +"_info").css('width', '100%');
     var div = "<div style=\"float: right; margin-right: 20px;\">ჯამში : "+ sum +" ლარი</div>";
     $("#"+ tname +"_info").html(     $("#"+ tname +"_info").html() + div   );
 }
 
 function GetDataTable1(tname, aJaxURL, action, count, data, hidden, length, sorting, sortMeth, total, sScrollY, status) {
-	
+
     if (empty(data))
         data = "";
-    
+
     if (empty(sScrollY))
     	sScrollY = "600px";
-    
+
     if (empty(tname))
         tname = "example";
-    
+
     var asInitVals = new Array();
-    
+
     if (empty(sorting)) {
         sorting = hidden;
     }
-    
+
     //"asc" or "desc"
     if (empty(sortMeth))
         sortMeth = "asc";
-    
+
     var oTable = "";
-    
+
     //Defoult Length
     var dLength = [[15, 30, 50, -1], [15, 30, 50, "ყველა"]];
-    
+
     if (!empty(length))
         dLength = length;
-    
+
     var imex = {
 		"sSwfPath": "media/swf/copy_csv_xls.swf",
 		"aButtons": [ "copy",
@@ -925,7 +927,7 @@ function GetDataTable1(tname, aJaxURL, action, count, data, hidden, length, sort
                         } else {
                             if ($.isFunction(window.DatatableEnd)) {
                                 //execute it
-                                DatatableEnd(tname);	
+                                DatatableEnd(tname);
                             }
                         }
                     }
@@ -953,14 +955,14 @@ function GetDataTable1(tname, aJaxURL, action, count, data, hidden, length, sort
             }
         }
     });
-    
+
     $("#" + tname + " thead input").keyup(function () {
         /* Filter on the column (the index) of this element */
         oTable.fnFilter(this.value, $("#" + tname + " thead input").index(this));
     });
-    
+
     /*
-    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+    * Support functions to provide a little bit of 'user friendlyness' to the textboxes in
     * the footer
     */
     $("#" + tname + " thead input").each(function (i) {
@@ -980,7 +982,7 @@ function GetDataTable1(tname, aJaxURL, action, count, data, hidden, length, sort
             this.value = asInitVals[$("#" + tname + " thead input").index(this)];
         }
     });
-        
+
     $(".DTTT_button").hover(
 		  function () {
 		    $(this).addClass("ui-state-hover");
@@ -988,7 +990,7 @@ function GetDataTable1(tname, aJaxURL, action, count, data, hidden, length, sort
 		  function () {
 		    $(this).removeClass("ui-state-hover");
 		  }
-    );    
+    );
 }
 
 
@@ -1018,7 +1020,7 @@ function GetNotify(message){
 function Check(timeout,aJaxURL){
 	var start = new Date().getTime();
 	var time = 0;
-	
+
 	function instance() {
 		if(time <= timeout + 100 ){
 			    if (time == timeout && $("#chechedStatus").val() == "true" ) {
@@ -1120,7 +1122,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
     if (empty(c_data))
         c_data = "";
 
-    
+
     // Add Event
     $("#" + add).on("click", function () {
         $.ajax({
@@ -1143,7 +1145,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
             }
         });
     });
-   
+
 
     /* Edit Event */
     $("#" + tname + " tbody").on("dblclick", "tr", function () {
@@ -1196,7 +1198,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
                 }
             });
         }
-        //Reload Table        
+        //Reload Table
         if ($.isFunction(window.LoadTable)) {
             //execute it
             LoadTable(tname);
@@ -1207,7 +1209,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
     $("#" + check).on("click", function () {
     	$("#" + tname + " INPUT[type='checkbox']").prop("checked", $("#" + check).is(":checked"));
     });
-    
+
     $(document).on("dialogbeforeclose", "#" + fname, function( event, ui ) {
 //
 //    	if (confirm("დარწმუნებული ხართ, რომ არ გსურთ მონაცემების შენახვა?")) {
@@ -1217,7 +1219,7 @@ function SetEvents(add, dis, check, tname, fname, aJaxURL, c_data) {
 //    	} else {
 //    		  return false;
 //    	}
-//    	
+//
     	if($(this).is(":ui-dialog") || $(this).is(":data(dialog)")){
 			$(this).dialog("destroy");
 		}
@@ -1250,7 +1252,7 @@ function GetDialog(fname, width, height, buttons) {
     if (!empty(buttons)) {
         defoult = buttons;
     }
-    
+
     $("#" + fname).dialog({
     	position: "top",
         resizable: false,
@@ -1305,9 +1307,9 @@ function GetDate(iname) {
     $("#" + iname).datepicker({
         numberOfMonths: 1
     });
-    
+
     var date = $("#" + iname).val();
-    
+
     $("#" + iname).datepicker("option", $.datepicker.regional["ka"]);
     $("#" + iname).datepicker("option", "dateFormat", "yy-mm-dd");
     $("#" + iname).datepicker( "setDate", date );
@@ -1331,7 +1333,7 @@ function GetDateTimes(iname) {
 *              Server Side seoyURL,
 *              Action,
 *              Custom Request,
-*              MinLength 
+*              MinLength
 */
 function SeoY(iname, seoyURL, act, cdata, length) {
     var dlength = 1;
@@ -1435,8 +1437,8 @@ function AjaxSetup() {
 	        if (jqXHR.status === 0) {
 	            alert("Not connect.\n Verify Network.");
 	        } else if (jqXHR.status == 404) {
-	            alert("თქვენი ავტორიზაციის პერიოდი დასრულდა, გთხოვთ შედით სიტემაში თავიდან. [404]"); 
-	            window.location = "index.php"; 
+	            alert("თქვენი ავტორიზაციის პერიოდი დასრულდა, გთხოვთ შედით სიტემაში თავიდან. [404]");
+	            window.location = "index.php";
 	        } else if (jqXHR.status == 500) {
 	            alert("Internal Server Error [500].");
 	        } else if (exception === "parsererror") {
@@ -1459,11 +1461,11 @@ function AjaxSetup() {
 function GetDateTime(format) {
 	var currentdate = new Date();
 	var datetime;
-	
+
 	var d		= currentdate.getDate();
 	var m		= currentdate.getMonth() + 1;
 	var yy		= currentdate.getYear();
-	
+
 	var day		= (d < 10) ? '0' + d : d;
 	var month	= (m < 10) ? '0' + m : m;
 	var year	= (yy < 1000) ? yy + 1900 : yy;
@@ -1471,11 +1473,11 @@ function GetDateTime(format) {
 	var h		= currentdate.getHours();
 	var mm		= currentdate.getMinutes();
 	var s		= currentdate.getSeconds();
-	
+
 	var hours	= (h < 10) ? '0' + h : h;
 	var minutes = (mm < 10) ? '0' + mm : mm;
 	var seconds = (s < 10) ? '0' + s : s;
-	
+
 	switch (format) {
 		case 0:
 			datetime = year + "-" + month  + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
@@ -1489,11 +1491,11 @@ function GetDateTime(format) {
 		default:
 			datetime = "Null";
 	}
-	
+
     return datetime;
 }
 
-function ToPrice(price) {	
+function ToPrice(price) {
 	return parseFloat(price).toFixed(2);
 }
 
@@ -1514,11 +1516,11 @@ function GetAjaxData(data) {
     return param;
 }
 
-function GetRootDIR(){	
+function GetRootDIR(){
 	var url = window.location.href;
-	var path = url.substring(url.lastIndexOf('/')+1);	
+	var path = url.substring(url.lastIndexOf('/')+1);
 	var root = url.substring(0, url.length - path.length);
-	
+
 	return root;
 }
 
