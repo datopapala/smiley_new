@@ -43,7 +43,7 @@ $file					= $_REQUEST['file_name'];
 switch ($action) {
 	case 'get_edit_page':
 		$page		= GetPage(Getincomming($client_id));
-		
+
 		$data		= array('page'	=> $page);
 		break;
 	case 'get_list' :
@@ -58,28 +58,34 @@ switch ($action) {
 												`realizations`.`CustomerAddress`,
 												COUNT(realizations.CustomerName),
 											  	SUM(`nomenclature`.`Sum`) AS jami,
-									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000
 											AND
 											SUM(`nomenclature`.`Sum`)<7000
 											THEN 'VIP Gold'
-										 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+										 WHEN SUM(`nomenclature`.`Sum`)>=7000
 											AND
 											SUM(`nomenclature`.`Sum`)<10000
 											THEN 'VIP Platinium'
-										WHEN SUM(`nomenclature`.`Sum`)>10000 
+										WHEN SUM(`nomenclature`.`Sum`)>10000
 											THEN 'VIP Briliant'
 										WHEN SUM(`nomenclature`.`Sum`)<5000 and COUNT(realizations.CustomerName)>5
 											THEN 'ლოიალური'
 									END AS `status`
-												
+
 									FROM 	`realizations`
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-								
+
 	  							GROUP BY nomenclature.realizations_id
-	  							HAVING SUM(`nomenclature`.`Sum`)>10000	
+	  							HAVING SUM(`nomenclature`.`Sum`)>10000
+											AND (LENGTH(CustomerID)=11 OR CustomerID='') AND
+											SUBSTRING(CustomerName,1,3)!='ი/მ' AND SUBSTRING(CustomerName,1,3)!='შპს' AND
+											SUBSTRING(CustomerName,1,3)!='იმ.' AND SUBSTRING(CustomerName,1,3)!='ი.მ' AND
+											SUBSTRING(CustomerName,1,3)!='ს/ს' AND SUBSTRING(CustomerName,1,3)!='სს ' AND
+											SUBSTRING(CustomerName,1,3)!='ს.ს' AND SUBSTRING(CustomerName,1,3)!='შ.პ' AND
+											SUBSTRING(CustomerName,1,3)!='იმ '
 	  										");
-	  	
-	  
+
+
 		$data = array(
 				"aaData"	=> array()
 		);
@@ -104,16 +110,16 @@ switch ($action) {
 				if($task_type_id != ''){
 					$incomming_call_id = mysql_insert_id();
 					Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment);
-						
+
 				}
 			}else {
 				Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
 				Savetask();
-					
-					
+
+
 			}
 			break;
-	
+
 	default:
 		$error = 'Action is Null';
 }
@@ -179,7 +185,7 @@ function Saveclient($client_name, $client_status, $client_pin, $born_date, $clie
 	//$log->setInsertLog('client',$client_id);
 
 }
-function Savetask(){	
+function Savetask(){
 	$id						= $_REQUEST['id'];
 	$task_type_id			= $_REQUEST['task_type_id'];
 	$template_id			= $_REQUEST['template_id'];
@@ -187,7 +193,7 @@ function Savetask(){
 	$problem_comment		= $_REQUEST['problem_comment'];
 					//GLOBAL $log;
 					//$log->setUpdateLogAfter('task', $id);
-					
+
 					$user  = $_SESSION['USERID'];
 					mysql_query(" UPDATE `task` SET
 												`user_id`='$user',
@@ -202,7 +208,7 @@ function Savetask(){
 												`actived`='1'
 												WHERE 			`incomming_call_id`='$id'
 												");
-					
+
 					//$log->setInsertLog('task',$id);
 					}
 
@@ -451,7 +457,7 @@ function GetPage($res='', $number)
 					';
 
 	$data  .= '
-		
+
 				<fieldset style="margin-top: 5px;">
 			    	<legend>დავალების ფორმირება</legend>
 
@@ -489,7 +495,7 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		
+
 	        			</div>
 		                <table class="" id="examplee1" style="width: 100%;">
 		                    <thead>
@@ -516,8 +522,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-			
-			
+
+
 								</tr>
 							</thead>
 		                </table>
@@ -530,14 +536,14 @@ function GetPage($res='', $number)
 				<fieldset>
 				<legend>საჩუქრები</legend>
 				<div id="dt_example" class="inner-table">
-		        <div style="width:440px;" id="container" >        	
+		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
 		            	</div>
 		                <table class="" id="examplee_3" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
-										
+
 		                           <th style="display:none">ID</th>
 									<th style="width:15%;">თარიღი</th>
 									<th style=" word-break:break-all;">საწყობი</th>
@@ -559,8 +565,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-									
-									
+
+
 								</tr>
 							</thead>
 		                </table>

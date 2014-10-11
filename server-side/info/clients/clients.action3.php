@@ -18,7 +18,7 @@ switch ($action) {
 		$page		= GetPage(Getincomming($client_id));
 		Get_sale();
 		$data		= array('page'	=> $page);
-	
+
 		break;
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
@@ -32,26 +32,33 @@ switch ($action) {
 												`realizations`.`CustomerAddress`,
 												COUNT(realizations.CustomerName),
 											  	SUM(`nomenclature`.`Sum`) AS jami,
-									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000
 											AND
 											SUM(`nomenclature`.`Sum`)<7000
 											THEN 'VIP Gold'
-										 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+										 WHEN SUM(`nomenclature`.`Sum`)>=7000
 											AND
 											SUM(`nomenclature`.`Sum`)<10000
 											THEN 'VIP Platinium'
-										WHEN SUM(`nomenclature`.`Sum`)>10000 
+										WHEN SUM(`nomenclature`.`Sum`)>10000
 											THEN 'VIP Briliant'
 										WHEN SUM(`nomenclature`.`Sum`)<5000 and COUNT(realizations.CustomerName)>5
 											THEN 'ლოიალური'
 									END AS `status`
-												
+
 									FROM 	`realizations`
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-								
+
 	  							GROUP BY nomenclature.realizations_id
-	  							HAVING COUNT(realizations.CustomerName)>5 and SUM(`nomenclature`.`Sum`)<5000");
-  
+	  							HAVING COUNT(realizations.CustomerName)>5 and SUM(`nomenclature`.`Sum`)<5000
+	  										AND (LENGTH(CustomerID)=11 OR CustomerID='') AND
+											SUBSTRING(CustomerName,1,3)!='ი/მ' AND SUBSTRING(CustomerName,1,3)!='შპს' AND
+											SUBSTRING(CustomerName,1,3)!='იმ.' AND SUBSTRING(CustomerName,1,3)!='ი.მ' AND
+											SUBSTRING(CustomerName,1,3)!='ს/ს' AND SUBSTRING(CustomerName,1,3)!='სს ' AND
+											SUBSTRING(CustomerName,1,3)!='ს.ს' AND SUBSTRING(CustomerName,1,3)!='შ.პ' AND
+											SUBSTRING(CustomerName,1,3)!='იმ '");
+
+
 		$data = array(
 				"aaData"	=> array()
 		);
@@ -68,8 +75,8 @@ switch ($action) {
 		}
 
 		break;
-	
-	
+
+
 	default:
 		$error = 'Action is Null';
 }
@@ -169,7 +176,7 @@ function Get_sale()
 			" );
 
 	$data.='<fieldset style="width: 440px;">
-					<legend>შენაძენი</legend> 
+					<legend>შენაძენი</legend>
 					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
 						<tr style="border-bottom: 1px solid #85b1de;">
 							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
@@ -276,7 +283,7 @@ function GetPage($res='', $number)
 								<td>
 									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  disabled="disabled" />
 								</td>
-						
+
 							</tr>
 							<tr>
 								<td>იურ. სტატუსი</td>
@@ -309,7 +316,7 @@ function GetPage($res='', $number)
 									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"disabled="disabled"  />
 								</td>
 							</tr>
-				
+
 						</tr>
 						</table>
 					</fieldset>
@@ -366,7 +373,7 @@ function GetPage($res='', $number)
 					';
 
 	$data  .= '
-		 
+
 				<fieldset style="margin-top: 5px;">
 			    	<legend>დავალების ფორმირება</legend>
 
@@ -404,7 +411,7 @@ function GetPage($res='', $number)
 		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
-		            		
+
 	        			</div>
 		                <table class="" id="examplee4" style="width: 100%;">
 		                    <thead>
@@ -431,8 +438,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-					
-					
+
+
 								</tr>
 							</thead>
 		                </table>
@@ -445,14 +452,14 @@ function GetPage($res='', $number)
 				<fieldset>
 				<legend>საჩუქრები</legend>
 				<div id="dt_example" class="inner-table">
-		        <div style="width:440px;" id="container" >        	
+		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
 		            	</div>
 		                <table class="" id="examplee_2" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
-										
+
 		                           <th style="display:none">ID</th>
 									<th style="width:15%;">თარიღი</th>
 									<th style=" word-break:break-all;">საწყობი</th>
@@ -474,8 +481,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-									
-									
+
+
 								</tr>
 							</thead>
 		                </table>
