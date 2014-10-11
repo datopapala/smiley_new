@@ -729,10 +729,6 @@ function GetPage($res='', $number, $pin)
 		$num=$res[incom_phone]; 
 	}	
 	$data  .= '
-	<!-- jQuery Dialog -->
-    <div id="add-edit-goods-form" title="საქონელი">
-    	<!-- aJax -->
-	</div>
 	<div id="dialog-form">
 			<div style="float: left; width: 800px;">	
 				<fieldset >

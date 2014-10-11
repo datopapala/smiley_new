@@ -94,7 +94,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		function GetTable0() {
             LoadTable();
             GetButtons("add_button", "","");
-			SetEvents("add_button", "", "", tName, fName, aJaxURL);
+			SetEvents("add_button", "", "", tName, "add-edit-form", aJaxURL);
         }
 		function GetTable1() {
 			 LoadTable1(0,0);
