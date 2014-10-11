@@ -77,6 +77,43 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			GetTabs(tbName); 
 			runAjax();
 			GetTable0();
+			$(document).on("change", "#production_category_id",function(){
+	     	 	param 			= new Object();
+	 		 	param.act		= "sub_produqtion";
+	 		 	param.brand_id   	= this.value;
+	 	    	$.ajax({
+	 		        url: aJaxURL,
+	 			    data: param,
+	 		        success: function(data) {
+	 					if(typeof(data.error) != 'undefined'){
+	 						if(data.error != ''){
+	 							alert(data.error);
+	 						}else{
+	 							$("#production_id").html(data.cat);
+	 						}
+	 					}
+	 			    }
+	 		    });
+	        });
+		    $(document).on("change", "#production_id",function(){
+	     	 	param 			= new Object();
+	 		 	param.act		= "sub_produqtion1";
+	 		 	param.prod_id   = this.value;
+	 		 	param.categ_id = $("#production_category_id").val();
+	 	    	$.ajax({
+	 		        url: aJaxURL,
+	 			    data: param,
+	 		        success: function(data) {
+	 					if(typeof(data.error) != 'undefined'){
+	 						if(data.error != ''){
+	 							alert(data.error);
+	 						}else{
+	 							$("#production_brand_id").html(data.cat);
+	 						}
+	 					}
+	 			    }
+	 		    });
+	        });
 		});
 		$(document).on("tabsactivate", "#tabs", function() {
         	var tab = GetSelectedTab(tbName);
@@ -216,43 +253,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			});
 			GetDateTimes("sale_date");
 			GetDataTable("examplee_1", aJaxURL1_2, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
-			$(document).on("change", "#production_category_id",function(){
-	     	 	param 			= new Object();
-	 		 	param.act		= "sub_produqtion";
-	 		 	param.brand_id   	= this.value;
-	 	    	$.ajax({
-	 		        url: aJaxURL,
-	 			    data: param,
-	 		        success: function(data) {
-	 					if(typeof(data.error) != 'undefined'){
-	 						if(data.error != ''){
-	 							alert(data.error);
-	 						}else{
-	 							$("#production_id").html(data.cat);
-	 						}
-	 					}
-	 			    }
-	 		    });
-	        });
-		    $(document).on("change", "#production_id",function(){
-	     	 	param 			= new Object();
-	 		 	param.act		= "sub_produqtion1";
-	 		 	param.prod_id   = this.value;
-	 		 	param.categ_id = $("#production_category_id").val();
-	 	    	$.ajax({
-	 		        url: aJaxURL,
-	 			    data: param,
-	 		        success: function(data) {
-	 					if(typeof(data.error) != 'undefined'){
-	 						if(data.error != ''){
-	 							alert(data.error);
-	 						}else{
-	 							$("#production_brand_id").html(data.cat);
-	 						}
-	 					}
-	 			    }
-	 		    });
-	        });
+			
 		}
 
 		function CloseDialog(){
