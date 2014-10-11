@@ -75,26 +75,32 @@ switch ($action) {
 												`realizations`.`CustomerAddress`,
 												COUNT(realizations.CustomerName),
 											  	SUM(`nomenclature`.`Sum`) AS jami,
-									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000
 											AND
 											SUM(`nomenclature`.`Sum`)<7000
 											THEN 'VIP Gold'
-										 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+										 WHEN SUM(`nomenclature`.`Sum`)>=7000
 											AND
 											SUM(`nomenclature`.`Sum`)<10000
 											THEN 'VIP Platinium'
-										WHEN SUM(`nomenclature`.`Sum`)>10000 
+										WHEN SUM(`nomenclature`.`Sum`)>10000
 											THEN 'VIP Briliant'
 										WHEN SUM(`nomenclature`.`Sum`)<5000 and COUNT(realizations.CustomerName)>5
 											THEN 'ლოიალური'
 									END AS `status`
-												
+
 									FROM 	`realizations`
 									JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
-									GROUP BY nomenclature.realizations_id			
-											  			");
-	  	
-	  
+												where  (LENGTH(CustomerID)=11 OR CustomerID='') AND
+												SUBSTRING(CustomerName,1,3)!='ი/მ' AND SUBSTRING(CustomerName,1,3)!='შპს' AND
+												SUBSTRING(CustomerName,1,3)!='იმ.' AND SUBSTRING(CustomerName,1,3)!='ი.მ' AND
+												SUBSTRING(CustomerName,1,3)!='ს/ს' AND SUBSTRING(CustomerName,1,3)!='სს ' AND
+												SUBSTRING(CustomerName,1,3)!='ს.ს' AND SUBSTRING(CustomerName,1,3)!='შ.პ' AND
+												SUBSTRING(CustomerName,1,3)!='იმ '
+	  								GROUP BY nomenclature.realizations_id
+	  			");
+
+
 		$data = array(
 				"aaData"	=> array()
 		);
@@ -106,45 +112,45 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
-				
-				
+
+
 			}
-			
+
 			$data['aaData'][] = $row;
-			
+
 		}
 
 		break;
 	case 'save_client':
-		$client_id				= $_REQUEST['id'];		
-		if($client_id == ''){			
+		$client_id				= $_REQUEST['id'];
+		if($client_id == ''){
 			Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
-			$task_type_id = $_REQUEST['task_type_id'];			
+			$task_type_id = $_REQUEST['task_type_id'];
 			if($task_type_id != ''){
 			$incomming_call_id = mysql_insert_id();
 			Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment);
-			
+
 			}
 		}else {
 			Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
 			Savetask();
-			
-			
+
+
 		}
 		break;
-		
-	
+
+
 	case 'get_add_info':
-	
+
 		$pin	=	$_REQUEST['pin'];
 		$data 	= 	array('info' => get_addition_all_info($pin));
-	
+
 		break;
 		case 'get_add_info1':
-		
+
 		$personal_id	=	$_REQUEST['personal_id'];
 		$data 	= 	array('info1' => get_addition_all_info1($personal_id));
-	
+
 		break;
 	default:
 		$error = 'Action is Null';
@@ -161,62 +167,62 @@ echo json_encode($data);
 */
 
 function Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment){
-	
+
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
-	
-	mysql_query("INSERT INTO `client` 
+
+	mysql_query("INSERT INTO `client`
 							(`name`, `legal_status_id`, `code`, `phone`, `mail`, `born_date`, `mobile1`, `mobile2`, `Juristic_address`, `Juristic_city`, `Juristic_postal_code`, `physical_address`, `physical_city`, `physical_postal_code`,`comment`)
- 						VALUES 
+ 						VALUES
 							( '$client_name', '$client_status', '$client_pin', '$client_phone', '$client_mail',' $born_date', '$client_mobile1', '$client_mobile2', '$Juristic_address', '$Juristic_city', '$Juristic_postal_code', '$physical_address', '$physical_city','$physical_postal_code','$client_comment');");
-	
+
 	//GLOBAL $log;
 	//$log->setInsertLog('client');
 }
 
 function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment)
-{	
-	
+{
+
 	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO `task` 
-								( `user_id`, `incomming_call_id`, `template_id`, `task_type_id`, `priority_id`,  `problem_comment`, `status`, `actived`) 
-							VALUES 
+	mysql_query("INSERT INTO `task`
+								( `user_id`, `incomming_call_id`, `template_id`, `task_type_id`, `priority_id`,  `problem_comment`, `status`, `actived`)
+							VALUES
 								( '$user', '$incomming_call_id', '$template_id', '$task_type_id', '$priority_id',  '$problem_comment', '0', '1');");
-	
+
 	//GLOBAL $log;
 	///$log->setInsertLog('task');
 }
 
 
-				
+
 function Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code, $client_comment)
 {
-	
+
 	$client_id				= $_REQUEST['id'];
 	$user		= $_SESSION['USERID'];
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('client', $client_id);
-	mysql_query("	UPDATE `client` SET 
-									`name`='$client_name', 
-									`legal_status_id`='$client_status', 
-									`code`='$client_pin', 
-									`phone`='$client_phone', 
-									`mail`='$client_mail', 
-									`born_date`='$born_date', 
-									`mobile1`='$client_mobile1', 
-									`mobile2`='$client_mobile2', 
-									`Juristic_address`='$Juristic_address', 
-									`Juristic_city`='$Juristic_city', 
-									`Juristic_postal_code`='$Juristic_postal_code', 
-									`physical_address`='$physical_address', 
-									`physical_city`='$physical_city', 
+	mysql_query("	UPDATE `client` SET
+									`name`='$client_name',
+									`legal_status_id`='$client_status',
+									`code`='$client_pin',
+									`phone`='$client_phone',
+									`mail`='$client_mail',
+									`born_date`='$born_date',
+									`mobile1`='$client_mobile1',
+									`mobile2`='$client_mobile2',
+									`Juristic_address`='$Juristic_address',
+									`Juristic_city`='$Juristic_city',
+									`Juristic_postal_code`='$Juristic_postal_code',
+									`physical_address`='$physical_address',
+									`physical_city`='$physical_city',
 									`physical_postal_code`='$physical_postal_code',
 									`comment` = '$client_comment'
 					WHERE			`id`='$client_id'
 			");
 	///$log->setInsertLog('client',$client_id);
 
-}       
+}
 function Savetask()
 {	$id						= $_REQUEST['id'];
 	$task_type_id			= $_REQUEST['task_type_id'];
@@ -225,22 +231,22 @@ function Savetask()
 	$problem_comment		= $_REQUEST['problem_comment'];
 	//GLOBAL $log;
 	//$/log->setUpdateLogAfter('task', $id);
-	
+
 	$user  = $_SESSION['USERID'];
-	mysql_query(" UPDATE `task` SET 
-								`user_id`='$user', 
-								`responsible_user_id`='', 
-								`date`='', 
-								`template_id`='$template_id', 
-								`task_type_id`='$task_type_id', 
-								`priority_id`='$priority_id', 
-								`comment`='', 
-								`problem_comment`='$problem_comment', 
-								`status`='0', 
+	mysql_query(" UPDATE `task` SET
+								`user_id`='$user',
+								`responsible_user_id`='',
+								`date`='',
+								`template_id`='$template_id',
+								`task_type_id`='$task_type_id',
+								`priority_id`='$priority_id',
+								`comment`='',
+								`problem_comment`='$problem_comment',
+								`status`='0',
 								`actived`='1'
 				 WHERE 			`incomming_call_id`='$id'
 			");
-				
+
 	//$log->setInsertLog('task',$id);
 }
 
@@ -322,11 +328,11 @@ function Get_legal_status($client_status)
 }
 function Getincomming($client_id)
 {
-	
-$res = mysql_fetch_assoc(mysql_query("	SELECT 	
+
+$res = mysql_fetch_assoc(mysql_query("	SELECT
 												realizations.id,
 												realizations.CustomerName AS client_name,
-												realizations.`CustomerID`,	
+												realizations.`CustomerID`,
 												realizations.Date AS born_date,
 												realizations.CustomerAddress AS Juristic_address,
 												realizations.CustomerPhone,
@@ -335,15 +341,15 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT
 												task.priority_id AS priority_id,
 												task.problem_comment AS problem_comment,
 										CASE
-										 	WHEN  SUM(`nomenclature`.`Sum`)>5000 
+										 	WHEN  SUM(`nomenclature`.`Sum`)>5000
 												AND
 													 SUM(`nomenclature`.`Sum`)<=7000
 												THEN 'VIP-Gold'
-											WHEN  SUM(`nomenclature`.`Sum`)  >7000 
+											WHEN  SUM(`nomenclature`.`Sum`)  >7000
 												AND
 													SUM(`nomenclature`.`Sum`)<=10000
 												THEN 'VIP-Platinium'
-											WHEN SUM(`nomenclature`.`Sum`) >10000 
+											WHEN SUM(`nomenclature`.`Sum`) >10000
 												THEN 'VIP-Briliant'
 											WHEN SUM(`nomenclature`.`Sum`)<=5000 and COUNT(realizations.CustomerName)>5
 												THEN 'ლოიალური'
@@ -352,9 +358,9 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT
 										JOIN nomenclature ON realizations.id=nomenclature.realizations_id
 										left JOIN    task ON realizations.id = task.incomming_call_id
 										WHERE   realizations.id=$client_id
-										
+
 			" ));
-	
+
 	return $res;
 }
 function GetLocalID(){
@@ -368,17 +374,17 @@ function GetPage($res='', $number)
 	$num = 0;
 	if($res[phone]==""){
 		$num=$number;
-	}else{ 
-		$num=$res[phone]; 
+	}else{
+		$num=$res[phone];
 	}
-	
+
 	$data  .= '
 	<!-- jQuery Dialog -->
     <div id="add-edit-goods-form" title="საქონელი">
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 500px;">	
+			<div style="float: left; width: 500px;">
 				<fieldset >
 			    	<legend>საკონტაკტო ინფო</legend>
 					<fieldset style="width:665px; float:left;">
@@ -387,7 +393,7 @@ function GetPage($res='', $number)
 								<td>სტატუსი</td>
 								<td>'.$res['status'].'</td>
 								<td></td>
-								<td></td>								
+								<td></td>
 							</tr>
 							<tr>
 								<td>კონტრაგენტი</td>
@@ -398,7 +404,7 @@ function GetPage($res='', $number)
 								<td>
 									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>
-											
+
 							</tr>
 							<tr>
 								<td>იურ. სტატუსი</td>
@@ -409,8 +415,8 @@ function GetPage($res='', $number)
 								<td>
 									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>
-										
-							</tr>	
+
+							</tr>
 							<tr>
 								<td>პირადი ნომერი</td>
 								<td>
@@ -419,7 +425,7 @@ function GetPage($res='', $number)
 								<td>ტელეფონი</td>
 								<td>
 									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
-								</td>		
+								</td>
 							</tr>
 							<tr>
 								<td>დაბ. თარიღი</td>
@@ -431,8 +437,8 @@ function GetPage($res='', $number)
 									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"  />
 								</td>
 							</tr>
-							
-						</tr>					
+
+						</tr>
 						</table>
 					</fieldset>
 						<fieldset style="width:665px; float:left;">
@@ -443,7 +449,7 @@ function GetPage($res='', $number)
 								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2">' . $res['client_comment'] . '</textarea>
 							</td>
 						</table>
-						</fieldset>									
+						</fieldset>
 					<fieldset style="width:665px; float:left;">
 						<legend>მისამართი</legend>
 				    	<table width="100%" class="dialog-form-table">
@@ -461,7 +467,7 @@ function GetPage($res='', $number)
 								<td>მისამართი</td>
 								<td>
 									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
-								</td>			
+								</td>
 							</tr>
 							<tr>
 								<td>ქალაქი</td>
@@ -471,8 +477,8 @@ function GetPage($res='', $number)
 								<td>ქალაქი</td>
 								<td>
 									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
-								</td>			
-							</tr>	
+								</td>
+							</tr>
 							<tr>
 								<td>საფოსტო კოდი</td>
 								<td>
@@ -481,17 +487,17 @@ function GetPage($res='', $number)
 								<td>საფოსტო კოდი</td>
 								<td>
 									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '"  />
-								</td>			
+								</td>
 							</tr>
 						</table>
-						</fieldset>					
+						</fieldset>
 					';
-												
+
 		$data  .= '
-		   
+
 				<fieldset style="margin-top: 5px;">
 			    	<legend>დავალების ფორმირება</legend>
-		
+
 			    	<table class="dialog-form-table">
 						<tr>
 							<td style="width: 180px;"><label for="d_number">დავალების ტიპი</label></td>
@@ -523,7 +529,7 @@ function GetPage($res='', $number)
 				<fieldset>
 				<legend>საჩუქრები</legend>
 				<div id="dt_example" class="inner-table">
-		        <div style="width:440px;" id="container" >        	
+		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
 		            		<button id="add_button_p">დამატება</button>
@@ -531,7 +537,7 @@ function GetPage($res='', $number)
 		                <table class="" id="examplee" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
-										
+
 		                           <th style="display:none">ID</th>
 									<th style="width:9%;">#</th>
 									<th style=" word-break:break-all;">თარიღი</th>
@@ -553,8 +559,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-									
-									
+
+
 								</tr>
 							</thead>
 		                </table>
@@ -570,14 +576,14 @@ function GetPage($res='', $number)
 				<fieldset>
 				<legend>შენაძენები</legend>
 				<div id="dt_example" class="inner-table">
-		        <div style="width:440px;" id="container" >        	
+		        <div style="width:440px;" id="container" >
 		            <div id="dynamic">
 		            	<div id="button_area">
 		            	</div>
 		                <table class="" id="examplee_1" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
-										
+
 		                           <th style="display:none">ID</th>
 									<th style="width:15%;">თარიღი</th>
 									<th style=" word-break:break-all;">საწყობი</th>
@@ -599,8 +605,8 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-									
-									
+
+
 								</tr>
 							</thead>
 		                </table>
@@ -609,7 +615,7 @@ function GetPage($res='', $number)
 		            </div>
 		        </div>
 				</fieldset>
-						<input type="hidden" id="cl_id" value="'.$res['id'].'"/>		
+						<input type="hidden" id="cl_id" value="'.$res['id'].'"/>
 			</div>
     </div>';
 
