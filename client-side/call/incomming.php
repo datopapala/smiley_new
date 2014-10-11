@@ -347,7 +347,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    
 	    });
 
-    	$(document).on("change", "#category_parent_id",function(){
+    	 $(document).on("change", "#category_parent_id",function(){
      	 	param 			= new Object();
  		 	param.act		= "sub_category";
  		 	param.cat_id   	= this.value;
