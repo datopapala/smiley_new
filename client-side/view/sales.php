@@ -7,10 +7,10 @@
 		var fName		= "add-edit-form";										//form name
 		var file_name = '';
 		var rand_file = '';
-		
-		$(document).ready(function () { 
-			     
-			GetTabs(tbName);   	
+
+		$(document).ready(function () {
+
+			GetTabs(tbName);
 			GetTable0();
 			GetButtons("add_button","add_responsible_person");
 		});
@@ -27,22 +27,22 @@
 		function GetTable0() {
             LoadTable0();
             SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-           
+
         }
-        
+
 		 function GetTable1() {
              LoadTable1();
              SetEvents("", "", "", "example1", "add-edit-form1", aJaxURL1);
          }
 
-		 function LoadTable0(){			
+		 function LoadTable0(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 13, "", 0, "", 1, "asc", "");
+			GetDataTable2("example0", aJaxURL, "get_list", 13, "", 0, "", 1, "asc", [4]);
 		}
-			
-		function LoadTable1(){			
+
+		function LoadTable1(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL1, "get_list", 13, "", 0, "", 1, "asc", "");
+			GetDataTable2("example1", aJaxURL1, "get_list", 13, "", 0, "", 1, "asc", [4]);
 		}
 
 
@@ -52,7 +52,7 @@
         });
 
         function LoadDialog(fName){
-            
+
             //alert(form);
 			switch(fName){
 				case "add-edit-form":
@@ -60,19 +60,19 @@
 						"save": {
 				            text: "შენახვა",
 				            id: "save-dialog"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
 				            click: function () {
 				            	$(this).dialog("close");
 				            }
-				        } 
-				       
+				        }
+
 				    };
 					GetDialog("add-edit-form", 1080, "auto", buttons);
 					GetDateTimes("mont_date");
-				break;	
+				break;
 				case "add-edit-form1":
 					var buttons = {
 						"cancel": {
@@ -84,7 +84,7 @@
 				        }
 				    };
 					GetDialog("add-edit-form1", 1060, "auto", buttons);
-				break;	
+				break;
 				case "add-edit-form2":
 					var buttons = {
 			        	"cancel": {
@@ -106,7 +106,7 @@
 			            text: "შენახვა",
 			            id: "save-printer",
 			            click: function () {
-			            	Change_person();			            
+			            	Change_person();
 			            }
 			        },
 					"cancel": {
@@ -119,13 +119,13 @@
 			};
 			GetDialog("add-responsible-person", 280, "auto", buttons);
 		}
-		
+
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 
 			param 			= new Object();
 			param.act			= "save_outgoing";
-			
+
 			param.id					= $("#id").val();
 			param.h_id					= $("#h_id").val();
 	    	param.call_date				= $("#call_date").val();
@@ -143,11 +143,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -160,12 +160,12 @@
 		    });
 		});
 
-		
+
 	    $(document).on("click", "#save-dialog1", function () {
-		   
+
 			param 				= new Object();
  			param.act			= "save_outgoing";
-		    	
+
  			param.id					= $("#id").val();
 			param.id1					= $("#id1").val();
 	    	param.call_date				= $("#call_date").val();
@@ -182,11 +182,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
  	    	$.ajax({
  		        url: aJaxURL1,
  			    data: param,
- 		        success: function(data) {       
+ 		        success: function(data) {
  					if(typeof(data.error) != "undefined"){
  						if(data.error != ""){
  							alert(data.error);
@@ -201,13 +201,13 @@
 	 $(document).on("keyup", "#req_time1, #req_time2", function() {
 	        var val = $(this).val();
 	        if(isNaN(val) || (val>60)){
-		        
+
 	         alert("მოცემულ ველში შეიყვანეთ მხოლოდ ციფრები");
 	             val = val.replace(/[^0-9\.]/g,'');
-	             if(val.split('.').length>2) 
+	             if(val.split('.').length>2)
 	                 val =val.replace(/\.+$/,"");
 	        }
-	        $(this).val(val); 
+	        $(this).val(val);
 	    });
 
 	    $(document).on("change", "#task_type_id",function(){
@@ -216,10 +216,15 @@
 			if(task_type == 1){
 				$("#task_department_id").val(37);
 			}
-		    
+
 	    });
-		
+
     </script>
+<style type="text/css">
+table tr td:nth-child(5),table tr th:nth-child(5){
+   text-align: right;
+  }
+</style>
 </head>
 
 <body>
@@ -231,7 +236,7 @@
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">გაყიდვები</h2>
 		            	<div id="button_area">
@@ -244,7 +249,7 @@
 									<th style="width:7%;">#</th>
 									<th style="width:15%; word-break:break-all;">თარიღი</th>
 									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
-									<th style="width:15%; word-break:break-all;">თანხა</th>
+									<th style="width:18%; word-break:break-all;">თანხა</th>
 									<th style="width:21%; word-break:break-all;">ქვე-განყოფილება</th>
 									<th style="width:19%; word-break:break-all;">საწყობი</th>
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
@@ -294,6 +299,22 @@
 									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
@@ -303,7 +324,7 @@
 		 </div>
 		<div id="tab-1">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">არქივი</h2>
 		                <table class="display" id="example1">
@@ -313,7 +334,7 @@
 									<th style="width:7%;">#</th>
 									<th style="width:15%; word-break:break-all;">თარიღი</th>
 									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
-									<th style="width:15%; word-break:break-all;">თანხა</th>
+									<th style="width:18%; word-break:break-all;">თანხა</th>
 									<th style="width:21%; word-break:break-all;">ქვე-განყოფილება</th>
 									<th style="width:19%; word-break:break-all;">საწყობი</th>
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
@@ -363,6 +384,22 @@
 									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
