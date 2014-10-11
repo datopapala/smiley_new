@@ -13,9 +13,9 @@
 		var fName		= "add-edit-form";										//form name
 		var file_name = '';
 		var rand_file = '';
-		
-		$(document).ready(function () {     
-			GetTabs(tbName);   	
+
+		$(document).ready(function () {
+			GetTabs(tbName);
 			GetTable0();
 		});
 
@@ -49,9 +49,9 @@
 		function GetTable0() {
             LoadTable0();
             SetEvents("add_button", "", "", "example0", fName, aJaxURL);
-            
+
         }
-        
+
 		 function GetTable1() {
              LoadTable1();
          }
@@ -59,14 +59,14 @@
 		 function GetTable2() {
              LoadTable2();
             SetEvents("", "", "", "example2", "add-edit-form5", aJaxURL3);
-        	GetDateTimes("gift_date");	
+        	GetDateTimes("gift_date");
          }
 
 		function GetTable3() {
 	    	LoadTable4();
 	    	SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
 	   }
-	        
+
 		function GetTable4() {
 	    	LoadTable5();
 	    	SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
@@ -76,56 +76,56 @@
 	    	LoadTable6();
 	    	SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
 	   }
-         
-		function LoadTable0(){		
+		var total=6;
+		function LoadTable0(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example0", aJaxURL, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable2("example0", aJaxURL, "get_list", 10, "", 0, "", 1, "asc", [8]);
 		}
-			
-		function LoadTable1(){		
+
+		function LoadTable1(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example1", aJaxURL2, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable2("example1", aJaxURL2, "get_list", 10, "", 0, "", 1, "asc", [8]);
 		}
-		
-		function LoadTable2(){		
+
+		function LoadTable2(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable2("example2", aJaxURL3, "get_list", 10, "", 0, "", 1, "asc", [8]);
 			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
 		}
 
-		function LoadTable4(){		
+		function LoadTable4(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable2("example4", aJaxURL4, "get_list", 10, "", 0, "", 1, "asc", [8]);
 			SetEvents("", "", "", "example4", "add-edit-form2", aJaxURL4);
-			
+
 		}
-			
-		function LoadTable5(){		
+
+		function LoadTable5(){
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example5", aJaxURL5, "get_list", 10, "", 0, "", 1, "asc", "");
+			GetDataTable2("example5", aJaxURL5, "get_list", 10, "", 0, "", 1, "asc", [8]);
 			SetEvents("", "", "", "example5", "add-edit-form3", aJaxURL5);
-			
-		}
-		
-		function LoadTable6(){		
-			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("example6", aJaxURL6, "get_list", 10, "", 0, "", 1, "asc", "");
-			SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
-			
+
 		}
 
-		function LoadTable3(){			
-			
+		function LoadTable6(){
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable2("example6", aJaxURL6, "get_list", 10, "", 0, "", 1, "asc", [8]);
+			SetEvents("", "", "", "example6", "add-edit-form4", aJaxURL6);
+
+		}
+
+		function LoadTable3(){
+
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
 			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
 			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
-			GetDateTimes("gift_date");	
+			GetDateTimes("gift_date");
 		}
-	function LoadTable3_1(){			
-			
+	function LoadTable3_1(){
+
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("examplee_", aJaxURL1_1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-			
+			GetDataTable("examplee_", aJaxURL1_1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", '');
+
 		}
 	//SeoYyy
 		$(document.body).click(function (e) {
@@ -140,32 +140,7 @@
 						"save": {
 				            text: "შენახვა",
 				            id: "save-dialog"
-				        }, 
-			        	"cancel": {
-				            text: "დახურვა",
-				            id: "cancel-dialog",
-				            click: function () {
-				            	$(this).dialog("close");
-				            }
-				        } 
-				    };
-					GetDialog("add-edit-form", 1195, "auto", buttons);
-					GetDateTimes("born_date");
-					GetButtons("add_button_p","");
-					GetDataTable("examplee", aJaxURL1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
-					SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1, "tb=1");
-					GetDateTimes("gift_date");
-					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
-					
-					
-				break;	
-				case "add-edit-form1":
-					var buttons = {
-						
-						"save": {
-				            text: "შენახვა",
-				            id: "save-dialog1"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -174,23 +149,48 @@
 				            }
 				        }
 				    };
-				    
+					GetDialog("add-edit-form", 1195, "auto", buttons);
+					GetDateTimes("born_date");
+					GetButtons("add_button_p","");
+					GetDataTable("examplee", aJaxURL1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
+					SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1, "tb=1");
+					GetDateTimes("gift_date");
+					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
+
+
+				break;
+				case "add-edit-form1":
+					var buttons = {
+
+						"save": {
+				            text: "შენახვა",
+				            id: "save-dialog1"
+				        },
+			        	"cancel": {
+				            text: "დახურვა",
+				            id: "cancel-dialog",
+				            click: function () {
+				            	$(this).dialog("close");
+				            }
+				        }
+				    };
+
 					GetDialog("add-edit-form1", 400, "auto", buttons);
-					
+
 					$( "#gift_price" ).focus();
 					GetDateTimes("gift_date");
 					GetDateTimes("gift_date1");
 					GetDateTimes("gift_date2");
 					GetDateTimes("gift_date3");
 					GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
-					
-				break;	
+
+				break;
 				case "add-edit-form2":
 					var buttons = {
 				        "save": {
 				            text: "შენახვა",
 				            id: "save-dialog2"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -204,15 +204,15 @@
 					GetDataTable("examplee1", aJaxURL1, "get_list", 10,"cl_id="+$("#v_id").val(), 0, "", 1, "asc", "");
 					SetEvents("", "", "", "examplee1", "add-edit-form1", aJaxURL1, "tb=2");
 					GetDataTable("examplee_3", aJaxURL1_1, "get_list", 10,"cl_id="+$("#v_id").val(), 0, "", 1, "asc", "");
-					
-				
+
+
 			    break;
 				case "add-edit-form3":
 					var buttons = {
 				        "save": {
 				            text: "შენახვა",
 				            id: "save-dialog2"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -226,14 +226,14 @@
 					GetDataTable("examplee2", aJaxURL1, "get_list", 10,"cl_id="+$("#P_id").val(), 0, "", 1, "asc", "");
 					SetEvents("", "", "", "examplee2", "add-edit-form1", aJaxURL1, "tb=3");
 					GetDataTable("examplee_4", aJaxURL1_1, "get_list", 10,"cl_id="+$("#P_id").val(), 0, "", 1, "asc", "");
-					
+
 				break;
 				case "add-edit-form4":
 					var buttons = {
 				        "save": {
 				            text: "შენახვა",
 				            id: "save-dialog2"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -247,15 +247,15 @@
 					GetDataTable("examplee3", aJaxURL1, "get_list", 10,"cl_id="+$("#G_id").val(), 0, "", 1, "asc", "");
 					SetEvents("", "", "", "examplee3", "add-edit-form1", aJaxURL1, "tb=4");
 					GetDataTable("examplee_5", aJaxURL1_1, "get_list", 10,"cl_id="+$("#G_id").val(), 0, "", 1, "asc", "");
-					
-				
+
+
 			    break;
 				case "add-edit-form5":
 					var buttons = {
 				        "save": {
 				            text: "შენახვა",
 				            id: "save-dialog2"
-				        }, 
+				        },
 			        	"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -269,27 +269,27 @@
 					GetDataTable("examplee4", aJaxURL1, "get_list", 10,"cl_id="+$("#l_id").val(), 0, "", 1, "asc", "");
 					SetEvents("", "", "", "examplee4", "add-edit-form1", aJaxURL1, "tb=5");
 					GetDataTable("examplee_2", aJaxURL1_1, "get_list", 10,"cl_id="+$("#l_id").val(), 0, "", 1, "asc", "");
-					
-					
+
+
 			    break;
 			}
-			
+
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
-	
+
 			if(id != '' && cat_id == 407){
 				$("#additional").removeClass('hidden');
 			}
-	
+
 			GetDateTimes("planned_end_date");
-			
+
 			$( ".calls" ).button({
 			      icons: {
 			        primary: " ui-icon-contact"
 			      }
 			});
 			$("#choose_button").button({
-	            
+
 		    });
 		}
 
@@ -299,7 +299,7 @@
 			            text: "შენახვა",
 			            id: "save-printer",
 			            click: function () {
-			            	Change_person();			            
+			            	Change_person();
 			            }
 			        },
 					"cancel": {
@@ -312,13 +312,13 @@
 			};
 			GetDialog1("add-responsible-person", 280, "auto", buttons);
 		}
-		
+
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 
 			param 			= new Object();
 			param.act			= "save_client";
-			
+
 			param.id					= $("#id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
@@ -333,7 +333,7 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.physical_postal_code	= $("#physical_postal_code").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
@@ -342,11 +342,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -362,7 +362,7 @@
 
 			param 			= new Object();
 			param.act			= "save_client";
-			
+
 			param.id					= $("#id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
@@ -377,7 +377,7 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.physical_postal_code	= $("#physical_postal_code").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
@@ -386,11 +386,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL3,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -406,7 +406,7 @@
 
 			param 			= new Object();
 			param.act			= "save_client2";
-			
+
 			param.id					= $("#id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
@@ -421,7 +421,7 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.physical_postal_code	= $("#physical_postal_code").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
@@ -430,11 +430,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL4,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -451,7 +451,7 @@
 
 			param 			= new Object();
 			param.act			= "save_client3";
-			
+
 			param.id					= $("#id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
@@ -466,7 +466,7 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.physical_postal_code	= $("#physical_postal_code").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
@@ -475,11 +475,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL5,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -495,7 +495,7 @@
 
 			param 			= new Object();
 			param.act			= "save_client4";
-			
+
 			param.id					= $("#id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
@@ -510,7 +510,7 @@
 			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
 			param.physical_address		= $("#physical_address").val();
 			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();			
+			param.physical_postal_code	= $("#physical_postal_code").val();
 			param.task_type_id			= $("#task_type_id").val();
 			param.template_id			= $("#template_id").val();
 			param.priority_id			= $("#priority_id").val();
@@ -519,11 +519,11 @@
 	    	param.rand_file				= rand_file;
 	    	param.file_name				= file_name;
 	    	param.hidden_inc			= $("#hidden_inc").val();
-	 
+
 		    $.ajax({
 		        url: aJaxURL6,
 			    data: param,
-		        success: function(data) {       
+		        success: function(data) {
 					if(typeof(data.error) != "undefined"){
 						if(data.error != ""){
 							alert(data.error);
@@ -536,10 +536,10 @@
 		    });
 		});
 	    $(document).on("click", "#save-dialog1", function () {
-		   
+
 			param 				= new Object();
  			param.act			= "save_client_gift";
-		    	
+
  			param.id1					= $("#id").val();
  			param.id_g					= $("#id_g").val();
 			param.gift_date				= $("#gift_date").val();
@@ -549,13 +549,13 @@
 			param.gift_date4			= $("#gift_date4").val();
 			param.gift_production_id	= $("#gift_production_id").val();
 	    	param.gift_price			= $("#gift_price").val();
-	    
-		
-	 
+
+
+
  	    	$.ajax({
  		        url: aJaxURL1,
  			    data: param,
- 		        success: function(data) {       
+ 		        success: function(data) {
  					if(typeof(data.error) != "undefined"){
  						if(data.error != ""){
  							alert(data.error);
@@ -567,11 +567,11 @@
  		    	}
  		   });
 		});
-	    
+
 	   $(document).on("click", "#save-dialog2", function () {
 			param 				= new Object();
  			param.act			= "save_outgoing";
-		    	
+
  			param.id					= $("#id").val();
 			param.id1					= $("#id1").val();
 	    	param.call_date				= $("#call_date").val();
@@ -585,11 +585,11 @@
 			param.phone					= $("#phone").val();
 			param.comment				= $("#comment").val();
 			param.problem_comment		= $("#problem_comment").val();
-	 
+
  	    	$.ajax({
  			        url: aJaxURL2,
  				    data: param,
- 			        success: function(data) {       
+ 			        success: function(data) {
  						if(typeof(data.error) != "undefined"){
  							if(data.error != ""){
  								alert(data.error);
@@ -621,7 +621,7 @@
     					}
     			    }
     		    });
-                
+
               //  event.preventDefault();
             }
         });
@@ -646,14 +646,14 @@
     					}
     			    }
     		    });
-                
+
                 event.preventDefault();
             }
         });
 	    $(document).on("click", "#done-dialog2", function () {
 			param 				= new Object();
  			param.act			= "done_outgoing";
-		    	
+
  			param.id					= $("#id").val();
 			param.id1					= $("#id1").val();
 	    	param.call_date				= $("#call_date").val();
@@ -667,11 +667,11 @@
 			param.phone					= $("#phone").val();
 			param.comment				= $("#comment").val();
 			param.problem_comment		= $("#problem_comment").val();
-	 
+
  	    	$.ajax({
  			        url: aJaxURL2,
  				    data: param,
- 			        success: function(data) {       
+ 			        success: function(data) {
  						if(typeof(data.error) != "undefined"){
  							if(data.error != ""){
  								alert(data.error);
@@ -684,7 +684,7 @@
  			});
  		});
 	 function SetPrivateEvents(add,check,formName){
-		$(document).on("click", "#" + add, function () {    
+		$(document).on("click", "#" + add, function () {
 	        $.ajax({
 	            url: aJaxURL,
 	            type: "POST",
@@ -705,21 +705,21 @@
 	            }
 	        });
 	    });
-		
+
 	    $(document).on("click", "#" + check, function () {
 	    	$("#" + tName + " INPUT[type='checkbox']").prop("checked", $("#" + check).is(":checked"));
-	    });	
+	    });
 	}
 
 	function Change_person(formName){
 	    var data = $(".check:checked").map(function () {
 	        return this.value;
 	    }).get();
-	    
+
 	    var letters = [];
-	    
+
 	    for (var i = 0; i < data.length; i++) {
-	    	letters.push(data[i]);        
+	    	letters.push(data[i]);
 	    }
     	param = new Object();
     	param.act	= "change_responsible_person";
@@ -727,17 +727,17 @@
 	    param.rp	= $("#responsible_person").val();
 
 	    var link	=  GetAjaxData(param);
-	    
+
 	    if(param.rp == "0"){
 		    alert("აირჩიეთ პასუხისმგებელი პირი!");
 		}else if(param.ci == "0"){
-		    alert("აირჩიეთ ავტომობილი");		
-		}else{	    
+		    alert("აირჩიეთ ავტომობილი");
+		}else{
 	        $.ajax({
 	            url: aJaxURL,
 	            type: "POST",
 	            data: link,
-	            dataType: "json", 
+	            dataType: "json",
 	            success: function (data) {
 	                if (typeof (data.error) != "undefined") {
 	                    if (data.error != "") {
@@ -749,7 +749,7 @@
 	                }
 	            }
 	        });
-		}	    		
+		}
 	}
 	$(document).on("change", "#category_parent_id",function(){
  	 	param 			= new Object();
@@ -775,18 +775,18 @@
 			$("#additional").addClass('hidden');
 		}
     });
-    
-	
+
+
 	    $(document).on("keyup", "#req_time1, #req_time2", function() {
 	        var val = $(this).val();
 	        if(isNaN(val) || (val>60)){
-		        
+
 	         alert("მოცემულ ველში შეიყვანეთ მხოლოდ ციფრები");
 	             val = val.replace(/[^0-9\.]/g,'');
-	             if(val.split('.').length>2) 
+	             if(val.split('.').length>2)
 	                 val =val.replace(/\.+$/,"");
 	        }
-	        $(this).val(val); 
+	        $(this).val(val);
 	    });
 
 	    $(document).on("change", "#task_type_id",function(){
@@ -795,10 +795,15 @@
 			if(task_type == 1){
 				$("#task_department_id").val(37);
 			}
-		    
+
 	    });
-		
+
     </script>
+ <style type="text/css">
+table tr td:nth-child(9),table tr th:nth-child(9){
+   text-align: right;
+  }
+    </style>
 </head>
 
 <body>
@@ -811,7 +816,7 @@
 		</ul>
 		<div id="tab-0">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">კლიენტები</h2>
 		                <table class="display" id="example0" style="width: 100%;">
@@ -860,9 +865,23 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>									
+									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
@@ -870,9 +889,9 @@
 		        </div>
 		    </div>
 		 </div>
-		 
-		 
-		 
+
+
+
 		<div id="tab-1">
 		<div id="subtabs" style="width: 99%; margin: 0 auto; min-height: 768px; margin-top: 25px;">
 		<ul>
@@ -882,12 +901,12 @@
 		</ul>
 		<div id="subtab-0">
 		 <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">VIP კლიენტები</h2>
 		                <table class="display" id="example4">
 		                <thead>
-		                
+
 								<tr id="datatable_header">
 									 <th>ID</th>
 									<th style="width:7%;">#</th>
@@ -932,9 +951,23 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>									
+									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
@@ -942,15 +975,15 @@
 		        </div>
 		    </div>
 		 </div>
-		 
+
 		 <div id="subtab-1">
 		 <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">VIP კლიენტები</h2>
 		                <table class="display" id="example5">
 		                <thead>
-		                
+
 								<tr id="datatable_header">
 									 <th>ID</th>
 									<th style="width:7%;">#</th>
@@ -995,9 +1028,23 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>									
+									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
@@ -1005,15 +1052,15 @@
 		        </div>
 		    </div>
 		 </div>
-		 
+
 		 <div id="subtab-2">
 		 <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">VIP კლიენტები</h2>
 		                <table class="display" id="example6">
 		                <thead>
-		                
+
 								<tr id="datatable_header">
 									 <th>ID</th>
 									<th style="width:7%;">#</th>
@@ -1058,9 +1105,23 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>									
+									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
@@ -1070,12 +1131,12 @@
 		 </div>
 		 </div>
 		  </div>
-		 
-		 
-		 
+
+
+
 		 <div id="tab-2">
 		    <div id="dt_example" class="ex_highlight_row">
-		        <div id="container" style="width: 100%;">        	
+		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">ლოიალური კლიენტები</h2>
 		                <table class="display" id="example2">
@@ -1124,9 +1185,23 @@
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
-									</th>									
+									</th>
 								</tr>
 							</thead>
+							<tfoot>
+		                        <tr>
+		                        	<th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                            <th>&nbsp;</th>
+		                        </tr>
+		                    </tfoot>
 		                </table>
 		            </div>
 		            <div class="spacer">
