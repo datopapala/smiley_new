@@ -459,8 +459,8 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"></td>
 						</tr>		
 						<tr>
-							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object">'.Getpersons($res['responsible_user_id']).'</select></td>
-							<td  style="width: 180px;"></td>
+							<td style="width: 180px;"><select id="person_id" class="idls object">'.Getpersons($res['responsible_user_id']).'</select></td>
+							<td style="width: 180px;"></td>
 							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
@@ -512,7 +512,7 @@ function GetPage($res='', $number)
       <td>
        <div class="file-uploader">
         <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
-        <button id="choose_button" class="center">აირჩიეთ ფაილი</button>
+        <button id="choose_button" class="center choose_button">აირჩიეთ ფაილი</button>
         <input id="hidden_inc" type="text" value="'. increment('action') .'" style="display: none;">
        </div>
       </td>

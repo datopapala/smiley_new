@@ -98,7 +98,7 @@
 				        }
 				       
 				    };
-					GetDialog("add-edit-form1", 1060, "auto", buttons);
+					GetDialog("add-edit-form1", 1075, "auto", buttons);
 					GetButtons("add_button_p1","");
 					GetDataTable("example4", aJaxURL2, "get_list", 6, "", 0, "", 1, "asc", "");
 					SetEvents("add_button_p1", "", "", "example4", "add-edit-form2", aJaxURL2, "action_id="+$('#action_id').val());
@@ -131,7 +131,7 @@
 			        primary: " ui-icon-contact"
 			      }
 			});
-			$("#choose_button").button({
+			$(".choose_button").button({
 	            
 		    });
 		}

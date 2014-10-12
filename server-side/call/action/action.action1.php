@@ -80,6 +80,70 @@ switch ($action) {
 		}
 
 		break;
+		case 'delete_file':
+		
+			mysql_query("DELETE FROM file WHERE id = $delete_id");
+		
+			$increm = mysql_query("	SELECT  `name`,
+					`rand_name`,
+					`id`
+					FROM 	`file`
+					WHERE   `action_id` = $edit_id
+					");
+		
+			$data1 = '';
+		
+			while($increm_row = mysql_fetch_assoc($increm))	{
+				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
+				          <td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>
+				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+ 					  </tr>';
+			}
+		
+			$data = array('page' => $data1);
+		
+			break;
+		
+		case 'up_now':
+			$user		= $_SESSION['USERID'];
+			if($rand_file != ''){
+				mysql_query("INSERT INTO 	`file`
+				( 	`user_id`,
+				`action_id`,
+				`name`,
+				`rand_name`
+				)
+				VALUES
+				(	'$user',
+				'$edit_id',
+				'$file',
+				'$rand_file'
+				);");
+				//GLOBAL $log;
+				//$log->setInsertLog('file');
+			}
+		
+				$increm = mysql_query("	SELECT  `name`,
+						`rand_name`,
+						`id`
+						FROM 	`file`
+						WHERE   `action_id` = $edit_id
+						");
+		
+				$data1 = '';
+		
+				while($increm_row = mysql_fetch_assoc($increm))	{
+				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
+				<td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>
+						<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+						<td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+						          </tr>';
+		}
+		
+		$data = array('page' => $data1);
+		
+				break;
 	
 	default:
 		$error = 'Action is Null';
@@ -209,10 +273,11 @@ function GetPage($res='', $number)
 	}
 
 	$increm = mysql_query("	SELECT  `name`,
-									`rand_name`
+									`rand_name`,
+									`id`
 							FROM 	`file`
-							WHERE   `incomming_call_id` = $res[id]
-			");
+							WHERE   `action_id` = $res[id]
+							");
 	
 	$data  .= '
 	<!-- jQuery Dialog -->
@@ -278,8 +343,8 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"></td>
 						</tr>		
 						<tr>
-							<td style="width: 180px;"><select style="width: 186px;" id="person_id" class="idls object"disabled="disabled">'.Getpersons($res['responsible_user_id']).'</select></td>
-							<td  style="width: 180px;"></td>
+							<td style="width: 180px;"><select id="person_id" class="idls object"disabled="disabled">'.Getpersons($res['responsible_user_id']).'</select></td>
+							<td style="width: 180px;"></td>
 							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
@@ -345,7 +410,40 @@ function GetPage($res='', $number)
 		        </div>
 
 				</fieldset>
-						<input type="hidden" id="action_id" value="'.$_REQUEST['id'].'"/>
+				<fieldset style="float: right;  width: 440px;">		
+					<legend>ფაილი</legend>
+					<table style="float: right; text-align: center;">
+				     <tr>
+				      <td>
+				       <div class="file-uploader">
+				        <input id="choose_file" type="file" name="choose_file" class="input" style="display: none;">
+				        <button id="choose_button" class="center choose_button">აირჩიეთ ფაილი</button>
+				        <input id="hidden_inc" type="text" value="'. increment('action') .'" style="display: none;">
+				       </div>
+				      </td>
+				     </tr>
+				    </table>
+				        <table style="float: left; border: 1px solid #85b1de; width: 310px; text-align: center; height: 22px; margin-left: 15px; margin-bottom:5px;">
+				             <tr>
+				              <td colspan="3" style="vertical-align: middle;">მიმაგრებული ფაილი</td>
+				             </tr>
+				    </table>
+				    <table id="file_div" style="float: left; border: 1px solid #85b1de; width: 310px; text-align: center; margin-left: 15px;">';
+				     
+				     while($increm_row = mysql_fetch_assoc($increm)) { 
+				      $data .=' 
+				                <tr style="border-bottom: 1px solid #85b1de;">
+				                  <td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>              
+				                  <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
+				                  <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
+				                </tr>';
+				     }
+				            
+				  $data .= '
+				    </table>		
+				  		</fieldset>		
+						<input type="hidden" id="action_id" value="'.(($res['id']!='')?$res['id']:increment('action')).'"/>
+						<input type="hidden" id="action" value="'.$res['id'].'"/>
 	  			
 			</div>
     </div>';
@@ -353,6 +451,16 @@ function GetPage($res='', $number)
 	return $data;
 }
 
+function increment($table){
+
+	$result   		= mysql_query("SHOW TABLE STATUS LIKE '$table'");
+	$row   			= mysql_fetch_array($result);
+	$increment   	= $row['Auto_increment'];
+	$next_increment = $increment+1;
+	mysql_query("ALTER TABLE '$table' AUTO_INCREMENT=$next_increment");
+
+	return $increment;
+}
 
 
 ?>
