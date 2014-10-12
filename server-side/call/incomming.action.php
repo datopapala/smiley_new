@@ -635,9 +635,9 @@ function get_addition_all_info1($pin_n)
 			</tr>
 		
 	</table>				
-	</fieldset>	';	
-			$data .=GetRecordingsSection($res);
-			$data .='
+	</fieldset>
+			
+			
 				<fieldset>
 				<legend>შენაძენები</legend>
 				<div id="dt_example" class="inner-table">
@@ -679,8 +679,9 @@ function get_addition_all_info1($pin_n)
 		            <div class="spacer">
 		            </div>
 		        </div>
-				</fieldset>
-								<!-- ID -->
+				</fieldset>';
+					$data .=GetRecordingsSection($res);
+					$data .='			<!-- ID -->
 		 		<input type="hidden" id="c_id1" value="' . $res['c_id'] . '" />	
 												';
 	//$data[c_id][]=$req[c_id];
@@ -791,15 +792,14 @@ function GetPage($res='', $number, $pin)
 										
 		$data  .= '
 				
-				<fieldset style="width:142px; float:left;height: 59px;">
+				<fieldset style="width:186px; float:left;height: 42px;">
 			    	<legend>მომართვის ავტორი</legend>
-					<table id="additional" class="dialog-form-table" width="100px">						
+					<table id="additional" class="dialog-form-table">						
 						<tr>
 							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="1" '.$requester0.' ><span style="margin-top:9px; display:block;">ფიზიკური</span></td>
-						</tr>
-						<tr>
 							<td style="width: 100px;"><input style="float:left;" type="radio" name = "5" value="2" '.$requester1.' ><span style="margin-top:9px; display:block;">იურიდიული</span></td>
 						</tr>
+						
 					</table>
 				</fieldset>
 				<fieldset style="width:142px; float:left;margin-left: 2px;">
@@ -810,16 +810,16 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:399px; float:left; margin-left: 4px;">
+				<fieldset style="width:355px; float:left; margin-left: 4px;">
 			    	<legend>ინფორმაციის კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">						
 						<tr>
-							<td style="width: 300px;"><select style="margin-left: 25px;" id="category_parent_id" class="idls object">'.   Getcategory($res['category_parent_id']).'</select></td>
+							<td style="width: 300px;"><select style="margin-left: 5px;" id="category_parent_id" class="idls object">'.   Getcategory($res['category_parent_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="category_id" class="idls object">'. Getcategory1_edit($res['category_id']).'</select></td>
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:755px; float:left;">
+				<fieldset style="width:756px; float:left;">
 			    	<legend>პროდუქტი</legend>
 					<table id="additional" class="dialog-form-table" width="230px">		
 						<tr>
@@ -842,7 +842,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:755px; float:left;">
+				<fieldset style="width:756px; float:left;">
 			    	<legend>გადამისამართება</legend>
 					<table id="additional" class="dialog-form-table" width="230px">		
 						<tr>
@@ -863,7 +863,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:557px; float:left; margin-left: 9px;">
+				<fieldset style="width:560px; float:left; margin-left: 9px;">
 			    	<legend>შინაარსი</legend>
 					<table id="additional" class="dialog-form-table" width="150px">	
 						<tr>
@@ -936,7 +936,7 @@ function GetRecordingsSection($res)
 				OR      (`dst` LIKE '%$res[incom_phone]%' && `userfield` != '' && DATE(`calldate`) = '$res[record_date]');");
 	}
 	$data .= '
-        <fieldset style="margin-top: 10px; width: 349px; float: right;">
+        <fieldset style=" width: 349px; float: right;">
             <legend>ჩანაწერები</legend>
 
             <table style="width: 65%; border: solid 1px #85b1de; margin:auto;">

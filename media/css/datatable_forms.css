@@ -18,13 +18,14 @@
 
 #dialog-form legend
 {
+	font-size: 11px !important;
 	font-weight: bold;
 	font-family: BPG arial;	
 }
 
 #dialog-form fieldset input, #inputArea textarea
 {
-    font-size: 13px;
+    font-size: 11px;
 	font-family: BPG arial;	
     display: block;
 	height: 24px;
@@ -35,7 +36,7 @@
 
 #dialog-form fieldset select
 {
-    font-size: 13px;
+    font-size: 11px;
 	font-family: BPG arial;	
     display: block;
     padding: 3px;
