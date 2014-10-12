@@ -121,7 +121,7 @@ switch ($action) {
 		
 			while($increm_row = mysql_fetch_assoc($increm))	{
 			$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				          <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
+				          <td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>
 				          <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
 						          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
  					  </tr>';
@@ -161,7 +161,7 @@ switch ($action) {
 		
 				while($increm_row = mysql_fetch_assoc($increm))	{
 				$data1 .='<tr style="border-bottom: 1px solid #85b1de;">
-				<td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>
+				<td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>
 				<td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
 				          <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
 						          </tr>';
@@ -507,7 +507,7 @@ function GetPage($res='', $number)
 				</fieldset>
 				<fieldset>		
 					<legend>ფაილი</legend>
-					<table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
+					<table style="float: right; text-align: center;">
      <tr>
       <td>
        <div class="file-uploader">
@@ -518,17 +518,17 @@ function GetPage($res='', $number)
       </td>
      </tr>
     </table>
-        <table style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">
-             <tr style="border-bottom: 1px solid #85b1de;">
-              <td colspan="3">მიმაგრებული ფაილი</td>
+        <table style="float: left; border: 1px solid #85b1de; width: 310px; text-align: center; height: 22px; margin-left: 15px; margin-bottom:5px;">
+             <tr>
+              <td colspan="3" style="vertical-align: middle;">მიმაგრებული ფაილი</td>
              </tr>
     </table>
-    <table id="file_div" style="float: right; border: 1px solid #85b1de; width: 150px; text-align: center;">';
+    <table id="file_div" style="float: left; border: 1px solid #85b1de; width: 310px; text-align: center; margin-left: 15px;">';
      
      while($increm_row = mysql_fetch_assoc($increm)) { 
       $data .=' 
                 <tr style="border-bottom: 1px solid #85b1de;">
-                  <td style="width:110px; display:block;word-wrap:break-word;">'.$increm_row[name].'</td>              
+                  <td style="width:276px; display:block;word-wrap:break-word; vertical-align: middle;">'.$increm_row[name].'</td>              
                   <td ><button type="button" value="media/uploads/file/'.$increm_row[rand_name].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none;background-image:url(\'media/images/get.png\');" id="download" ></button><input type="text" style="display:none;" id="download_name" value="'.$increm_row[rand_name].'"> </td>
                   <td ><button type="button" value="'.$increm_row[id].'" style="cursor:pointer; border:none; margin-top:25%; display:block; height:16px; width:16px; background:none; background-image:url(\'media/images/x.png\');" id="delete"></button></td>
                 </tr>';

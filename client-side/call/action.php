@@ -274,7 +274,7 @@
 					    data: {
 							act: "delete_file",
 							delete_id: delete_id,
-							edit_id: $("#id").val(),
+							edit_id: $("#action_id").val(),
 						},
 				        success: function(data) {
 					        $("#file_div").html(data.page);
