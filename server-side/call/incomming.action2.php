@@ -770,13 +770,13 @@ function GetPage($res='', $number, $pin)
 							<td style="width: 300px;"><label for="d_number">კატეგორია</label></td>
 							<td style="width: 300px;"><label style="margin-left: 15px;" for="d_number">ბრენდი</label></td>
 							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">პროდუქტი</label></td>
-							<td style="width: 250px;"><label style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
+							<td style="width: 250px;"><label class="'.($res['production_type']==1?"":"hidden").'" style="margin-left: 25px;" for="d_number">შეძენის თარიღი</label></td>
 						</tr>				
 						<tr>
 							<td style="width: 300px;"><select id="production_category_id" class="idls object">'.Get_production_category($res['production_category_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_id" class="idls object">'. Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 25px;" id="production_brand_id" class="idls object">'. Get_production($res['produqtion_id'], '', $res['edit']).'</select>
-							<td style="width: 300px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res[sale_date] . '" /></td>
+							<td style="width: 300px;"><div id="sale_date_div" class="'.($res['production_type']==1?"":"hidden").'"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idls object '.($res['production_type']==1?"":"hidden").'" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sale_date'] . '" /></div></td>
 						</tr>
 					</table>
 				</fieldset>
