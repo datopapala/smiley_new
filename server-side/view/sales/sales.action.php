@@ -56,7 +56,7 @@ switch ($action) {
 										realizations.WaybillStatus
 								FROM 	realizations
 								JOIN 	nomenclature ON nomenclature.realizations_id=realizations.id
-								WHERE realizations.WaybillRecieveDate!=''
+								WHERE realizations.WaybillRecieveDate=''
 								GROUP BY realizations.id");
 	  
 		$data = array(
