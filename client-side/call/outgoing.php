@@ -112,7 +112,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 			}
 		function GetTable0() {
 			LoadTable0();
-			SetEvents("add_button", "", "", "example0", fName, aJaxURL);
+			SetEvents("", "", "", "example0", fName, aJaxURL);
 			SetPrivateEvents("add_responsible_person", "check-all", "add-responsible-person");
 			GetButtons("add_button","add_responsible_person");
 	    }
@@ -385,8 +385,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
             //alert(form);
 			switch(fName){
 				case "add-edit-form":
-					GetDialog("add-edit-form", 1200, "auto");
+					GetDialog("add-edit-form", 1210, "auto");
 					GetDataTable("examplee_1", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
+					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhhh_id").val(), 0, "", 1, "asc", "");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -406,8 +407,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1200, "auto", buttons);
+					GetDialog("add-edit-form1", 1210, "auto", buttons);
 					GetDataTable("examplee_2", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id2").val(), 0, "", 1, "asc", "");
+					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhh_id").val(), 0, "", 1, "asc", "");
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -427,8 +429,9 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form2", 1200, "auto", buttons);
+					GetDialog("add-edit-form2", 1210, "auto", buttons);
 					GetDataTable("examplee_3", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id3").val(), 0, "", 1, "asc", "");
+					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhhhh_id").val(), 0, "", 1, "asc", "");
 			    break;
 			}
 			
@@ -669,8 +672,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		            <div id="dynamic">
 		            	<h2 align="center">გამავალი ზარები</h2>
 		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
-	        				<button id="add_responsible_person">პ. პირის აქტივაცია</button>
+		            		<button id="add_responsible_person">პ. პირის აქტივაცია</button>
 	        			</div>
 		                <table class="display" id="example0">
 		                    <thead>

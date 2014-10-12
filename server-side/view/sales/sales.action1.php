@@ -110,9 +110,9 @@ function addtask($incom_id, $template_id, $priority_id, $task_type_id, $comment)
 	
 	$user		= $_SESSION['USERID'];
 	mysql_query("INSERT  INTO `task`
-								(`user_id`,`client_id`,`template_id`,`priority_id`,`task_type_id`,`comment`,`actived`)
+								(`user_id`,`client_id`,`template_id`,`priority_id`,`task_type_id`,`comment`, `status`,`actived`)
 						VALUES
-								('$user','$incom_id','$template_id','$priority_id','$task_type_id','$comment','1')");
+								('$user','$incom_id','$template_id','$priority_id','$task_type_id','$comment','0','1')");
 	
 	
 }
@@ -200,25 +200,6 @@ function Gettask_type($task_type_id)
 	return $data;
 }
 
-
-function Get_priority($persons_id)
-{
-	$data = '';
-	$req = mysql_query("SELECT `id`, `name`
-							FROM `priority`
-							WHERE actived=1 ");
-
-	$data .= '<option value="0" selected="selected">----</option>';
-	while( $res = mysql_fetch_assoc($req)){
-		if($res['id'] == $persons_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
-		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
-		}
-	}
-
-	return $data;
-}
 function Get_sale($h_id)
 {
 
@@ -306,19 +287,19 @@ function GetPage($res='', $number)
 							<tr>
 								<td>ზედნადების #</td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"disabled="disabled"/>
 								</td>
 							</tr>
 							<tr>
 								<td>ქვე-განყოფილება</td>
 								<td>
-									<input type="text" id="Subdivision" class="idle" onblur="this.className=\'idle\'" value="' . $res['Subdivision']. '"/>
+									<input type="text" id="Subdivision" class="idle" onblur="this.className=\'idle\'" value="' . $res['Subdivision']. '"disabled="disabled"/>
 								</td>
 							</tr>
 							<tr>
 								<td>საწყობი</td>
 								<td>
-									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['CustomerName']. '"/>
+									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['CustomerName']. '"disabled="disabled"/>
 								</td>
 							</tr>	
 							<tr>
@@ -334,13 +315,13 @@ function GetPage($res='', $number)
 							<tr>
 								<td>შეძენის თარიღი</td>
 								<td>
-									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"/>
+									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"disabled="disabled"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"/>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"disabled="disabled"/>
 								</td>
 							</tr>
 							<tr>
@@ -352,7 +333,7 @@ function GetPage($res='', $number)
 							<tr>
 								<td>სტატუსი</td>
 								<td>
-									<input type="text" id="WaybillStatus" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillStatus']. '"/>
+									<input type="text" id="WaybillStatus" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillStatus']. '"disabled="disabled"/>
 								</td>
 							</tr>						
 						</table>
@@ -373,7 +354,7 @@ function GetPage($res='', $number)
 			    		<tr>
 							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
 							<td style="width: 180px;"><select id="template_id" class="idls object">'. Get_template($res['template_id']).'</select></td>
-							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Get_priority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>

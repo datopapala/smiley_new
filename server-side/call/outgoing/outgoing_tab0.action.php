@@ -285,6 +285,7 @@ function Getcategory1($category_id)
 	return $data;
 
 }
+
 function Getcategory1_edit($category_id)
 {
 
@@ -659,6 +660,7 @@ function Gettask($id)
 													incomming_call.source_id,
 													IF(task.incomming_call_id=0,realizations.`CustomerID`,cl.`CustomerID`) AS personal_pin,
 													task.responsible_user_id AS person_id,
+													task.client_id,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
 													task.priority_id AS priority_id,
@@ -668,12 +670,38 @@ function Gettask($id)
 													task.question1_comment,
 													task.question2_comment,
 													task.problem_comment AS problem_comment,
+													realizations.id AS nom_id,
+													realizations.StoreHouse,
+													realizations.Subdivision,
+													realizations.Date,
+													realizations.WaybillActivationDate,
+													realizations.instalation_date,
+													realizations.WaybillStatus,
+													realizations.CustomerID,
+													realizations.CustomerAddress,
+													realizations.CustomerName,
+													realizations.CustomerPhone,
+													CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+														AND
+														SUM(`nomenclature`.`Sum`)<7000
+														THEN 'VIP Gold'
+													 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+														AND
+														SUM(`nomenclature`.`Sum`)<10000
+														THEN 'VIP Platinium'
+													WHEN SUM(`nomenclature`.`Sum`)>10000 
+														THEN 'VIP Briliant'
+													WHEN SUM(`nomenclature`.`Sum`)<5000 
+														THEN 'ლოიალური'
+												END AS `cl_status`,
+
 													'რედაქტირება' AS `edit`
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
 											LEFT JOIN 	realizations ON task.client_id = realizations.id
 											LEFT JOIN 	realizations AS cl ON cl.id=incomming_call.client_id
+											LEFT JOIN   nomenclature ON realizations.id=nomenclature.realizations_id
 											left JOIN 	surce 		ON incomming_call.source_id=surce.id
 											WHERE 	task.id=$id
 			" ));
@@ -684,6 +712,8 @@ function Gettask($id)
 
 function GetPage($res='', $number, $pin)
 {
+	
+	
 	if($res['connect']==1){
 		$connect0="checked";
 	}else{
@@ -704,13 +734,16 @@ function GetPage($res='', $number, $pin)
 		$production_type1="checked";
 		$production_type0="";
 	}
+	
 	if ($res['incom_phone'] =='')
 	{
 $hide="style='display:none;'";
 $hide1="";
+$hide2="";
 	} else 
 	{
 $hide1="style='display:none;'";
+$hide2="display:none;";
 $hide="";		
 	}	
 $num = 0;
@@ -725,9 +758,70 @@ $num = 0;
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 777px; height: 456px">
-				<fieldset '.$hide.' >
+				<div  style="float: left; width: 778px;">	
+				<fieldset >
 			    	<legend>ძირითადი ინფორმაცია</legend>
+					<fieldset  style="width:367px; float:left; '.$hide2.'" >
+				    	<table width="100%" class="dialog-form-table">
+							<tr>
+								<td>ზედნადების #</td>
+								<td>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['nom_id']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>ქვე-განყოფილება</td>
+								<td>
+									<input type="text" id="Subdivision" class="idle" onblur="this.className=\'idle\'" value="' . $res['Subdivision']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>საწყობი</td>
+								<td>
+									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['StoreHouse']. '"disabled="disabled"/>
+								</td>
+							</tr>	
+							<tr>
+								<td></td>
+								<td>
+									
+								</td>
+							</tr>					
+						</table>
+					</fieldset>
+					<fieldset style="width:354px; float:left; margin-left: 10px; '.$hide2.'">
+				    	<table width="100%" class="dialog-form-table">
+							<tr>
+								<td>შეძენის თარიღი</td>
+								<td>
+									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>მიტანის თარიღი</td>
+								<td>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>მონტაჟის თარიღი</td>
+								<td>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['instalation_date']. '"/>
+								</td>
+							</tr>
+							<tr>
+								<td>სტატუსი</td>
+								<td>
+									<input type="text" id="WaybillStatus" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillStatus']. '"disabled="disabled"/>
+								</td>
+							</tr>						
+						</table>
+					</fieldset>						
+											';
+												
+		$data  .= '
+		   
+				<fieldset '.$hide.' >
 
 			    	<table  width="100%" class="dialog-form-table">
 						<tr>
@@ -934,17 +1028,94 @@ $num = 0;
 				</table>
 				</fieldset>
 							</div>
-			<div>
-				  </fieldset>
-			</div>
-			<div id="info_c" style="float: right;  width: 376px;">';
+			
+				</fieldset>
+			<div style=" margin-left:809px;  width: 375px;">
+				 <fieldset>
+					<legend>კონტრაგენტი</legend>
+					<table style="height: 163px;">						
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+						</tr>
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerPhone'].'</td>
+							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerID'].'</td>	
+						</tr>
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">სახელი და გვარი</td>
+							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
+						</tr>
+						<tr >
+							<td style="width: 180px;">'.$res['CustomerName'].'</td>
+							<td style="width: 180px;">'.$res['CustomerAddress'].'</td>			
+						</tr>
+						<tr>
+							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">'.$res['CustomerAddress'].'</td>
+							<td td style="width: 180px;">'.$res['status'].'</td>
+						</tr>
+					</table>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>	
+			<div style="float: left;  width: 375px;">
+				 <fieldset>
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:349px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_5" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>					
+			<div '.$hide.' id="info_c" style="float: right;  width: 376px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
 				$data .= '</div>';
 				
 			
 				
 			$data .='	
-	<input type="hidden" id="h_id" value="'.$res[id].'"/> 		
+	<input type="hidden" id="h_id" value="'.$res[id].'"/>
+	<input type="hidden" id="hhhh_id" value="'.$res[nom_id].'"/> 	 		
     </div>';
 
 	return $data;
