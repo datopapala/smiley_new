@@ -191,14 +191,14 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 		                            <th>ID</th>
 									<th style="width:7%;">#</th>
 									<th style="width:15%; word-break:break-all;">თარიღი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:25%; word-break:break-all;">კონტრაგენტი</th>
 									<th style="width:18%; word-break:break-all;">თანხა</th>
 									<th style="width:21%; word-break:break-all;">ქვე-განყოფილება</th>
 									<th style="width:19%; word-break:break-all;">საწყობი</th>
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მიტანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მონტაჟის თარიღი</th>
-									<th style="width:18%; word-break:break-all;">სტატუსი</th>
+									<th style="width:15%; word-break:break-all;">სტატუსი</th>
 								</tr>
 							</thead>
 							<thead>
@@ -207,7 +207,7 @@ table tr td:nth-child(5),table tr th:nth-child(5){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:37px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:37px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -270,16 +270,16 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:15%; word-break:break-all;">თარიღი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:25%; word-break:break-all;">კონტრაგენტი</th>
 									<th style="width:18%; word-break:break-all;">თანხა</th>
 									<th style="width:21%; word-break:break-all;">ქვე-განყოფილება</th>
 									<th style="width:19%; word-break:break-all;">საწყობი</th>
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მიტანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მონტაჟის თარიღი</th>
-									<th style="width:18%; word-break:break-all;">სტატუსი</th>
+									<th style="width:15%; word-break:break-all;">სტატუსი</th>
 								</tr>
 							</thead>
 							<thead>
@@ -288,7 +288,7 @@ table tr td:nth-child(5),table tr th:nth-child(5){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:37px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:37px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:85px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />

@@ -31,12 +31,10 @@ switch ($action) {
 			
 		$rResult = mysql_query("SELECT 	production.id,
 										production.`name`,
-										production_category.`name`,
-										brand.`name`,
+										production.`production_category`,
+										production.`brand`,
 										production.price
 								FROM 	production
-								JOIN 	brand ON brand.id=production.brand_id
-								JOIN  	production_category ON production_category.id=production.production_category_id
 								WHERE 	production.actived=1");
 
 		$data = array(

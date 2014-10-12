@@ -56,10 +56,10 @@ switch ($action) {
 	  	$rResult = mysql_query("SELECT DISTINCT `realizations`.`id`,
 												`realizations`.`id`,
 												`realizations`.`CustomerID`,
-	  											`realizations`.`Customer1CCode`,
-												`realizations`.`CustomerName`,
+	  											`realizations`.`CustomerName`,
+	  											`realizations`.`CustomerAddress`,
 												`realizations`.`CustomerPhone`,
-												`realizations`.`CustomerAddress`,
+												'',
 												COUNT(realizations.CustomerName),
 											  	SUM(`nomenclature`.`Sum`) AS jami,
 									CASE WHEN SUM(`nomenclature`.`Sum`)>=5000

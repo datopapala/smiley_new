@@ -270,7 +270,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	realizations.id,
 												realizations.CustomerName,
 												realizations.CustomerAddress,
 												realizations.CustomerPhone,
-												realizations.instalation_date,			
+												IF(realizations.instalation_date='0000-00-00 00:00:00','',realizations.instalation_date) AS instalation_date,			
 												CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
 														AND
 														SUM(`nomenclature`.`Sum`)<7000

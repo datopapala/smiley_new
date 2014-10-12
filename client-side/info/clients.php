@@ -614,10 +614,10 @@ table tr td:nth-child(9),table tr th:nth-child(9){
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
-									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:30%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:80%; word-break:break-all;">მისამართი</th>
 									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
 									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
 									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
@@ -631,7 +631,7 @@ table tr td:nth-child(9),table tr th:nth-child(9){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:40px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -700,10 +700,10 @@ table tr td:nth-child(9),table tr th:nth-child(9){
 
 								<tr id="datatable_header">
 									 <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
-									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:30%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:80%; word-break:break-all;">მისამართი</th>
 									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
 									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
 									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
@@ -717,7 +717,7 @@ table tr td:nth-child(9),table tr th:nth-child(9){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:40px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -777,10 +777,10 @@ table tr td:nth-child(9),table tr th:nth-child(9){
 
 								<tr id="datatable_header">
 									 <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
-									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:30%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:80%; word-break:break-all;">მისამართი</th>
 									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
 									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
 									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
@@ -854,10 +854,10 @@ table tr td:nth-child(9),table tr th:nth-child(9){
 
 								<tr id="datatable_header">
 									 <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
-									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
 									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:80%; word-break:break-all;">მისამართი</th>
 									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
 									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
 									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
@@ -871,7 +871,7 @@ table tr td:nth-child(9),table tr th:nth-child(9){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:40px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
@@ -934,10 +934,10 @@ table tr td:nth-child(9),table tr th:nth-child(9){
 		                    <thead>
 								<tr id="datatable_header">
 		                            <th>ID</th>
-									<th style="width:7%;">#</th>
+									<th style="width:10%;">#</th>
 									<th style="width:19%; word-break:break-all;">პირადი ნომერი</th>
-									<th style="width:19%; word-break:break-all;">იურ. სტატუსი</th>
-									<th style="width:19%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:25%; word-break:break-all;">კონტრაგენტი</th>
+									<th style="width:80%; word-break:break-all;">მისამართი</th>
 									<th style="width:21%; word-break:break-all;">ტელეფონი</th>
 									<th style="width:19%; word-break:break-all;">ელ-ფოსტა</th>
 									<th style="width:21%; word-break:break-all;">შეძენების<br>რაოდენობა</th>
@@ -951,7 +951,7 @@ table tr td:nth-child(9),table tr th:nth-child(9){
                             			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 10px"/>
                             		</th>
 									<th>
-										<input style="width:40px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+										<input style="width:40px;" type="text" name="search_overhead" value="" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />

@@ -230,7 +230,8 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	realizations.id,
 												realizations.CustomerName,
 												realizations.CustomerAddress,
 												realizations.CustomerPhone,	
-												realizations.instalation_date,
+												IF(realizations.instalation_date='0000-00-00 00:00:00','',realizations.instalation_date) AS instalation_date,
+												realizations.StoreHouse,
 												task.task_type_id,
 												task.priority_id,
 												task.template_id,
@@ -299,7 +300,7 @@ function GetPage($res='', $number)
 							<tr>
 								<td>საწყობი</td>
 								<td>
-									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['CustomerName']. '"disabled="disabled"/>
+									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['StoreHouse']. '"disabled="disabled"/>
 								</td>
 							</tr>	
 							<tr>
