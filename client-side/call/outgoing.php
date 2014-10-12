@@ -388,6 +388,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					GetDialog("add-edit-form", 1210, "auto");
 					GetDataTable("examplee_1", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
 					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhhh_id").val(), 0, "", 1, "asc", "");
+					GetDateTimes("mont_date");
 				break;	
 				case "add-edit-form1":
 					var buttons = {
@@ -410,6 +411,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					GetDialog("add-edit-form1", 1210, "auto", buttons);
 					GetDataTable("examplee_2", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id2").val(), 0, "", 1, "asc", "");
 					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhh_id").val(), 0, "", 1, "asc", "");
+					GetDateTimes("mont_date");
 				break;	
 				case "add-edit-form2":
 					var buttons = {
@@ -432,6 +434,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 					GetDialog("add-edit-form2", 1210, "auto", buttons);
 					GetDataTable("examplee_3", aJaxURL1_4, "get_list", 10,"cl_id="+$("#c_id3").val(), 0, "", 1, "asc", "");
 					GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhhhh_id").val(), 0, "", 1, "asc", "");
+					GetDateTimes("mont_date");
 			    break;
 			}
 			

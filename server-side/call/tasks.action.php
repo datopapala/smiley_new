@@ -655,34 +655,61 @@ function Gettask($id)
 													incomming_call.information_sub_category_id AS category_parent_id,
 													incomming_call.production_id AS production_brand_id,	
 													incomming_call.production_category_id AS production_category_id,
+													incomming_call.production_brand_id AS production_id,
 													incomming_call.redirect AS redirect,
 													incomming_call.reaction_id AS reaction_id,
 													incomming_call.connect AS connect,
 													incomming_call.content AS content,
 													incomming_call.production_type AS production_type,
-													incomming_call.production_brand_id AS production_id,
 													incomming_call.requester AS requester,
-													IF(task.incomming_call_id=0,realizations.`CustomerID`,cl.`CustomerID`) AS personal_pin,													
+													incomming_call.sale_date,
+													incomming_call.source_id,
+													IF(task.incomming_call_id=0,realizations.`CustomerID`,cl.`CustomerID`) AS personal_pin,
 													task.responsible_user_id AS person_id,
+													task.client_id,
 													task.task_type_id AS task_type_id,
 													task.template_id AS template_id,
 													task.priority_id AS priority_id,
-													incomming_call.sale_date,
-													incomming_call.source_id,
-													task.`status` AS `status`,
+													task.status AS status,
 													task.`comment` AS `comment1`,
+													task.question1,
+													task.question1_comment,
+													task.question2_comment,
 													task.problem_comment AS problem_comment,
+													realizations.id AS nom_id,
+													realizations.StoreHouse,
+													realizations.Subdivision,
+													realizations.Date,
+													realizations.WaybillActivationDate,
+													IF(realizations.instalation_date='0000-00-00 00:00:00','',realizations.instalation_date) AS instalation_date,
+													realizations.WaybillStatus,
+													realizations.CustomerID,
+													realizations.CustomerAddress,
+													realizations.CustomerName,
+													realizations.CustomerPhone,
+													CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
+														AND
+														SUM(`nomenclature`.`Sum`)<7000
+														THEN 'VIP Gold'
+													 WHEN SUM(`nomenclature`.`Sum`)>=7000 
+														AND
+														SUM(`nomenclature`.`Sum`)<10000
+														THEN 'VIP Platinium'
+													WHEN SUM(`nomenclature`.`Sum`)>10000 
+														THEN 'VIP Briliant'
+													WHEN SUM(`nomenclature`.`Sum`)<5000 
+														THEN 'ლოიალური'
+												END AS `cl_status`,
+
 													'რედაქტირება' AS `edit`
 													FROM 	task
 										
 											LEFT JOIN 	incomming_call 		ON incomming_call.id=task.incomming_call_id
 											LEFT JOIN 	realizations ON task.client_id = realizations.id
-											LEFT JOIN realizations AS cl ON cl.id=incomming_call.client_id
-											
-											LEFT JOIN 	nomenclature ON realizations.id=nomenclature.realizations_id
+											LEFT JOIN 	realizations AS cl ON cl.id=incomming_call.client_id
+											LEFT JOIN   nomenclature ON realizations.id=nomenclature.realizations_id
 											left JOIN 	surce 		ON incomming_call.source_id=surce.id
 											WHERE 	task.id=$id
-LIMIT 1
 			" ));
 		
 	return $res;
@@ -691,32 +718,38 @@ LIMIT 1
 
 function GetPage($res='', $number, $pin)
 {
+	
+	
 	if($res['connect']==1){
 		$connect0="checked";
 	}else{
 		$connect0="";
 	}
-		if($res['requester']==1){
-			$requester0="checked";
-			$requester1="";
-		}elseif ($res['requester']==2){
-			$requester1="checked";
-			$requester0="";
-		}
-		if($res['production_type']==1){
-			$production_type0="checked";
-			$production_type1="";
-		}elseif ($res['production_type']==2){
-			$production_type1="checked";
-			$production_type0="";
-		}
+	
+	if($res['requester']==1){
+		$requester0="checked";
+		$requester1="";
+	}elseif ($res['requester']==2){
+		$requester1="checked";
+		$requester0="";
+	}
+	if($res['production_type']==1){
+		$production_type0="checked";
+		$production_type1="";
+	}elseif ($res['production_type']==2){
+		$production_type1="checked";
+		$production_type0="";
+	}
+	
 	if ($res['incom_phone'] =='')
 	{
 $hide="style='display:none;'";
 $hide1="";
+$hide2="";
 	} else 
 	{
 $hide1="style='display:none;'";
+$hide2="display:none;";
 $hide="";		
 	}	
 $num = 0;
@@ -731,9 +764,70 @@ $num = 0;
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-			<div style="float: left; width: 797px; height: 456px">
-				<fieldset '.$hide.' >
+				<div  style="float: left; width: 778px;">	
+				<fieldset >
 			    	<legend>ძირითადი ინფორმაცია</legend>
+					<fieldset  style="width:367px; float:left; '.$hide2.'" >
+				    	<table width="100%" class="dialog-form-table">
+							<tr>
+								<td>ზედნადების #</td>
+								<td>
+									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['nom_id']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>ქვე-განყოფილება</td>
+								<td>
+									<input type="text" id="Subdivision" class="idle" onblur="this.className=\'idle\'" value="' . $res['Subdivision']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>საწყობი</td>
+								<td>
+									<input type="text" id="CustomerName" class="idle" onblur="this.className=\'idle\'" value="' . $res['StoreHouse']. '"disabled="disabled"/>
+								</td>
+							</tr>	
+							<tr>
+								<td></td>
+								<td>
+									
+								</td>
+							</tr>					
+						</table>
+					</fieldset>
+					<fieldset style="width:354px; float:left; margin-left: 10px; '.$hide2.'">
+				    	<table width="100%" class="dialog-form-table">
+							<tr>
+								<td>შეძენის თარიღი</td>
+								<td>
+									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>მიტანის თარიღი</td>
+								<td>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"disabled="disabled"/>
+								</td>
+							</tr>
+							<tr>
+								<td>მონტაჟის თარიღი</td>
+								<td>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['instalation_date']. '"/>
+								</td>
+							</tr>
+							<tr>
+								<td>სტატუსი</td>
+								<td>
+									<input type="text" id="WaybillStatus" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillStatus']. '"disabled="disabled"/>
+								</td>
+							</tr>						
+						</table>
+					</fieldset>						
+											';
+												
+		$data  .= '
+		   
+				<fieldset '.$hide.' >
 
 			    	<table  width="100%" class="dialog-form-table">
 						<tr>
@@ -761,6 +855,7 @@ $num = 0;
 								</td>
 						</tr>
 					</table>
+										
 		</fieldset>								';
 
 		$data  .= '
@@ -784,7 +879,7 @@ $num = 0;
 						</tr>
 					</table>
 				</fieldset>
-			<fieldset '.$hide.'  style="width:399px; float:left; margin-left: 4px;">
+			<fieldset '.$hide.'  style="width:399px; float:left; margin-left: 3px;">
 			    	<legend>ინფორმაციის კატეგორია</legend>
 					<table id="additional" class="dialog-form-table" width="230px">						
 						<tr>
@@ -793,7 +888,7 @@ $num = 0;
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset '.$hide.' style="width:773px; float:left;">
+				<fieldset '.$hide.' style="width:755px; float:left;">
 			    	<legend>პროდუქტი</legend>
 					<table id="additional" class="dialog-form-table" width="230px">
 						<tr>
@@ -813,11 +908,11 @@ $num = 0;
 							<td style="width: 300px;"><select id="production_category_id" class="idls object" disabled="disabled">'.Get_production_category($res['production_category_id']).'</select></td>
 							<td style="width: 300px;"><select style="margin-left: 15px;" id="production_brand_id" class="idls object" disabled="disabled">'.Get_production_brand($res['production_brand_id'], $res['edit']).'</select></td>
 							<td style="width: 250px;"><select style="margin-left: 25px;" id="production_id" class="idls object" disabled="disabled">'.Get_production($res['production_id'], '', $res['edit']).'</select></td>
-							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sale_date'] . '" disabled="disabled"/></td>
+							<td style="width: 250px;"><input style="margin-left: 25px;" type="text"  id="sale_date" class="idle" onblur="this.className=\'idle\'" onfocus="this.className=\'activeField\'" value="' . $res['sale_date'] . '"disabled="disabled" /></td>
 						</tr>
 		</table>
 				</fieldset>
-				<fieldset '.$hide.' style="width:773px; float:left;">
+				<fieldset '.$hide.' style="width:755px; float:left;">
 			    	<legend>გადამისამართება</legend>
 					<table id="additional" class="dialog-form-table" width="230px">
 						<tr>
@@ -826,11 +921,11 @@ $num = 0;
 						</tr>
 						<tr>
 							<td style="width: 250px;"><select style=" width: 450px;" id="redirect" class="idls object" disabled="disabled">'. Getobject($res['redirect']).'</select></td>
-							<td style="width: 250px;"><input name="rad" style="margin-left: 35px;" type="radio" value="1"'.$connect0.' disabled="disabled"></td>
+							<td style="width: 250px;"><input name="check_" style="margin-left: 35px;" type="checkbox" value="1"disabled="disabled"'.$connect0.'></td>
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset '.$hide.' style="width:183px; float:left;">
+				<fieldset '.$hide.' style="width:160px; float:left;">
 			    	<legend>რეაგირება</legend>
 					<table id="additional" class="dialog-form-table" width="150px">
 						<tr>
@@ -850,7 +945,7 @@ $num = 0;
 
 		$data  .= '
 		 
-				<fieldset style="margin-top: 5px; width: 773px;">
+		<fieldset style="width: 754px;">
 		<legend>დავალების ფორმირება</legend>
 
 			    	<table class="dialog-form-table">
@@ -885,25 +980,144 @@ $num = 0;
 							</td>
 						</tr>
 						<tr>
-							<td style="width: 150px;"><label '.$hide1.' for="content">პრობლემის გადაწყვეტა</label></td>
+							<td style="width: 150px;"><label for="content">პრობლემის გადაწყვეტა</label></td>
 							<td style="width: 150px;"><label for="content"></label></td>
 							<td style="width: 150px;"><label for="content"></label></td>
 						</tr>
-						<tr '.$hide1.'>
+						<tr>
 							<td colspan="6">
-								<textarea  style="width: 747px; resize: none;" id="problem_comment" class="idle" name="comment" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="problem_comment" class="idle" name="problem_comment" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
 					</fieldset>
+					<fieldset style="width: 754px;">
+			    	<legend>კვლევა</legend>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">1.</td>
+							<td style="font-weight:bold;">კმაყოფილი ხართ თუ არა ჩვენი სერვისით?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="1" '.(($res['question1']=='1')?"checked":"").'><span style="position:absolute; margin-top:9px;">კმაყოფილია</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="2" '.(($res['question1']=='2')?"checked":"").'><span style="position:absolute; margin-top:9px;">უკმაყოფილოა</span></td>
+							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="3" '.(($res['question1']=='3')?"checked":"").'><span style="position:absolute; margin-top:9px;">ნეიტრალური</span></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle">'.$res['question1_comment'].'</textarea></td>
+						</tr>
+				</table>
+				<hr>
+
+				<table class="dialog-form-table">
+			    		<tr>
+							<td style="width:30px; font-weight:bold;">2.</td>
+							<td style="font-weight:bold;">რას ურჩევდით სმაილს?</td>
+							<td></td>
+						</tr>
+				</table>
+				<table class="dialog-form-table">
+						<tr>
+							<td>კომენტარი</td>
+						</tr>
+						<tr>
+							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle">'.$res['question2_comment'].'</textarea></td>
+						</tr>
+				</table>
+				</fieldset>
 							</div>
-			<div>
-				  </fieldset>
-			</div>
-			<div id="info_c" style="float: right;  width: 375px;">';
+			
+				</fieldset>
+			<div style=" margin-left:809px;  width: 375px;">
+				 <fieldset>
+					<legend>კონტრაგენტი</legend>
+					<table style="height: 163px;">						
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">ტელეფონი</td>
+							<td style="width: 180px; color: #3C7FB1;">პირადი ნომერი</td>
+						</tr>
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerPhone'].'</td>
+							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerID'].'</td>	
+						</tr>
+						<tr>
+							<td style="width: 180px; color: #3C7FB1;">სახელი და გვარი</td>
+							<td style="width: 180px; color: #3C7FB1;">ელ-ფოსტა</td>
+						</tr>
+						<tr >
+							<td style="width: 180px;">'.$res['CustomerName'].'</td>
+							<td style="width: 180px;">'.$res['CustomerAddress'].'</td>			
+						</tr>
+						<tr>
+							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
+							<td td style="width: 180px; color: #3C7FB1;">სტატუსი</td>
+						</tr>
+						<tr>
+							<td style="width: 180px;">'.$res['CustomerAddress'].'</td>
+							<td td style="width: 180px;">'.$res['status'].'</td>
+						</tr>
+					</table>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>	
+			<div style="float: left;  width: 375px;">
+				 <fieldset>
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:349px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_5" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>					
+			<div '.$hide.' id="info_c" style="float: right;  width: 376px;">';
 				$data .= get_addition_all_info1($res['personal_pin']);
 				$data .= '</div>';
-			$data .='	
+			$data .='
+		<input type="hidden" id="hhhh_id" value="'.$res[nom_id].'"/>	
 	  		
     </div>';
 

@@ -53,6 +53,8 @@
 			/* Dialog Form Selector Name, Buttons Array */
 			GetDialog(fName, 1219, "auto", "");
 			GetDataTable("examplee_1", aJaxURL1_3, "get_list", 10,"cl_id="+$("#c_id1").val(), 0, "", 1, "asc", "");
+			GetDataTable("examplee_5", "server-side/view/sales/sales.action1_1.php", "get_list", 10,"cl_id="+$("#hhhh_id").val(), 0, "", 1, "asc", "");
+			GetDateTimes("mont_date");
 			var id = $("#incomming_id").val();
 			var cat_id = $("#category_parent_id").val();
 
