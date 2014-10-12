@@ -52,7 +52,7 @@ switch ($action) {
 										realizations.StoreHouse,
 										realizations.WaybillActivationDate,
 										realizations.WaybillRecieveDate,
-										realizations.WaybillRecieveDate,
+										realizations.instalation_date,
 										realizations.WaybillStatus
 								FROM 	realizations
 								JOIN 	nomenclature ON nomenclature.realizations_id=realizations.id
