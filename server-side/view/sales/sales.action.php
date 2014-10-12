@@ -13,12 +13,12 @@ $data		= '';
 //incomming
 $incom_id				= $_REQUEST['id'];
 
-$hh_id			= $_REQUEST['hh_id'];
+$hh_id			= $_REQUEST['h_id'];
 
 
 
 
-
+$mont_date			= $_REQUEST['mont_date'];
 $task_type_id			= $_REQUEST['task_type_id'];
 $priority_id			= $_REQUEST['priority_id'];
 $comment 	        	= $_REQUEST['comment'];
@@ -75,7 +75,8 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_incomming':
+	case 'save_sale':
+		save_sale($mont_date);
 		
 			Addtask($persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
 		
@@ -126,17 +127,14 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 	
 }
 				
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
+function Save_sale($mont_date)
 {
-
+	$hh_id			= $_REQUEST['h_id'];
 	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
-										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
-										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
+	mysql_query("UPDATE realizations
+					SET
+						realizations.instalation_date='$mont_date'
+						WHERE realizations.id=$hh_id");
 
 }
 
@@ -271,7 +269,8 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	realizations.id,
 												realizations.CustomerID,
 												realizations.CustomerName,
 												realizations.CustomerAddress,
-												realizations.CustomerPhone,		
+												realizations.CustomerPhone,
+												realizations.instalation_date,			
 												CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
 														AND
 														SUM(`nomenclature`.`Sum`)<7000
@@ -350,19 +349,19 @@ function GetPage($res='', $number)
 							<tr>
 								<td>შეძენის თარიღი</td>
 								<td>
-									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Date']. '"/>
+									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillActivationDate']. '"/>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillRecieveDate']. '"/>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['instalation_date']. '"/>
 								</td>
 							</tr>
 							<tr>

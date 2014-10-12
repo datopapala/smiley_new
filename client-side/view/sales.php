@@ -77,6 +77,13 @@
 				break;
 				case "add-edit-form1":
 					var buttons = {
+						 "save": {
+					            text: "შენახვა",
+					            id: "save-dialog1",
+					            click: function () {
+					            	Change_person();
+					            }
+					        },
 						"cancel": {
 				            text: "დახურვა",
 				            id: "cancel-dialog",
@@ -87,67 +94,29 @@
 				    };
 					GetDialog("add-edit-form1", 1084, "auto", buttons);
 					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#h_id").val(), 0, "", 1, "asc", "");
+					GetDateTimes("mont_date");
 				break;
-				case "add-edit-form2":
-					var buttons = {
-			        	"cancel": {
-				            text: "დახურვა",
-				            id: "cancel-dialog",
-				            click: function () {
-				            	$(this).dialog("close");
-				            }
-				        }
-				    };
-					GetDialog("add-edit-form2", 1060, "auto", buttons);
-			    break;
+				
 			}
 		}
 
-		function LoadDialog1(){
-			var buttons = {
-			        "save": {
-			            text: "შენახვა",
-			            id: "save-printer",
-			            click: function () {
-			            	Change_person();
-			            }
-			        },
-					"cancel": {
-			            text: "დახურვა",
-			            id: "cancel-dialog",
-			            click: function () {
-			                $(this).dialog("close");
-			            }
-			        }
-			};
-			GetDialog("add-responsible-person", 280, "auto", buttons);
-		}
-
+		
 	    // Add - Save
 	    $(document).on("click", "#save-dialog", function () {
 
 			param 			= new Object();
-			param.act			= "save_outgoing";
+			param.act			= "save_sale";
 
 			param.id					= $("#id").val();
-			param.h_id					= $("#h_id").val();
-	    	param.call_date				= $("#call_date").val();
+			param.h_id					= $("#hh_id").val();
+	    	param.mont_date				= $("#mont_date").val();
 	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
+		
 			param.task_type_id			= $("#task_type_id").val();
 	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
+			
 			param.template_id			= $("#template_id").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-
-		    $.ajax({
+	    $.ajax({
 		        url: aJaxURL,
 			    data: param,
 		        success: function(data) {
@@ -167,11 +136,11 @@
 	    $(document).on("click", "#save-dialog1", function () {
 
 			param 				= new Object();
- 			param.act			= "save_outgoing";
+ 			param.act			= "save_sale";
 
  			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
+			param.h_id					= $("#h_id").val();
+			param.mont_date				= $("#mont_date").val();
 	    	param.problem_date			= $("#problem_date").val();
 			param.persons_id			= $("#persons_id").val();
 			param.task_type_id			= $("#task_type_id").val();
@@ -201,26 +170,6 @@
  		    	}
  		   });
 		});
-	 $(document).on("keyup", "#req_time1, #req_time2", function() {
-	        var val = $(this).val();
-	        if(isNaN(val) || (val>60)){
-
-	         alert("მოცემულ ველში შეიყვანეთ მხოლოდ ციფრები");
-	             val = val.replace(/[^0-9\.]/g,'');
-	             if(val.split('.').length>2)
-	                 val =val.replace(/\.+$/,"");
-	        }
-	        $(this).val(val);
-	    });
-
-	    $(document).on("change", "#task_type_id",function(){
-		    var task_type = $("#task_type_id").val();
-
-			if(task_type == 1){
-				$("#task_department_id").val(37);
-			}
-
-	    });
 
     </script>
 <style type="text/css">
@@ -406,17 +355,9 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 </div>
 
 <!-- jQuery Dialog -->
-<div id="add-edit-form1" class="form-dialog" title="გამავალი ზარი">
+<div id="add-edit-form1" class="form-dialog" title="გაყიდვები">
 <!-- aJax -->
 </div>
 
-<!-- jQuery Dialog -->
-<div id="add-edit-form2" class="form-dialog" title="გამავალი ზარი">
-<!-- aJax -->
-</div>
-
-<div id="add-responsible-person" class="form-dialog" title="პასუხისმგებელი პირი">
-<!-- aJax -->
-</div>
 </body>
 

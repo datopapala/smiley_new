@@ -12,44 +12,17 @@ $data		= '';
 
 //incomming
 $incom_id				= $_REQUEST['id'];
-$call_date				= $_REQUEST['call_date'];
-$site_user_pin			= $_REQUEST['pin'];
-$call_type_id			= $_REQUEST['call_type_id'];
-$phone					= $_REQUEST['phone'];
-$category_id			= $_REQUEST['category_id'];
-$problem_date			= $_REQUEST['problem_date'];
-$call_content			= $_REQUEST['call_content'];
-$category_parent_id 	= $_REQUEST['category_parent_id'];
-$call_status_id			= $_REQUEST['call_status_id'];
-
-$pay_type_id			= $_REQUEST['pay_type_id'];
-$bank_id				= $_REQUEST['bank_id'];
-$card_type_id			= $_REQUEST['card_type_id'];
-$pay_aparat_id			= $_REQUEST['pay_aparat_id'];
-$object_id				= $_REQUEST['object_id'];
+$h_id					= $_REQUEST['h_id'];
+$mont_date				= $_REQUEST['mont_date'];
 
 
-// site_user
-$personal_pin			= $_REQUEST['personal_pin'];
-$personal_id			= $_REQUEST['personal_id'];
-$personal_phone			= $_REQUEST['personal_phone'];
-$mail				    = $_REQUEST['mail'];
-$name				    = $_REQUEST['name'];
-$friend_pin				= $_REQUEST['friend_pin'];
 
-//task
 $persons_id			    = $_REQUEST['persons_id'];
 $task_type_id			= $_REQUEST['task_type_id'];
 $priority_id			= $_REQUEST['priority_id'];
 $comment 	        	= $_REQUEST['comment'];
 $task_department_id 	= $_REQUEST['task_department_id'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
 
-// file
-$rand_file				= $_REQUEST['rand_file'];
-$file					= $_REQUEST['file_name'];
 
 
 switch ($action) {
@@ -106,27 +79,14 @@ switch ($action) {
 		}
 
 		break;
-	case 'save_incomming':
-		$incom_id = $_REQUEST['id'];
-		$task_type_id = $_REQUEST['task_type_id'];
-		if($incom_id == ''){
-			
-			Addincomming( $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc);
-			$incomming_call_id = mysql_insert_id();
-			if($task_type_id != 0){
-			Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
-			}
-			Addsite_user($incomming_call_id, $personal_pin, $friend_pin, $personal_id);
+	case 'save_sale':
 		
-		}else {
-			
-			Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file);
-			
+			Save_sale($mont_date);
 			Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment);
 			
 			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
 			
-		}
+		
 		break;
 	default:
 		$error = 'Action is Null';
@@ -142,31 +102,7 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming(  $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc){
-	
-	$c_date		= date('Y-m-d H:i:s');
-	$user		= $_SESSION['USERID'];
-	
-	mysql_query("INSERT INTO `incomming_call` 
-			(`user_id`, `date`, `phone`, `call_type_id`, `call_category_id`, `call_subcategory_id`, `object_id`, `pay_type_id`, `bank_id`, `bank_object_id`, `card_type_id`, `pay_aparat_id`, `problem_date`, `call_content`, `actived`)
-			 VALUES 
-			( '$user', '$c_date', '$phone', '$call_type_id', '$category_id', '$category_parent_id', '$object_id', '$pay_type_id', '$bank_id', '', '$card_type_id', '$pay_aparat_id', '$problem_date', '$call_content', '1');");
-	
-	if($rand_file != ''){
-		mysql_query("INSERT INTO 	`file`
-		( 	`user_id`,
-		`incomming_call_id`,
-		`name`,
-		`rand_name`
-		)
-		VALUES
-		(	'$user',
-		'$hidden_inc',
-		'$file',
-		'$rand_file'
-		);");
-	}
-}
+
 
 function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
 {
@@ -198,32 +134,16 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 	
 }
 
-function Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file)
-{
-	$incom_id	= $_REQUEST['id'];
-	$user		= $_SESSION['USERID'];
-	$c_date		= date('Y-m-d H:i:s');
-	mysql_query("UPDATE  `incomming_call` 
-				SET  
-						 `user_id`				='$user', 
-						 `date`					='$c_date',
-						 `phone`				='$phone', 
-						 `call_type_id`			='$call_type_id',
-						 `call_category_id`		='$category_id',
-						 `call_subcategory_id`	='$category_parent_id', 
-						 `object_id`			='$object_id',
-						 `pay_type_id`			='$pay_type_id',
-						 `bank_id`				='$bank_id',
-						`card_type_id`			='$card_type_id', 
-						 `pay_aparat_id`		='$pay_aparat_id',
-						 `problem_date`			='$problem_date',
-						`call_content`			='$call_content',
-						 `actived`				='1'
-			    WHERE     `id`					='$incom_id'
-							");
-	
+function Save_sale($mont_date)
 
-}       
+		{
+			$h_id				= $_REQUEST['h_id'];
+			$user  = $_SESSION['USERID'];
+			mysql_query("UPDATE realizations
+							SET
+								realizations.instalation_date='$mont_date'
+								WHERE realizations.id=$h_id");
+		}
 function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
 {
 
@@ -344,7 +264,8 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	realizations.id,
 												realizations.CustomerID,
 												realizations.CustomerName,
 												realizations.CustomerAddress,
-												realizations.CustomerPhone,		
+												realizations.CustomerPhone,	
+												realizations.instalation_date,	
 												CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
 														AND
 														SUM(`nomenclature`.`Sum`)<7000
@@ -424,19 +345,19 @@ function GetPage($res='', $number)
 							<tr>
 								<td>შეძენის თარიღი</td>
 								<td>
-									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Date']. '"/>
+									<input type="text" id="Date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillActivationDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillActivationDate']. '"/>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillRecieveDate']. '"/>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['instalation_date']. '"/>
 								</td>
 							</tr>
 							<tr>
