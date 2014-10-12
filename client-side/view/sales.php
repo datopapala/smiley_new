@@ -1,7 +1,8 @@
 <head>
 	<script type="text/javascript">
 		var aJaxURL		= "server-side/view/sales/sales.action.php";		//server side folder url
-		var aJaxURL1	= "server-side/view/sales/sales.action1.php";		//server side folder url
+		var aJaxURL1	= "server-side/view/sales/sales.action1.php";
+		var aJaxURL1_1	= "server-side/view/sales/sales.action1_1.php";		//server side folder url
 		var tName		= "example0";											//table name
 		var tbName		= "tabs";												//tabs name
 		var fName		= "add-edit-form";										//form name
@@ -72,6 +73,7 @@
 				    };
 					GetDialog("add-edit-form", 1080, "auto", buttons);
 					GetDateTimes("mont_date");
+					GetDataTable("examplee_2", aJaxURL1_1, "get_list", 10,"cl_id="+$("#hh_id").val(), 0, "", 1, "asc", "");
 				break;
 				case "add-edit-form1":
 					var buttons = {
@@ -83,7 +85,8 @@
 				            }
 				        }
 				    };
-					GetDialog("add-edit-form1", 1060, "auto", buttons);
+					GetDialog("add-edit-form1", 1084, "auto", buttons);
+					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#h_id").val(), 0, "", 1, "asc", "");
 				break;
 				case "add-edit-form2":
 					var buttons = {
@@ -239,9 +242,6 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 		        <div id="container" style="width: 100%;">
 		            <div id="dynamic">
 		            	<h2 align="center">გაყიდვები</h2>
-		            	<div id="button_area">
-		            		<button id="add_button">დამატება</button>
-	        			</div>
 		                <table class="display" id="example0" style="width: 100%;">
 		                    <thead>
 								<tr id="datatable_header">
@@ -255,7 +255,6 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მიტანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მონტაჟის თარიღი</th>
-									<th style="width:18%; word-break:break-all;">სხვა</th>
 									<th style="width:18%; word-break:break-all;">სტატუსი</th>
 								</tr>
 							</thead>
@@ -278,9 +277,6 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
@@ -340,7 +336,6 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 									<th style="width:21%; word-break:break-all;">გატანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მიტანის თარიღი</th>
 									<th style="width:21%; word-break:break-all;">მონტაჟის თარიღი</th>
-									<th style="width:18%; word-break:break-all;">სხვა</th>
 									<th style="width:18%; word-break:break-all;">სტატუსი</th>
 								</tr>
 							</thead>
@@ -363,9 +358,6 @@ table tr td:nth-child(5),table tr th:nth-child(5){
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_op_date" value="ფილტრი" class="search_init" />
-									</th>
-									<th>
-										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
 									</th>
 									<th>
 										<input style="width:100px;" type="text" name="search_sum_cost" value="ფილტრი" class="search_init" />
