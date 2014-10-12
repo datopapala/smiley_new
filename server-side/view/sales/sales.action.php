@@ -13,43 +13,16 @@ $data		= '';
 //incomming
 $incom_id				= $_REQUEST['id'];
 
-$site_user_pin			= $_REQUEST['pin'];
-$call_type_id			= $_REQUEST['call_type_id'];
-$phone					= $_REQUEST['phone'];
-$category_id			= $_REQUEST['category_id'];
-$problem_date			= $_REQUEST['problem_date'];
-$call_content			= $_REQUEST['call_content'];
-$category_parent_id 	= $_REQUEST['category_parent_id'];
-$call_status_id			= $_REQUEST['call_status_id'];
-
-$pay_type_id			= $_REQUEST['pay_type_id'];
-$bank_id				= $_REQUEST['bank_id'];
-$card_type_id			= $_REQUEST['card_type_id'];
-$pay_aparat_id			= $_REQUEST['pay_aparat_id'];
-$object_id				= $_REQUEST['object_id'];
+$hh_id			= $_REQUEST['hh_id'];
 
 
-// site_user
-$personal_pin			= $_REQUEST['personal_pin'];
-$personal_id			= $_REQUEST['personal_id'];
-$personal_phone			= $_REQUEST['personal_phone'];
-$mail				    = $_REQUEST['mail'];
-$name				    = $_REQUEST['name'];
-$friend_pin				= $_REQUEST['friend_pin'];
 
-//task
-$persons_id			    = $_REQUEST['persons_id'];
+
+
 $task_type_id			= $_REQUEST['task_type_id'];
 $priority_id			= $_REQUEST['priority_id'];
 $comment 	        	= $_REQUEST['comment'];
 $task_department_id 	= $_REQUEST['task_department_id'];
-$hidden_inc				= $_REQUEST['hidden_inc'];
-$edit_id				= $_REQUEST['edit_id'];
-$delete_id				= $_REQUEST['delete_id'];
-
-// file
-$rand_file				= $_REQUEST['rand_file'];
-$file					= $_REQUEST['file_name'];
 
 
 switch ($action) {
@@ -80,10 +53,10 @@ switch ($action) {
 										realizations.WaybillActivationDate,
 										realizations.WaybillRecieveDate,
 										realizations.WaybillRecieveDate,
-										realizations.WaybillNote,
 										realizations.WaybillStatus
 								FROM 	realizations
 								JOIN 	nomenclature ON nomenclature.realizations_id=realizations.id
+								WHERE realizations.WaybillRecieveDate!=''
 								GROUP BY realizations.id");
 	  
 		$data = array(
@@ -103,22 +76,10 @@ switch ($action) {
 
 		break;
 	case 'save_incomming':
-		$incom_id = $_REQUEST['id'];
-		$task_type_id = $_REQUEST['task_type_id'];
-		if($incom_id == ''){
-			
-			Addincomming( $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc);
-			$incomming_call_id = mysql_insert_id();
-			if($task_type_id != 0){
-			Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
-			}
-		}else {
-			
-			Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file);
-			
-			Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment);
-		}
-		break;
+		
+			Addtask($persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment);
+		
+	break;
 		
 	default:
 		$error = 'Action is Null';
@@ -134,17 +95,6 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addincomming(  $phone,  $call_type_id, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id, $problem_date,  $call_content,$file,$rand_file,$hidden_inc){
-	
-	$c_date		= date('Y-m-d H:i:s');
-	$user		= $_SESSION['USERID'];
-	
-	mysql_query("INSERT INTO `incomming_call` 
-			(`user_id`, `date`, `phone`, `call_type_id`, `call_category_id`, `call_subcategory_id`, `object_id`, `pay_type_id`, `bank_id`, `bank_object_id`, `card_type_id`, `pay_aparat_id`, `problem_date`, `call_content`, `actived`)
-			 VALUES 
-			( '$user', '$c_date', '$phone', '$call_type_id', '$category_id', '$category_parent_id', '$object_id', '$pay_type_id', '$bank_id', '', '$card_type_id', '$pay_aparat_id', '$problem_date', '$call_content', '1');");
-	
-}
 
 function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
 {
@@ -176,32 +126,6 @@ function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, 
 	
 }
 				
-function Saveincomming($call_type_id, $phone, $category_id, $category_parent_id, $object_id, $pay_type_id, $bank_id, $card_type_id, $pay_aparat_id,  $problem_date, $call_content,$file,$rand_file)
-{
-	$incom_id	= $_REQUEST['id'];
-	$user		= $_SESSION['USERID'];
-	$c_date		= date('Y-m-d H:i:s');
-	mysql_query("UPDATE  `incomming_call` 
-				SET  
-						 `user_id`				='$user', 
-						 `date`					='$c_date',
-						 `phone`				='$phone', 
-						 `call_type_id`			='$call_type_id',
-						 `call_category_id`		='$category_id',
-						 `call_subcategory_id`	='$category_parent_id', 
-						 `object_id`			='$object_id',
-						 `pay_type_id`			='$pay_type_id',
-						 `bank_id`				='$bank_id',
-						`card_type_id`			='$card_type_id', 
-						 `pay_aparat_id`		='$pay_aparat_id',
-						 `problem_date`			='$problem_date',
-						`call_content`			='$call_content',
-						 `actived`				='1'
-			    WHERE     `id`					='$incom_id'
-							");
-	
-
-}       
 function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
 {
 
@@ -220,7 +144,7 @@ function Getdepartment($task_department_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
-					    FROM `department`
+					    FROM `template`
 					    WHERE actived=1 ");
 	
 
@@ -343,8 +267,6 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT 	realizations.id,
 												realizations.StoreHouse,
 												realizations.WaybillActivationDate,
 												realizations.WaybillRecieveDate,
-												realizations.WaybillRecieveDate,
-												realizations.WaybillNote,
 												realizations.WaybillStatus,
 												realizations.CustomerID,
 												realizations.CustomerName,
@@ -417,9 +339,8 @@ function GetPage($res='', $number)
 								</td>
 							</tr>	
 							<tr>
-								<td>სხვა</td>
+								<td></td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
 								</td>
 							</tr>					
 						</table>
@@ -435,13 +356,13 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"/>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillActivationDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillRecieveDate']. '"/>
 								</td>
 							</tr>
 							<tr>
@@ -486,7 +407,7 @@ function GetPage($res='', $number)
 			<div>
 				  </fieldset>
 			</div>
-			<div style="float: right;  width: 355px;">
+			<div style=" margin-left:690px;  width: 375px;">
 				 <fieldset>
 					<legend>კონტრაგენტი</legend>
 					<table style="height: 163px;">						
@@ -517,21 +438,55 @@ function GetPage($res='', $number)
 					</table>
 				</fieldset>
 				<div id="additional_info">
-	  		</div>';
-		
-				$data.=	Get_sale($res['id']);
-						$data .='	
-					<table/>
-	  				<table style="float: left; width: 100%; text-align: center;">
-	  					<tr>
-	  						<td style="width: 10%;"></td>
-	  						<td style="text-align: right; width: 49%;">ჯამი</td>
-	  						<td style="width: 20%;"></td>
-	  						<td style="width: 20%;"></td>
-	  					</tr>
+	  		</div>
+			<div style="float: left;  width: 375px;">
+				 <fieldset>
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:349px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_2" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>
 	  				<table/>
 			</div>
-	  		<input type="hidden" id="h_id" value="'.$res['id'].'"/>
+	  		<input type="hidden" id="hh_id" value="'.$res['id'].'"/>
     </div>';
 
 	return $data;
