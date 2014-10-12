@@ -792,7 +792,7 @@ function GetPage($res='', $number, $pin)
 										
 		$data  .= '
 				
-				<fieldset style="width:186px; float:left;height: 42px;">
+				<fieldset style="width:186px; float:left;">
 			    	<legend>მომართვის ავტორი</legend>
 					<table id="additional" class="dialog-form-table">						
 						<tr>
@@ -855,7 +855,7 @@ function GetPage($res='', $number, $pin)
 						</tr>
 					</table>
 				</fieldset>
-				<fieldset style="width:160px; float:left;">
+				<fieldset style="width:160px; float:left; height: 54px;">
 			    	<legend>რეაგირება</legend>
 					<table id="additional" class="dialog-form-table" width="150px">	
 						<tr>
