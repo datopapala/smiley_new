@@ -84,10 +84,10 @@ switch ($action) {
 										realizations.WaybillActivationDate,
 										realizations.WaybillRecieveDate,
 										realizations.WaybillRecieveDate,
-										realizations.WaybillNote,
 										realizations.WaybillStatus
 								FROM 	realizations
 								JOIN 	nomenclature ON nomenclature.realizations_id=realizations.id
+								WHERE realizations.WaybillRecieveDate!=''
 								GROUP BY realizations.id");
 	  
 		$data = array(
@@ -325,32 +325,8 @@ function Get_sale($h_id)
 			WHERE 	nomenclature.realizations_id = $h_id
 			" );
 
-	$data.='	<fieldset>
-	<fieldset>
-					<legend>შენაძენი</legend>
-					<table style="float: left; border: 1px solid #85b1de; width: 100%; text-align: center;">
-						<tr style="border-bottom: 1px solid #85b1de;">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">#</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ნომენკლატურა</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">ფასი</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; color: #3C7FB1;">სხვა</td>
-						</tr>';
-	while( $res1 = mysql_fetch_assoc($req)){
-		$data .='
-						<tr style="border-bottom: 1px solid #85b1de; ">
-							<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['nomec_id']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['NomenclatureName']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['Sum']. '</td>
-	  						<td style="border-right: 1px solid #85b1de; padding: 3px 9px; word-break:break-all">' . $res1['']. '</td>
-						</tr>
-							';
-	};
-	$data .='
 
-
-					<table/>
-				</fieldset>
-								';
+	
 	return $data;
 }
 
@@ -364,8 +340,6 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	realizations.id,
 												realizations.StoreHouse,
 												realizations.WaybillActivationDate,
 												realizations.WaybillRecieveDate,
-												realizations.WaybillRecieveDate,
-												realizations.WaybillNote,
 												realizations.WaybillStatus,
 												realizations.CustomerID,
 												realizations.CustomerName,
@@ -438,9 +412,9 @@ function GetPage($res='', $number)
 								</td>
 							</tr>	
 							<tr>
-								<td>სხვა</td>
+								<td></td>
 								<td>
-									<input type="text" id="id" class="idle" onblur="this.className=\'idle\'" value="' . $res['id']. '"/>
+									
 								</td>
 							</tr>					
 						</table>
@@ -456,13 +430,13 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მიტანის თარიღი</td>
 								<td>
-									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillRecieveDate']. '"/>
+									<input type="text" id="WaybillRecieveDate" class="idle" onblur="this.className=\'idle\'" value="' . $res['WaybillActivationDate']. '"/>
 								</td>
 							</tr>
 							<tr>
 								<td>მონტაჟის თარიღი</td>
 								<td>
-									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['id']. '"/>
+									<input type="text" id="mont_date" class="idle" onblur="this.className=\'idle\'"  value="' . $res['WaybillRecieveDate']. '"/>
 								</td>
 							</tr>
 							<tr>
@@ -507,7 +481,7 @@ function GetPage($res='', $number)
 			<div>
 				  </fieldset>
 			</div>
-			<div style="float: right;  width: 355px;">
+			<div style=" margin-left:690px;  width: 375px;">
 				 <fieldset>
 					<legend>კონტრაგენტი</legend>
 					<table style="height: 163px;">						
@@ -538,19 +512,54 @@ function GetPage($res='', $number)
 					</table>
 				</fieldset>
 				<div id="additional_info">
-	  		</div>';
-		
-				$data.=	Get_sale($res['id']);
-						$data .='	
+	  		</div>
+			<div style="float: left;  width: 375px;">
+				 <fieldset>
+				<legend>შენაძენები</legend>
+				<div id="dt_example" class="inner-table">
+		        <div style="width:349px;" id="container" >        	
+		            <div id="dynamic">
+		            	<div id="button_area">
+		            	</div>
+		                <table class="" id="examplee_1" style="width: 100%;">
+		                    <thead>
+								<tr  id="datatable_header">
+										
+		                           <th style="display:none">ID</th>
+									<th style="width:15%;">თარიღი</th>
+									<th style=" width:15%;">საწყობი</th>
+									<th style="width:15%;">პროდუქტი</th>
+									<th style="width:15%;">თანხა</th>
+								</tr>
+							</thead>
+							<thead>
+								<tr class="search_header">
+									<th class="colum_hidden">
+                            			<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 66px"/>
+                            		</th>
+									<th>
+										<input style="width:94px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:100px;" type="text" name="search_partner" value="ფილტრი" class="search_init" />
+									</th>
+									<th>
+										<input style="width:66px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
+									</th>
+									
+									
+								</tr>
+							</thead>
+		                </table>
+		            </div>
+		            <div class="spacer">
+		            </div>
+		        </div>
+				</fieldset>
+				<div id="additional_info">
+	  		</div>
 					<table/>
-	  				<table style="float: left; width: 100%; text-align: center;">
-	  					<tr>
-	  						<td style="width: 10%;"></td>
-	  						<td style="text-align: right; width: 49%;">ჯამი</td>
-	  						<td style="width: 20%;"></td>
-	  						<td style="width: 20%;"></td>
-	  					</tr>
-	  				<table/>
+	  				
 			</div>
 	  		<input type="hidden" id="h_id" value="'.$res['id'].'"/>
     </div>';
