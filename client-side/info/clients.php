@@ -319,7 +319,7 @@
 			param 			= new Object();
 			param.act			= "save_client";
 
-			param.id					= $("#id").val();
+			param.cl_id					= $("#cl_id").val();
 	    	param.legal_status_id		= $("#legal_status_id").val();
 	    	param.client_pin			= $("#client_pin").val();
 	    	param.client_name			= $("#client_name").val();
@@ -358,183 +358,8 @@
 			    }
 		    });
 		});
-	    $(document).on("click", "#save-dialog", function () {
-
-			param 			= new Object();
-			param.act			= "save_client";
-
-			param.id					= $("#id").val();
-	    	param.legal_status_id		= $("#legal_status_id").val();
-	    	param.client_pin			= $("#client_pin").val();
-	    	param.client_name			= $("#client_name").val();
-			param.born_date				= $("#born_date").val();
-			param.client_mobile1		= $("#client_mobile1").val();
-	    	param.client_mobile2		= $("#client_mobile2").val();
-			param.client_phone			= $("#client_phone").val();
-			param.client_mail			= $("#client_mail").val();
-			param.Juristic_address		= $("#Juristic_address").val();
-			param.Juristic_city			= $("#Juristic_city").val();
-			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
-			param.physical_address		= $("#physical_address").val();
-			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();
-			param.task_type_id			= $("#task_type_id").val();
-			param.template_id			= $("#template_id").val();
-			param.priority_id			= $("#priority_id").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.client_comment		= $("#client_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-
-		    $.ajax({
-		        url: aJaxURL3,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable0();
-							CloseDialog("add-edit-form");
-						}
-					}
-			    }
-		    });
-		});
-	    $(document).on("click", "#save-dialog2", function () {
-
-			param 			= new Object();
-			param.act			= "save_client2";
-
-			param.id					= $("#id").val();
-	    	param.legal_status_id		= $("#legal_status_id").val();
-	    	param.client_pin			= $("#client_pin").val();
-	    	param.client_name			= $("#client_name").val();
-			param.born_date				= $("#born_date").val();
-			param.client_mobile1		= $("#client_mobile1").val();
-	    	param.client_mobile2		= $("#client_mobile2").val();
-			param.client_phone			= $("#client_phone").val();
-			param.client_mail			= $("#client_mail").val();
-			param.Juristic_address		= $("#Juristic_address").val();
-			param.Juristic_city			= $("#Juristic_city").val();
-			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
-			param.physical_address		= $("#physical_address").val();
-			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();
-			param.task_type_id			= $("#task_type_id").val();
-			param.template_id			= $("#template_id").val();
-			param.priority_id			= $("#priority_id").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.client_comment		= $("#client_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-
-		    $.ajax({
-		        url: aJaxURL4,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable4();
-							CloseDialog("add-edit-form2");
-						}
-					}
-			    }
-		    });
-		});
-
-	    $(document).on("click", "#save-dialog3", function () {
-
-			param 			= new Object();
-			param.act			= "save_client3";
-
-			param.id					= $("#id").val();
-	    	param.legal_status_id		= $("#legal_status_id").val();
-	    	param.client_pin			= $("#client_pin").val();
-	    	param.client_name			= $("#client_name").val();
-			param.born_date				= $("#born_date").val();
-			param.client_mobile1		= $("#client_mobile1").val();
-	    	param.client_mobile2		= $("#client_mobile2").val();
-			param.client_phone			= $("#client_phone").val();
-			param.client_mail			= $("#client_mail").val();
-			param.Juristic_address		= $("#Juristic_address").val();
-			param.Juristic_city			= $("#Juristic_city").val();
-			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
-			param.physical_address		= $("#physical_address").val();
-			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();
-			param.task_type_id			= $("#task_type_id").val();
-			param.template_id			= $("#template_id").val();
-			param.priority_id			= $("#priority_id").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.client_comment		= $("#client_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-
-		    $.ajax({
-		        url: aJaxURL5,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable5();
-							CloseDialog("add-edit-form3");
-						}
-					}
-			    }
-		    });
-		});
-	    $(document).on("click", "#save-dialog4", function () {
-
-			param 			= new Object();
-			param.act			= "save_client4";
-
-			param.id					= $("#id").val();
-	    	param.legal_status_id		= $("#legal_status_id").val();
-	    	param.client_pin			= $("#client_pin").val();
-	    	param.client_name			= $("#client_name").val();
-			param.born_date				= $("#born_date").val();
-			param.client_mobile1		= $("#client_mobile1").val();
-	    	param.client_mobile2		= $("#client_mobile2").val();
-			param.client_phone			= $("#client_phone").val();
-			param.client_mail			= $("#client_mail").val();
-			param.Juristic_address		= $("#Juristic_address").val();
-			param.Juristic_city			= $("#Juristic_city").val();
-			param.Juristic_postal_code	= $("#Juristic_postal_code").val();
-			param.physical_address		= $("#physical_address").val();
-			param.physical_city			= $("#physical_city").val();
-			param.physical_postal_code	= $("#physical_postal_code").val();
-			param.task_type_id			= $("#task_type_id").val();
-			param.template_id			= $("#template_id").val();
-			param.priority_id			= $("#priority_id").val();
-			param.problem_comment		= $("#problem_comment").val();
-			param.client_comment		= $("#client_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
-
-		    $.ajax({
-		        url: aJaxURL6,
-			    data: param,
-		        success: function(data) {
-					if(typeof(data.error) != "undefined"){
-						if(data.error != ""){
-							alert(data.error);
-						}else{
-							LoadTable6();
-							CloseDialog("add-edit-form4");
-						}
-					}
-			    }
-		    });
-		});
+	    
+	  
 	    $(document).on("click", "#save-dialog1", function () {
 
 			param 				= new Object();
@@ -567,41 +392,7 @@
  		    	}
  		   });
 		});
-
-	   $(document).on("click", "#save-dialog2", function () {
-			param 				= new Object();
- 			param.act			= "save_outgoing";
-
- 			param.id					= $("#id").val();
-			param.id1					= $("#id1").val();
-	    	param.call_date				= $("#call_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-
- 	    	$.ajax({
- 			        url: aJaxURL2,
- 				    data: param,
- 			        success: function(data) {
- 						if(typeof(data.error) != "undefined"){
- 							if(data.error != ""){
- 								alert(data.error);
- 							}else{
- 								LoadTable2();
- 								CloseDialog("add-edit-form2");
- 							}
-						}
- 				    }
- 			});
- 		});
-	    $(document).on("keydown", "#personal_pin", function(event) {
+	 $(document).on("keydown", "#personal_pin", function(event) {
             if (event.keyCode == $.ui.keyCode.ENTER) {
 
             	param 			= new Object();
