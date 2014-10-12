@@ -9,19 +9,17 @@ require_once('../../../includes/classes/core.php');
 $action 	= $_REQUEST['act'];
 $error		= '';
 $data		= '';
+$hidden_id				= $_REQUEST['hidden_id'];
 
-//incomming
 $incom_id				= $_REQUEST['id'];
 $h_id					= $_REQUEST['h_id'];
 $mont_date				= $_REQUEST['mont_date'];
-
-
-
-$persons_id			    = $_REQUEST['persons_id'];
+//task
 $task_type_id			= $_REQUEST['task_type_id'];
+$template_id			= $_REQUEST['template_id'];
 $priority_id			= $_REQUEST['priority_id'];
 $comment 	        	= $_REQUEST['comment'];
-$task_department_id 	= $_REQUEST['task_department_id'];
+
 
 
 
@@ -80,12 +78,15 @@ switch ($action) {
 
 		break;
 	case 'save_sale':
-		
-			Save_sale($mont_date);
-			Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment);
+		$hidden_id				= $_REQUEST['hidden_id'];
+		Save_sale($mont_date);
+		if ($hidden_id=='') {
 			
-			//Savesite_user($incom_id, $personal_pin, $name, $personal_phone, $mail,  $personal_id);
+			addtask($incom_id, $template_id, $priority_id, $task_type_id, $comment);
 			
+		}else {
+			Savetask($incom_id, $template_id,  $priority_id, $task_type_id, $comment);
+			}
 		
 		break;
 	default:
@@ -104,32 +105,14 @@ echo json_encode($data);
 
 
 
-function Addtask($incomming_call_id, $persons_id, $task_type_id,  $priority_id, $task_department_id,  $comment)
+function addtask($incom_id, $template_id, $priority_id, $task_type_id, $comment)
 {
 	
 	$user		= $_SESSION['USERID'];
-	mysql_query("INSERT INTO	`task` 
-									(`user_id`,
-									 `date`,
-									 `responsible_user_id`,
-									 `incomming_call_id`,
-									 `task_type_id`,
-									 `priority_id`,
-									 `department_id`,
-									 `phone`,
-									 `comment`,
-									 `problem_comment`)
+	mysql_query("INSERT  INTO `task`
+								(`user_id`,`client_id`,`template_id`,`priority_id`,`task_type_id`,`comment`,`actived`)
 						VALUES
-									('$user',
-									  NULL,
-									 '$persons_id',
-									 '$incomming_call_id',
-									 '$task_type_id',
-									 '$priority_id',
-								     '$task_department_id',
-								      NULL, 
-								     '$comment', 
-								     NULL)");
+								('$user','$incom_id','$template_id','$priority_id','$task_type_id','$comment','1')");
 	
 	
 }
@@ -144,24 +127,25 @@ function Save_sale($mont_date)
 								realizations.instalation_date='$mont_date'
 								WHERE realizations.id=$h_id");
 		}
-function Savetask($incom_id, $persons_id,  $task_type_id, $priority_id, $task_department_id, $comment)
+function Savetask($incom_id, $template_id,  $priority_id, $task_type_id, $comment)
 {
 
 	$user  = $_SESSION['USERID'];
-	mysql_query("UPDATE `task` SET  	 `user_id`='$user',
-									 	 `responsible_user_id`='$persons_id',
-									 	 `task_type_id`='$task_type_id',
-										 `priority_id`='$priority_id', 
-										 `task_department_id`='$task_department_id', 
-										 `comment`='$comment' 
-										  WHERE (`incomming_call_id`='$incom_id');");
+	mysql_query("UPDATE task
+				SET
+						`user_id`='$user',
+						`template_id`='$template_id',
+						`priority_id`='$priority_id',
+						`task_type_id`='$task_type_id',
+						`comment`='$comment'
+				WHERE `client_id`='$incom_id'");
 
 }
-function Getdepartment($task_department_id)
+function Get_template($task_department_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
-					    FROM `department`
+					    FROM `template`
 					    WHERE actived=1 ");
 	
 
@@ -217,11 +201,11 @@ function Gettask_type($task_type_id)
 }
 
 
-function Getpersons($persons_id)
+function Get_priority($persons_id)
 {
 	$data = '';
 	$req = mysql_query("SELECT `id`, `name`
-							FROM `persons`
+							FROM `priority`
 							WHERE actived=1 ");
 
 	$data .= '<option value="0" selected="selected">----</option>';
@@ -265,7 +249,11 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	realizations.id,
 												realizations.CustomerName,
 												realizations.CustomerAddress,
 												realizations.CustomerPhone,	
-												realizations.instalation_date,	
+												realizations.instalation_date,
+												task.task_type_id,
+												task.priority_id,
+												task.template_id,
+												task.`comment`,
 												CASE WHEN SUM(`nomenclature`.`Sum`)>=5000 
 														AND
 														SUM(`nomenclature`.`Sum`)<7000
@@ -281,7 +269,8 @@ $res = mysql_fetch_assoc(mysql_query("SELECT 	realizations.id,
 												END AS `status`
 								FROM 	realizations
 										JOIN nomenclature ON nomenclature.realizations_id=realizations.id
-										WHERE realizations.id = $incom_id
+										LEFT JOIN task ON task.client_id=realizations.id
+										WHERE realizations.id =$incom_id
 			" ));
 	
 	return $res;
@@ -382,9 +371,9 @@ function GetPage($res='', $number)
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;" id="task_type_change"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="task_department_id" class="idls object">'. Getdepartment($res['task_department_id']).'</select></td>
-							<td style="width: 180px;"><select id="persons_id" class="idls object">'.Getpersons($res['persons_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Gettask_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object">'. Get_template($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Get_priority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
@@ -483,6 +472,7 @@ function GetPage($res='', $number)
 	  				
 			</div>
 	  		<input type="hidden" id="h_id" value="'.$res['id'].'"/>
+	  		<input type="hidden" id="hidden_id" value="'.$res['task_type_id'].'"/>
     </div>';
 	return $data;
 }

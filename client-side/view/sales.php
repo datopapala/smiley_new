@@ -141,21 +141,15 @@
  			param.id					= $("#id").val();
 			param.h_id					= $("#h_id").val();
 			param.mont_date				= $("#mont_date").val();
-	    	param.problem_date			= $("#problem_date").val();
-			param.persons_id			= $("#persons_id").val();
-			param.task_type_id			= $("#task_type_id").val();
-	    	param.priority_id			= $("#priority_id").val();
-			param.planned_end_date		= $("#planned_end_date").val();
-			param.fact_end_date			= $("#fact_end_date").val();
-			param.call_duration			= $("#call_duration").val();
-			param.phone					= $("#phone").val();
-			param.comment				= $("#comment").val();
-			param.problem_comment		= $("#problem_comment").val();
-	    	param.rand_file				= rand_file;
-	    	param.file_name				= file_name;
-	    	param.hidden_inc			= $("#hidden_inc").val();
+			param.hidden_id				= $("#hidden_id").val();
+			
 
- 	    	$.ajax({
+			//task
+	    	param.task_type_id			= $("#task_type_id").val();
+			param.template_id			= $("#template_id").val();
+			param.priority_id			= $("#priority_id").val();
+			param.comment				= $("#comment").val();
+	    	$.ajax({
  		        url: aJaxURL1,
  			    data: param,
  		        success: function(data) {
