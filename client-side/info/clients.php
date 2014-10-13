@@ -117,7 +117,7 @@
 		function LoadTable3(){
 
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id="+$("#id").val(), 0, "", 1, "asc", "");
+			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id_g="+$("#id_g").val(), 0, "", 1, "asc", "");
 			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
 			GetDateTimes("gift_date");
 		}
@@ -151,9 +151,9 @@
 				    };
 					GetDialog("add-edit-form", 1195, "auto", buttons);
 					GetDateTimes("born_date");
-					GetButtons("add_button_p","");
-					GetDataTable("examplee", aJaxURL1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
-					SetEvents("add_button_p", "", "", "examplee", "add-edit-form1", aJaxURL1, "tb=1");
+					GetButtons("add_button_p","delete_button");
+					GetDataTable("examplee", aJaxURL1, "get_list", 5,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
+					SetEvents("add_button_p", "delete_button", "", "examplee", "add-edit-form1", aJaxURL1,"cl_id1="+$("#cl_id").val(), "tb=1");
 					GetDateTimes("gift_date");
 					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
 
@@ -324,8 +324,9 @@
 	    	param.client_pin			= $("#client_pin").val();
 	    	param.client_name			= $("#client_name").val();
 			param.born_date				= $("#born_date").val();
+			param.client_mobile			= $("#client_mobile").val();
 			param.client_mobile1		= $("#client_mobile1").val();
-	    	param.client_mobile2		= $("#client_mobile2").val();
+	    	param.client_mobile2		= $("#client_phone2").val();
 			param.client_phone			= $("#client_phone").val();
 			param.client_mail			= $("#client_mail").val();
 			param.Juristic_address		= $("#Juristic_address").val();
@@ -351,7 +352,8 @@
 						if(data.error != ""){
 							alert(data.error);
 						}else{
-							LoadTable2();
+							LoadTable0();
+							LoadTable3();
 							CloseDialog("add-edit-form");
 						}
 					}
@@ -386,7 +388,7 @@
  							alert(data.error);
  						}else{
 							LoadTable3();
- 							CloseDialog("add-edit-form1");
+							CloseDialog("add-edit-form1");
  						}
  					}
  		    	}

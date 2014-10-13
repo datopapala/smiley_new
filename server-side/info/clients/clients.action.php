@@ -15,7 +15,9 @@ $data		= '';
 
 //incomming
 $client_id				= $_REQUEST['id'];
+$cl_id					= $_REQUEST['cl_id'];
 $client_name			= $_REQUEST['client_name'];
+$client_mobile			= $_REQUEST['client_mobile'];
 $client_status			= $_REQUEST['legal_status_id'];
 $client_pin				= $_REQUEST['client_pin'];
 $born_date				= $_REQUEST['born_date'];
@@ -123,17 +125,14 @@ switch ($action) {
 		break;
 	case 'save_client':
 		$client_id				= $_REQUEST['id'];
-		if($client_id == ''){
-			Addclient(  $client_name,  $client_status, $client_pin, $client_phone, $client_mail, $born_date, $client_mobile1, $client_mobile2, $Juristic_address, $Juristic_city,  $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
-			$task_type_id = $_REQUEST['task_type_id'];
-			if($task_type_id != ''){
-			$incomming_call_id = mysql_insert_id();
-			Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id, $problem_comment);
+		if($cl_id == ''){
+			
+			
 
-			}
+			
 		}else {
-			Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code,$client_comment);
-			Savetask();
+			Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code);
+			Addtask($client_id, $template_id, $task_type_id,  $priority_id, $problem_comment);
 
 
 		}
@@ -195,30 +194,31 @@ function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id,
 
 
 
-function Saveclient($client_name, $client_status, $client_pin, $born_date, $client_mobile1, $client_mobile2, $client_phone, $client_mail, $Juristic_address, $Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code, $client_comment)
+function Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code)
 {
 
-	$client_id				= $_REQUEST['id'];
+	$cl_id				= $_REQUEST['cl_id'];
 	$user		= $_SESSION['USERID'];
+	
+	
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('client', $client_id);
-	mysql_query("	UPDATE `client` SET
-									`name`='$client_name',
-									`legal_status_id`='$client_status',
-									`code`='$client_pin',
-									`phone`='$client_phone',
-									`mail`='$client_mail',
-									`born_date`='$born_date',
-									`mobile1`='$client_mobile1',
-									`mobile2`='$client_mobile2',
-									`Juristic_address`='$Juristic_address',
-									`Juristic_city`='$Juristic_city',
-									`Juristic_postal_code`='$Juristic_postal_code',
-									`physical_address`='$physical_address',
-									`physical_city`='$physical_city',
-									`physical_postal_code`='$physical_postal_code',
-									`comment` = '$client_comment'
-					WHERE			`id`='$client_id'
+	mysql_query("	UPDATE `realizations` 
+					SET 		`user_id`='$user', 
+								`justin_adress`='$Juristic_address',
+								`CustomerID`='$client_pin',
+								`CustomerPhone`='$client_mobile',
+								`phone2`='$client_mobile1', 
+								`phone3`='$client_mobile2', 
+								`mail`='$client_mail', 
+								`sity`='$Juristic_city', 
+								`fostal_code`='$Juristic_postal_code', 
+								`fac_postal_cide`='$physical_postal_code', 
+								`fact_adress`='$physical_address', 
+								`fact_sity`='$physical_city',   
+								`born_date`='$born_date', 
+								`actived`='1' 
+					WHERE `id`='$cl_id'
 			");
 	///$log->setInsertLog('client',$client_id);
 
@@ -336,6 +336,15 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT
 												realizations.Date AS born_date,
 												realizations.CustomerAddress AS Juristic_address,
 												realizations.CustomerPhone,
+												realizations.phone2,
+												realizations.phone3,
+												realizations.justin_adress,
+												realizations.fact_adress,
+												realizations.mail,
+												realizations.sity,
+												realizations.fact_sity,
+												realizations.fac_postal_cide,
+												realizations.fostal_code,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
@@ -402,7 +411,7 @@ function GetPage($res='', $number)
 								</td>
 								<td>მობილური 1</td>
 								<td>
-									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_mobile" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
 								</td>
 
 							</tr>
@@ -413,7 +422,7 @@ function GetPage($res='', $number)
 								</td>
 								<td>მობილური 2</td>
 								<td>
-									<input type="text" id="client_mobile2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_mobile1" class="idle" onblur="this.className=\'idle\'"  value="' . $res['phone2']. '"  />
 								</td>
 
 							</tr>
@@ -424,7 +433,7 @@ function GetPage($res='', $number)
 								</td>
 								<td>ტელეფონი</td>
 								<td>
-									<input type="text" id="client_phone" class="idle" onblur="this.className=\'idle\'"  value="' . $res['CustomerPhone']. '"  />
+									<input type="text" id="client_phone2" class="idle" onblur="this.className=\'idle\'"  value="' . $res['phone3']. '"  />
 								</td>
 							</tr>
 							<tr>
@@ -434,7 +443,7 @@ function GetPage($res='', $number)
 								</td>
 								<td>ელ-ფოსტა</td>
 								<td>
-									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['client_mail']. '"  />
+									<input type="text" id="client_mail" class="idle" onblur="this.className=\'idle\'"  value="' . $res['mail']. '"  />
 								</td>
 							</tr>
 
@@ -462,31 +471,31 @@ function GetPage($res='', $number)
 							<tr>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="Juristic_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="Juristic_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['justin_adress']. '"  />
 								</td>
 								<td>მისამართი</td>
 								<td>
-									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="physical_address" class="idle" onblur="this.className=\'idle\'"  value="' . $res['fact_adress']. '"  />
 								</td>
 							</tr>
 							<tr>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="Juristic_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['sity']. '"  />
 								</td>
 								<td>ქალაქი</td>
 								<td>
-									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_address']. '"  />
+									<input type="text" id="physical_city" class="idle" onblur="this.className=\'idle\'"  value="' . $res['fact_sity']. '"  />
 								</td>
 							</tr>
 							<tr>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="Juristic_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['Juristic_postal_code']. '"  />
+									<input type="text" id="Juristic_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['fostal_code']. '"  />
 								</td>
 								<td>საფოსტო კოდი</td>
 								<td>
-									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['physical_postal_code']. '"  />
+									<input type="text" id="physical_postal_code" class="idle" onblur="this.className=\'idle\'"  value="' . $res['fac_postal_cide']. '"  />
 								</td>
 							</tr>
 						</table>
@@ -534,6 +543,9 @@ function GetPage($res='', $number)
 		            	<div id="button_area">
 		            		<button id="add_button_p">დამატება</button>
 	        			</div>
+						<div id="button_area">
+		            		<button id="delete_button">წაშლა</button>
+	        			</div>
 		                <table class="" id="examplee" style="width: 100%;">
 		                    <thead>
 								<tr  id="datatable_header">
@@ -543,6 +555,7 @@ function GetPage($res='', $number)
 									<th style=" word-break:break-all;">თარიღი</th>
 									<th style=" word-break:break-all;">პროდუქტი</th>
 									<th style=" word-break:break-all;">თანხა</th>
+									<th  class="check">#</th>
 								</tr>
 							</thead>
 							<thead>
@@ -559,7 +572,10 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-
+									 <th>
+                            		<input type="checkbox" name="check-all" id="check-all">
+                            		</th>
+										
 
 								</tr>
 							</thead>
@@ -589,6 +605,7 @@ function GetPage($res='', $number)
 									<th style=" word-break:break-all;">საწყობი</th>
 									<th style=" word-break:break-all;">პროდუქტი</th>
 									<th style=" word-break:break-all;">თანხა</th>
+								
 								</tr>
 							</thead>
 							<thead>
@@ -605,7 +622,7 @@ function GetPage($res='', $number)
 									<th>
 										<input style="width:100px;" type="text" name="search_overhead" value="ფილტრი" class="search_init" />
 									</th>
-
+									
 
 								</tr>
 							</thead>

@@ -15,6 +15,7 @@ $data		= '';
 
 //incomming
 $client_id				= $_REQUEST['cl_id'];
+$cl_id1					= $_REQUEST['cl_id1'];
 $id_g					= $_REQUEST['id_g'];
 $gift_date				= $_REQUEST['gift_date'];
 $gift_date1				= $_REQUEST['gift_date1'];
@@ -34,10 +35,10 @@ switch ($action) {
 
 		break;
 	case 'disable':
-		$incom_id				= $_REQUEST['id'];
-		mysql_query("			UPDATE `incomming_call`
+		$gf_id				= $_REQUEST['id'];
+		mysql_query("			UPDATE `clinet_gift`
 									    SET `actived`=0
-										WHERE `id`=$incom_id ");
+										WHERE `id`=$gf_id");
 		break;
 	case 'get_edit_page':
 		$page		= GetPage(Getclient_gift($client_id));
@@ -48,13 +49,18 @@ switch ($action) {
 	case 'get_list' :
 		$count = 		$_REQUEST['count'];
 		$hidden = 		$_REQUEST['hidden'];
+		$client_id_checker = '';
+		if($client_id != ''){
+			$client_id_checker = "AND clinet_gift.client_id=$client_id";
+		}else {
+			$client_id_checker = "AND clinet_gift.client_id=$id_g";
+		}
 	  	$rResult = mysql_query("SELECT 	clinet_gift.id,
 										clinet_gift.date,
-	  									production.`name`,
+	  									production_id,
 										clinet_gift.price
 								FROM    clinet_gift
-								JOIN    production ON  clinet_gift.production_id=production.id
-								WHERE	clinet_gift.actived=1 AND clinet_gift.client_id=$client_id");
+							WHERE	clinet_gift.actived=1 $client_id_checker");
 							  
 		$data = array(
 				"aaData"	=> array()
@@ -67,6 +73,9 @@ switch ($action) {
 			{
 				/* General output */
 				$row[] = $aRow[$i];
+				if($i == ($count - 1)){
+					$row[] = '<input type="checkbox" name="check_' . $aRow[$hidden] . '" class="check" value="' . $aRow[$hidden] . '" />';
+				}
 			}
 			$data['aaData'][] = $row;
 		}
@@ -93,8 +102,8 @@ switch ($action) {
 		}
 		
 	$client_gift			= $_REQUEST['id1'];
-		if($id_g == ''){			
-			Addclient_gift($client_gift, $date, $gift_production_id, $gift_price);
+		if($client_gift == ''){			
+			Addclient_gift($id_g, $date, $gift_production_id, $gift_price);
 			$incomming_call_id = mysql_insert_id();
 		}else {
 			
@@ -115,7 +124,7 @@ echo json_encode($data);
 * ******************************
 */
 
-function Addclient_gift($client_gift, $date, $gift_production_id, $gift_price){
+function Addclient_gift($cl_id1, $date, $gift_production_id, $gift_price){
 	
 	$c_date		= date('Y-m-d H:i:s');
 	$user		= $_SESSION['USERID'];
@@ -124,7 +133,7 @@ function Addclient_gift($client_gift, $date, $gift_production_id, $gift_price){
 	mysql_query("INSERT INTO `clinet_gift`
 									(`user_id`, `client_id`, `date`, `production_id`, `price`, `actived`) 
 									VALUES 
-									('$user', '$client_gift', '$date', '$gift_production_id', '$gift_price', '1');");
+									('$user', '$cl_id1', '$date', '$gift_production_id', '$gift_price', '1');");
 	//GLOBAL $log;
 	//$log->setInsertLog('clinet_gift');
 }
@@ -156,7 +165,7 @@ function Saveclient_gift($date, $gift_production_id, $gift_price)
 function Get_production($gift_production_id)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	`id`, `name`
+	$req = mysql_query("SELECT 	`name`as id, `name`
 						FROM 	`production`
 						WHERE 	actived=1");
 	
@@ -250,7 +259,7 @@ function GetPage($res='', $number)
 						</tr>						
 					</table>
 				</fieldset >
-								<input type="hidden" id="id_g" value="'.$_REQUEST['id'].'"/>	
+								<input type="hidden" id="id_g" value="'.$_REQUEST['cl_id1'].'"/>	
 			 </div>';
 
 	return $data;
