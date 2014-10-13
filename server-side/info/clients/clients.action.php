@@ -131,7 +131,7 @@ switch ($action) {
 
 			
 		}else {
-			Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code);
+			Saveclient($born_date, $client_comment, $client_name, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code);
 			Addtask($client_id, $template_id, $task_type_id,  $priority_id, $problem_comment);
 
 
@@ -194,7 +194,7 @@ function Addtask($incomming_call_id, $template_id, $task_type_id,  $priority_id,
 
 
 
-function Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code)
+function Saveclient($born_date, $client_comment, $client_name, $client_mobile1, $client_pin, $client_mobile, $Juristic_address, $client_mobile2, $client_phone, $client_mail,$Juristic_city, $Juristic_postal_code, $physical_address, $physical_city, $physical_postal_code)
 {
 
 	$cl_id				= $_REQUEST['cl_id'];
@@ -204,7 +204,8 @@ function Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $J
 	//GLOBAL $log;
 	//$log->setUpdateLogAfter('client', $client_id);
 	mysql_query("	UPDATE `realizations` 
-					SET 		`user_id`='$user', 
+					SET 		`user_id`='$user',
+								`CustomerName`='$client_name',
 								`justin_adress`='$Juristic_address',
 								`CustomerID`='$client_pin',
 								`CustomerPhone`='$client_mobile',
@@ -216,7 +217,8 @@ function Saveclient($born_date, $client_mobile1, $client_pin, $client_mobile, $J
 								`fac_postal_cide`='$physical_postal_code', 
 								`fact_adress`='$physical_address', 
 								`fact_sity`='$physical_city',   
-								`born_date`='$born_date', 
+								`born_date`='$born_date',
+								`comment` ='$client_comment',
 								`actived`='1' 
 					WHERE `id`='$cl_id'
 			");
@@ -345,6 +347,7 @@ $res = mysql_fetch_assoc(mysql_query("	SELECT
 												realizations.fact_sity,
 												realizations.fac_postal_cide,
 												realizations.fostal_code,
+												realizations.`comment`,
 												task.task_type_id AS task_type_id,
 												task.template_id AS template_id,
 												task.priority_id AS priority_id,
@@ -455,7 +458,7 @@ function GetPage($res='', $number)
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 							<td colspan="6">
-								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2">' . $res['client_comment'] . '</textarea>
+								<textarea  style="width: 627px; height: 35px; resize: none;" id="client_comment" class="idle" name="content" cols="300" rows="2">' . $res['comment'] . '</textarea>
 							</td>
 						</table>
 						</fieldset>

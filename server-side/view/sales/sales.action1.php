@@ -391,7 +391,7 @@ function GetPage($res='', $number)
 						</tr>
 						<tr >
 							<td style="width: 180px;">'.$res['CustomerName'].'</td>
-							<td style="width: 180px;">'.$res['CustomerAddress'].'</td>			
+							<td style="width: 180px;">'.$res[''].'</td>			
 						</tr>
 						<tr>
 							<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>

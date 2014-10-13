@@ -18,6 +18,7 @@ $data		= '';
 
 //task
 $id		    		= $_REQUEST['id'];
+$mont_date			= $_REQUEST['mont_date'];
 $person_id			= $_REQUEST['person_id'];
 $problem_comment	= $_REQUEST['problem_comment'];
 $comment 	     	= $_REQUEST['comment1'];
@@ -116,6 +117,7 @@ switch ($action) {
 			//Addsite_user($task_id, $personal_pin, $name, $personal_phone, $mail, $personal_id);
 			//}
 		}else {
+			Save_sale($mont_date);
 			
 			savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $comment, $problem_comment, $task_status, $question1, $question1_comment, $question2_comment);	
 		}
@@ -222,7 +224,16 @@ function savetask($id,$person_id, $template_id, $task_type_id, $priority_id,  $c
 	
 
 }
+function Save_sale($mont_date)
 
+{
+	$h_id				= $_REQUEST['h_id'];
+	$user  = $_SESSION['USERID'];
+	mysql_query("UPDATE realizations
+	SET
+	realizations.instalation_date='$mont_date'
+	WHERE realizations.id=$h_id");
+}
 
 function Getobject($object_id)
 {

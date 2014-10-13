@@ -148,7 +148,7 @@ if(isset($_SESSION['QSTATS']['hideloggedoff'])) {
 		    	param.template_id			= $("#template_id").val();
 		    	param.task_type_id			= $("#task_type_id").val();
 		    	param.task_date				= $("#task_date").val();
-		    	
+		    	param.mont_date				= $("#mont_date").val();
 		    	param.question1				= $("input[name='question1']:checked").val();
 		    	param.question1_comment		= $("#question1_comment").val();
 		    	param.question2_comment		= $("#question2_comment").val();
