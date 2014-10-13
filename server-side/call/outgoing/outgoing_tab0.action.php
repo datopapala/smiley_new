@@ -70,18 +70,16 @@ switch ($action) {
 			$filter = 'AND task.responsible_user_id ='. $res_row[person_id];
 		}
 		mysql_query("SET @i = 0;");
-  		$rResult = mysql_query("SELECT		`task`.id,
-											@i := @i + 1 AS `iterator`,
-  											users.username,
-											`user1`.`name` ,
-											`person2`.`name` ,
-									if(task.incomming_call_id=0, task.`date`, incomming_call.`date`) AS datee
-							FROM 			`task`
-							JOIN users ON users.id = task.user_id
-							LEFT JOIN 	incomming_call ON task.incomming_call_id=incomming_call.id
-							left JOIN 		persons AS `user1`			ON task.responsible_user_id=user1.id
-							JOIN 		users AS `user2`			ON task.user_id=user2.id
-							JOIN 		persons AS `person2`		ON user2.person_id=person2.id
+  		$rResult = mysql_query("SELECT	`task`.id,
+										@i := @i + 1 AS `iterator`,
+  										task_type.`name`,
+										template.`name`,
+										priority.`name`,
+										task.`comment`
+							FROM 		`task`
+							JOIN		task_type ON task.task_type_id = task_type.id
+							JOIN		template ON task.template_id = template.id
+							JOIN		priority ON task.priority_id = priority.id
 							WHERE 		task.actived=1 and task.task_type_id= 1 AND task.`status`=0 $filter
 									
 	  			");
