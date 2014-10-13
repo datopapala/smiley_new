@@ -99,7 +99,7 @@ function Addproduction($name, $production_category_id,$production_brand_id,$pric
 {
 	$user_id	= $_SESSION['USERID'];
 	mysql_query("INSERT INTO `production` 
-									(`user_id`, `name`, `production_category_id`, `brand_id`, `price`, `actived`)
+									(`user_id`, `name`, `production_category`, `brand`, `price`, `actived`)
 										VALUES 
 									( '$user_id', '$name', '$production_category_id', '$production_brand_id', '$price', '1');
 										");
@@ -115,8 +115,8 @@ function Saveproduction($id,$name, $production_category_id, $production_brand_id
 	mysql_query("UPDATE `production` 
 				SET 	`user_id`='$user_id', 
 						`name`='$name', 
-						`production_category_id`='$production_category_id', 
-						`brand_id`='$production_brand_id', 
+						`production_category`='$production_category_id', 
+						`brand`='$production_brand_id', 
 						`price`='$price' 
 				WHERE 	(`id`='$id');");
 	//$log->setInsertLog('pay_type',$paytype_id);
@@ -145,18 +145,18 @@ function Checkproduction_Exist($name)
 function Get_production_category($production_category_id)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	production_category.id,
-								production_category.`name`
-						FROM    production_category
-						WHERE   actived = 1 ");
+	$req = mysql_query("SELECT DISTINCT production.production_category as id,
+										roduction.production_category
+						FROM    		production
+						WHERE   		actived = 1 ");
 
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $production_category_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['production_category'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['production_category'] . '</option>';
 		}
 	}
 
@@ -166,18 +166,18 @@ function Get_production_category($production_category_id)
 function Get_production_brand($production_brand_id)
 {
 	$data = '';
-	$req = mysql_query("SELECT 	brand.id,
-								brand.`name`
-						FROM    brand
-						WHERE   actived = 1 ");
+	$req = mysql_query("SELECT DISTINCT	production.brand as id,
+										production.brand
+						FROM    		production
+						WHERE   		actived = 1 ");
 
 
 	$data .= '<option value="0" selected="selected">----</option>';
 	while( $res = mysql_fetch_assoc($req)){
 		if($res['id'] == $production_brand_id){
-			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '" selected="selected">' . $res['brand'] . '</option>';
 		} else {
-			$data .= '<option value="' . $res['id'] . '">' . $res['name'] . '</option>';
+			$data .= '<option value="' . $res['id'] . '">' . $res['brand'] . '</option>';
 		}
 	}
 
@@ -187,12 +187,12 @@ function Get_production($id)
 {
 	$res = mysql_fetch_assoc(mysql_query("SELECT 	production.id,
 													production.`name`,
-													production.production_category_id,
-													production.price,
-													production.brand_id
+													production.`production_category`,
+													production.brand,
+													production.price
 											FROM 	production
-											WHERE 	id=$id
-					" ));
+											WHERE 	id=5=$id
+							" ));
 		
 	return $res;
 }
@@ -215,12 +215,12 @@ function GetPage($res = '')
 								
 				<tr>
 					<td style="width: 170px;"><label for="CallType">კატეგორია</label></td>
-					<td style="width: 170px;"><select id="production_category_id" class="idle address">'. Get_production_category($res['production_category_id']).'</select></td>
+					<td style="width: 170px;"><select id="production_category_id" class="idle address">'. Get_production_category($res['production_category']).'</select></td>
 				</tr>
 							
 				<tr>
 					<td style="width: 170px;"><label for="CallType">ბრენდი</label></td>
-					<td style="width: 170px;"><select  id="production_brand_id" class="idle address">'. Get_production_brand($res['brand_id']).'</select></td>
+					<td style="width: 170px;"><select  id="production_brand_id" class="idle address">'. Get_production_brand($res['brand']).'</select></td>
 				</tr>
 							
 				<tr>

@@ -16,7 +16,7 @@
 		function LoadTable(){
 			
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable(tName, aJaxURL, "get_list", 5, "", 0, "", 1, "desc");
+			GetDataTable(tName, aJaxURL, "get_list", 5, "", 0, "", 1, "asc");
     		
 		}
 		
