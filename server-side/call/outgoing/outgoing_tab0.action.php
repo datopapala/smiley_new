@@ -583,7 +583,7 @@ function get_addition_all_info1($pin_n)
 			</tr>
 			<tr >
 				<td style="width: 180px;">'.$res['client_name'].'</td>
-				<td style="width: 180px;">'.$res['CustomerAddress'].'</td>
+				<td style="width: 180px;">'.$res[''].'</td>
 			</tr>
 			<tr>
 				<td td style="width: 180px; color: #3C7FB1;">მისამართი</td>
