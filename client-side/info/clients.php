@@ -117,10 +117,18 @@
 		function LoadTable3(){
 
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
-			GetDataTable("examplee", aJaxURL1, "get_list", 10,"id_g="+$("#id_g").val(), 0, "", 1, "asc", "");
+			GetDataTable("examplee", aJaxURL1, "get_list", 5,"id_g="+$("#id_g").val(), 0, "", 1, "asc", "");
 			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
 			GetDateTimes("gift_date");
 		}
+		
+		function LoadTable(){
+			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
+			GetDataTable("examplee", aJaxURL1, "get_list", 5,"id_g="+$("#cl_id").val(), 0, "", 1, "asc", "");
+			SetEvents("", "", "", "examplee", "add-edit-form1", aJaxURL1);
+			GetDateTimes("gift_date");
+		}
+		
 	function LoadTable3_1(){
 
 			/* Table ID, aJaxURL, Action, Colum Number, Custom Request, Hidden Colum, Menu Array */
@@ -153,7 +161,7 @@
 					GetDateTimes("born_date");
 					GetButtons("add_button_p","delete_button");
 					GetDataTable("examplee", aJaxURL1, "get_list", 5,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
-					SetEvents("add_button_p", "delete_button", "", "examplee", "add-edit-form1", aJaxURL1,"cl_id1="+$("#cl_id").val(), "tb=1");
+					SetEvents("add_button_p", "delete_button", "", "examplee", "add-edit-form1", aJaxURL1,"cl_id1="+$("#cl_id").val()+"&tb=1");
 					GetDateTimes("gift_date");
 					GetDataTable("examplee_1", aJaxURL1_1, "get_list", 10,"cl_id="+$("#cl_id").val(), 0, "", 1, "asc", "");
 
