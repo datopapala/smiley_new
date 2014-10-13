@@ -1258,7 +1258,6 @@ function GetDialog(fname, width, height, buttons) {
         resizable: false,
         width: width,
         height: height,
-        modal: true,
         stack: false,
         dialogClass: fname + "-class",
         buttons: defoult
