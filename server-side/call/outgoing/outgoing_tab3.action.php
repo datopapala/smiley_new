@@ -720,16 +720,19 @@ function GetPage($res='', $number, $pin)
 		$production_type1="checked";
 		$production_type0="";
 	}
+	if($res['WaybillActivationDate'] == ''){
+		$hide2='display:none;';
+	}else{
+		$hide2='';
+	}
 	
 	if ($res['incom_phone'] =='')
 	{
 $hide="style='display:none;'";
 $hide1="";
-$hide2="";
 	} else 
 	{
 $hide1="style='display:none;'";
-$hide2="display:none;";
 $hide="";		
 	}	
 $num = 0;
@@ -746,7 +749,7 @@ $num = 0;
 	<div id="dialog-form">
 				<div  style="float: left; width: 778px;">	
 				<fieldset >
-			    	<legend>ძირითადი ინფორმაცია</legend>
+			    	<legend style="'.$hide2.'">ძირითადი ინფორმაცია</legend>
 					<fieldset  style="width:367px; float:left; '.$hide2.'" >
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
@@ -935,9 +938,9 @@ $num = 0;
 							<td style="width: 180px;"><label for="d_number">პრიორიტეტი</label></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;"><select id="task_type_id" class="idls object">'.Get_task_type($res['task_type_id']).'</select></td>
-							<td style="width: 180px;"><select id="template_id" class="idls object">'. Get_template($res['template_id']).'</select></td>
-							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
+							<td style="width: 180px;"><select id="task_type_id" class="idls object" disabled>'.Get_task_type($res['task_type_id']).'</select></td>
+							<td style="width: 180px;"><select id="template_id" class="idls object" disabled>'. Get_template($res['template_id']).'</select></td>
+							<td style="width: 180px;"><select id="priority_id" class="idls object" disabled>'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
 						<tr>
 							<td style="width: 180px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
@@ -945,8 +948,8 @@ $num = 0;
 							<td style="width: 180px;"></td>
 						</tr>
 			    		<tr>
-							<td style="width: 180px;"><select style="width: 164px;" id="person_id" class="idls object">'.Getpersons($res['person_id']).'</select></td>
-							<td '.$hide1.' style="width: 180px;"><select style="width: 166px;" id="status" class="idls object">'.Getstatus($res['status']).'</select></td>
+							<td style="width: 180px;"><select style="width: 164px;" id="person_id" class="idls object" disabled>'.Getpersons($res['person_id']).'</select></td>
+							<td '.$hide1.' style="width: 180px;"><select style="width: 166px;" id="status" class="idls object" disabled>'.Getstatus($res['status']).'</select></td>
 							<td style="width: 180px;"></td>
 						</tr>
 						<tr>
@@ -956,7 +959,7 @@ $num = 0;
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 747px; resize: none;" id="comment1" class="idle" name="comment1" cols="300" rows="2">' . $res['comment1'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="comment1" class="idle" name="comment1" cols="300" rows="2" disabled>' . $res['comment1'] . '</textarea>
 							</td>
 						</tr>
 						<tr>

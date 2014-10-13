@@ -320,10 +320,10 @@
                             	<input type="text" name="search_id" value="ფილტრი" class="search_init" style="width: 25px"/>
                             </th>
                             <th>
-                            <input type="text" name="search_number" value="ფილტრი" class="search_init hidden-input" style="width: 20px">
+                            <input type="text" name="search_number" value="" class="search_init " style="width: 30px">
                             </th>
                             <th>
-                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 40px"/>
+                                <input type="text" name="search_date" value="ფილტრი" class="search_init" style="width: 155px"/>
                             </th>
                             <th>
                                 <input type="text" name="search_phone" value="ფილტრი" class="search_init" style="width: 155px"/>

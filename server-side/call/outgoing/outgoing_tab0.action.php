@@ -734,16 +734,19 @@ function GetPage($res='', $number, $pin)
 		$production_type1="checked";
 		$production_type0="";
 	}
+	if($res['WaybillActivationDate'] == ''){
+		$hide2='display:none;';
+	}else{
+		$hide2='';
+	}
 	
 	if ($res['incom_phone'] =='')
 	{
 $hide="style='display:none;'";
 $hide1="";
-$hide2="";
 	} else 
 	{
 $hide1="style='display:none;'";
-$hide2="display:none;";
 $hide="";		
 	}	
 $num = 0;
@@ -760,7 +763,7 @@ $num = 0;
 	<div id="dialog-form">
 				<div  style="float: left; width: 778px;">	
 				<fieldset >
-			    	<legend>ძირითადი ინფორმაცია</legend>
+			    	<legend style="'.$hide2.'">ძირითადი ინფორმაცია</legend>
 					<fieldset  style="width:367px; float:left; '.$hide2.'" >
 				    	<table width="100%" class="dialog-form-table">
 							<tr>

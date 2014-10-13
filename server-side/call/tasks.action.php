@@ -758,16 +758,24 @@ $num = 0;
 	}else{
 		$num=$res[phone];
 		}
+		
+if($res[id] == ''){
+	$hidden = "display:none;";
+	$problem_dis = "disabled";
+}else{
+	$hidden = "";
+	$problem_dis = "";
+}
 		$data  .= '
 		<!-- jQuery Dialog -->
     <div id="add-edit-goods-form" title="საქონელი">
     	<!-- aJax -->
 	</div>
 	<div id="dialog-form">
-				<div  style="float: left; width: 778px;">	
+				<div  style="float: left; width: 778px; ">	
 				<fieldset >
-			    	<legend>ძირითადი ინფორმაცია</legend>
-					<fieldset  style="width:367px; float:left; '.$hide2.'" >
+			    	<legend style="'.$hidden.'">ძირითადი ინფორმაცია</legend>
+					<fieldset  style="width:367px; float:left; '.$hide2.' '.$hidden.'" >
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 								<td>ზედნადების #</td>
@@ -795,7 +803,7 @@ $num = 0;
 							</tr>					
 						</table>
 					</fieldset>
-					<fieldset style="width:354px; float:left; margin-left: 10px; '.$hide2.'">
+					<fieldset style="width:354px; float:left; margin-left: 10px; '.$hide2.' '.$hidden.'">
 				    	<table width="100%" class="dialog-form-table">
 							<tr>
 								<td>შეძენის თარიღი</td>
@@ -959,8 +967,8 @@ $num = 0;
 							<td style="width: 180px;"><select id="template_id" class="idls object">'. Get_template($res['template_id']).'</select></td>
 							<td style="width: 180px;"><select id="priority_id" class="idls object">'.Getpriority($res['priority_id']).'</select></td>
 						</tr>
-						<tr>
-							<td style="width: 180px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
+						<!-- tr>
+							< td style="width: 180px;"><label for="d_number">პასუხისმგებელი პირი</label></td>
 							<td '.$hide1.' style="width: 180px;"><label for="d_number">სტატუსი</label></td>
 							<td style="width: 180px;"></td>
 						</tr>
@@ -968,7 +976,7 @@ $num = 0;
 							<td style="width: 180px;"><select style="width: 164px;" id="person_id" class="idls object">'.Getpersons($res['person_id']).'</select></td>
 							<td '.$hide1.' style="width: 180px;"><select style="width: 166px;" id="status" class="idls object">'.Getstatus($res['status']).'</select></td>
 							<td style="width: 180px;"></td>
-						</tr>
+						</tr -->
 						<tr>
 							<td style="width: 150px;"><label for="content">კომენტარი</label></td>
 							<td style="width: 150px;"><label for="content"></label></td>
@@ -986,53 +994,11 @@ $num = 0;
 						</tr>
 						<tr>
 							<td colspan="6">
-								<textarea  style="width: 747px; resize: none;" id="problem_comment" class="idle" name="problem_comment" cols="300" rows="2">' . $res['problem_comment'] . '</textarea>
+								<textarea  style="width: 747px; resize: none;" id="problem_comment" class="idle" name="problem_comment" cols="300" rows="2" '.$problem_dis.' >' . $res['problem_comment'] . '</textarea>
 							</td>
 						</tr>
 					</table>
 					</fieldset>
-					<fieldset style="width: 754px;">
-			    	<legend>კვლევა</legend>
-				<table class="dialog-form-table">
-			    		<tr>
-							<td style="width:30px; font-weight:bold;">1.</td>
-							<td style="font-weight:bold;">კმაყოფილი ხართ თუ არა ჩვენი სერვისით?</td>
-							<td></td>
-						</tr>
-				</table>
-				<table class="dialog-form-table">
-			    		<tr>
-							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="1" '.(($res['question1']=='1')?"checked":"").'><span style="position:absolute; margin-top:9px;">კმაყოფილია</span></td>
-							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="2" '.(($res['question1']=='2')?"checked":"").'><span style="position:absolute; margin-top:9px;">უკმაყოფილოა</span></td>
-							<td style="width:120px;"><input style="float:left;" type="radio" name="question1" value="3" '.(($res['question1']=='3')?"checked":"").'><span style="position:absolute; margin-top:9px;">ნეიტრალური</span></td>
-						</tr>
-				</table>
-				<table class="dialog-form-table">
-						<tr>
-							<td>კომენტარი</td>
-						</tr>
-						<tr>
-							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question1_comment" class="idle">'.$res['question1_comment'].'</textarea></td>
-						</tr>
-				</table>
-				<hr>
-
-				<table class="dialog-form-table">
-			    		<tr>
-							<td style="width:30px; font-weight:bold;">2.</td>
-							<td style="font-weight:bold;">რას ურჩევდით სმაილს?</td>
-							<td></td>
-						</tr>
-				</table>
-				<table class="dialog-form-table">
-						<tr>
-							<td>კომენტარი</td>
-						</tr>
-						<tr>
-							<td><textarea  style="width: 740px; height:60px; resize: none;" id="question2_comment" class="idle">'.$res['question2_comment'].'</textarea></td>
-						</tr>
-				</table>
-				</fieldset>
 							</div>
 			
 				</fieldset>
@@ -1046,7 +1012,7 @@ $num = 0;
 						</tr>
 						<tr>
 							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerPhone'].'</td>
-							<td style="width: 180px; color: #3C7FB1;">'.$res['CustomerID'].'</td>	
+							<td style="width: 180px; color: #3C7FB1;"><input id="personal_pin" value="'.$res['CustomerID'].'"></td>	
 						</tr>
 						<tr>
 							<td style="width: 180px; color: #3C7FB1;">სახელი და გვარი</td>
