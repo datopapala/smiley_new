@@ -683,6 +683,7 @@ function Gettask($id)
 													realizations.WaybillActivationDate,
 													IF(realizations.instalation_date='0000-00-00 00:00:00','',realizations.instalation_date) AS instalation_date,
 													realizations.WaybillStatus,
+													realizations.WaybillRecieveDate,
 													realizations.CustomerID,
 													realizations.CustomerAddress,
 													realizations.CustomerName,

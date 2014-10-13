@@ -672,6 +672,7 @@ function Gettask($id)
 													task.problem_comment AS problem_comment,
 													realizations.id AS nom_id,
 													realizations.StoreHouse,
+													realizations.WaybillRecieveDate,
 													realizations.Subdivision,
 													realizations.Date,
 													realizations.WaybillActivationDate,
